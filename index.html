@@ -3,297 +3,316 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX STORE | RED RO3OB EDITION</title>
+    <title>CFX STORE | EL RO3OB SYSTEM</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --red-neon: #ff0000;
-            --dark-bg: #0a0a0a;
-            --panel-bg: rgba(20, 0, 0, 0.9);
-            --transition: all 0.3s ease;
+            --red: #ff0000;
+            --dark-red: #8b0000;
+            --black: #050505;
+            --panel-bg: rgba(10, 10, 10, 0.95);
+            --neon-glow: 0 0 15px rgba(255, 0, 0, 0.7);
         }
 
-        body, html {
-            margin: 0; padding: 0;
-            background: var(--dark-bg);
-            color: white;
-            font-family: 'Rajdhani', sans-serif;
-            overflow-x: hidden;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--black); color: white; 
+            font-family: 'Rajdhani', sans-serif; overflow-x: hidden;
         }
 
-        /* --- RED MOVING BACKGROUND --- */
-        #bg-canvas {
-            position: fixed;
-            top: 0; left: 0;
-            z-index: -1;
-            filter: blur(2px);
-        }
+        /* --- RED MATRIX BACKGROUND --- */
+        #canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.4; }
 
         /* --- HEADER --- */
         header {
-            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0, 0, 0, 0.9);
             padding: 20px 5%;
-            background: rgba(0, 0, 0, 0.8);
-            border-bottom: 2px solid var(--red-neon);
-            position: sticky; top: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--red);
+            box-shadow: var(--neon-glow);
+            position: sticky; top: 0; z-index: 1000;
         }
+        .logo { font-family: 'Orbitron'; font-size: 2rem; color: var(--red); text-shadow: var(--neon-glow); cursor: pointer; }
+        .nav-links a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; cursor: pointer; }
+        .nav-links a:hover { color: var(--red); }
+        .admin-trigger { background: var(--red); color: black; border: none; padding: 10px 20px; font-family: 'Orbitron'; cursor: pointer; font-weight: bold; border-radius: 5px; }
 
-        .logo { font-family: 'Orbitron'; font-size: 1.8rem; color: var(--red-neon); text-shadow: 0 0 10px red; }
+        /* --- PAGE SECTIONS --- */
+        .page-section { display: none; padding: 60px 8%; min-height: 90vh; animation: fadeIn 0.5s ease; }
+        .active { display: block; }
 
-        .nav-links a { color: white; text-decoration: none; margin: 0 15px; text-transform: uppercase; font-weight: bold; }
-        .nav-links a:hover { color: var(--red-neon); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .btn-admin { background: var(--red-neon); color: black; border: none; padding: 8px 15px; cursor: pointer; font-family: 'Orbitron'; border-radius: 5px; }
+        /* --- HOME / SHOP --- */
+        .hero { text-align: center; margin-bottom: 50px; }
+        .hero h1 { font-family: 'Orbitron'; font-size: 4rem; text-transform: uppercase; }
+        .hero span { color: var(--red); text-shadow: var(--neon-glow); }
 
-        /* --- HERO --- */
-        .hero { height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .hero h1 { font-family: 'Orbitron'; font-size: 4rem; margin: 0; color: white; }
-        .hero span { color: var(--red-neon); text-shadow: 0 0 20px red; }
-
-        /* --- CARDS SYSTEM --- */
-        .container { padding: 50px 8%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .card { 
-            background: var(--panel-bg); border: 1px solid #333; padding: 20px; border-radius: 10px; 
-            transition: var(--transition); position: relative; overflow: hidden;
+            background: var(--panel-bg); border: 1px solid #222; padding: 30px; border-radius: 15px; 
+            text-align: center; transition: 0.3s; position: relative;
         }
-        .card:hover { border-color: var(--red-neon); transform: translateY(-10px); box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); }
-        .card h3 { color: var(--red-neon); font-family: 'Orbitron'; }
-        .card img { width: 100%; border-radius: 5px; margin-bottom: 15px; }
-        .buy-btn { width: 100%; padding: 10px; background: var(--red-neon); border: none; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .card:hover { border-color: var(--red); transform: scale(1.03); box-shadow: var(--neon-glow); }
+        .card h3 { font-family: 'Orbitron'; font-size: 1.5rem; margin-bottom: 15px; color: var(--red); }
+        .card .price { font-size: 2.5rem; font-weight: 900; margin: 20px 0; font-family: 'Orbitron'; }
+        .buy-btn { width: 100%; background: var(--red); color: black; border: none; padding: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-family: 'Orbitron'; border-radius: 5px; }
 
-        /* --- MODALS (BUY & LOGIN) --- */
-        .modal { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; 
-        }
-        .modal-content { 
-            background: #111; padding: 40px; border: 2px solid var(--red-neon); width: 400px; border-radius: 10px; text-align: center;
-        }
-        .modal-content input { width: 100%; padding: 10px; margin: 10px 0; background: #222; border: 1px solid #444; color: white; }
+        /* --- LOGIN PAGE --- */
+        .login-box { max-width: 400px; margin: 100px auto; background: #111; padding: 40px; border: 2px solid var(--red); border-radius: 10px; text-align: center; }
+        .login-box input { width: 100%; padding: 15px; margin: 10px 0; background: #222; border: 1px solid #444; color: white; font-size: 1.1rem; }
 
         /* --- ADMIN DASHBOARD --- */
-        #admin-panel { display: none; padding: 50px 8%; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #333; padding: 15px; text-align: left; }
-        th { background: var(--red-neon); color: black; }
-        .status-pending { color: yellow; }
-        .status-accepted { color: #00ff00; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--red); padding-bottom: 20px; }
+        .orders-table { width: 100%; border-collapse: collapse; background: #111; }
+        .orders-table th, .orders-table td { padding: 20px; text-align: left; border-bottom: 1px solid #222; }
+        .orders-table th { background: var(--red); color: black; font-family: 'Orbitron'; }
+        .status-badge { padding: 5px 10px; border-radius: 3px; font-size: 0.8rem; font-weight: bold; }
+        .status-pending { background: #555; }
+        .status-accepted { background: #00ff00; color: black; }
+        .action-btn { background: #00ff00; color: black; border: none; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 3px; }
 
-        footer { padding: 40px; text-align: center; border-top: 1px solid #333; margin-top: 50px; }
-        .socials i { font-size: 2rem; margin: 0 20px; cursor: pointer; transition: 0.3s; }
-        .socials i:hover { color: var(--red-neon); transform: scale(1.2); }
+        /* --- CHECKOUT MODAL --- */
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index: 2000; justify-content:center; align-items:center; }
+        .modal-content { background:#111; padding:40px; border:2px solid var(--red); width:500px; border-radius:15px; }
+
+        footer { padding: 40px; text-align: center; border-top: 1px solid #222; background: #000; }
+        .socials i { font-size: 2rem; margin: 0 20px; cursor: pointer; transition: 0.3s; color: white; }
+        .socials i:hover { color: var(--red); transform: scale(1.3); }
     </style>
 </head>
 <body>
 
-    <canvas id="bg-canvas"></canvas>
+<canvas id="canvas"></canvas>
 
-    <header>
-        <div class="logo">CFX STORE</div>
-        <nav class="nav-links">
-            <a href="#" onclick="showSection('home')">Home</a>
-            <a href="#shop">Peds</a>
-            <a href="#shop">Clothing</a>
-            <a href="#shop">Cars</a>
-        </nav>
-        <button class="btn-admin" onclick="openLogin()">ADMIN LOGIN</button>
-    </header>
+<header>
+    <div class="logo" onclick="showPage('home')">CFX STORE</div>
+    <nav class="nav-links">
+        <a onclick="showPage('home')">Home</a>
+        <a onclick="showPage('shop-peds')">Peds</a>
+        <a onclick="showPage('shop-clothing')">Clothing</a>
+        <a onclick="showPage('shop-cars')">Cars</a>
+    </nav>
+    <button class="admin-trigger" id="adminBtn" onclick="showPage('login')">ADMIN LOGIN</button>
+</header>
 
-    <div id="home-section">
-        <section class="hero">
-            <h1>WELCOME TO <br><span>CFX STORE RO3OB</span></h1>
-            <p>The most powerful assets for FiveM and RDP Servers.</p>
-        </section>
+<div id="home" class="page-section active">
+    <div class="hero">
+        <h1>Welcome to <br><span>CFX STORE EL RO3OB</span></h1>
+        <p style="font-size: 1.2rem; color: #ccc; margin-top: 10px;">Select your category from the menu to start dominating the streets.</p>
+    </div>
+    <div class="grid">
+        <div class="card" onclick="showPage('shop-peds')"><h3>PEDS</h3><p>Exclusive High-Quality Peds</p></div>
+        <div class="card" onclick="showPage('shop-clothing')"><h3>CLOTHING</h3><p>Designer Brands & EUP</p></div>
+        <div class="card" onclick="showPage('shop-cars')"><h3>CARS</h3><p>Realistic & Optimized Vehicles</p></div>
+    </div>
+</div>
 
-        <h2 style="text-align:center; font-family:'Orbitron';">OUR PREMIUM PRODUCTS</h2>
-        <div class="container" id="shop">
-            <div class="card">
-                <h3>PREMIUM PED PACK</h3>
-                <p>Realistic high-quality peds for gangs & police.</p>
-                <div style="font-size: 1.5rem; margin: 10px 0;">$19.99</div>
-                <button class="buy-btn" onclick="openCheckout('Premium Ped Pack', 19.99)">BUY NOW</button>
-            </div>
-            <div class="card">
-                <h3>DESIGNER CLOTHING</h3>
-                <p>500+ Branded items (EUP Included).</p>
-                <div style="font-size: 1.5rem; margin: 10px 0;">$25.00</div>
-                <button class="buy-btn" onclick="openCheckout('Designer Clothing', 25.00)">BUY NOW</button>
-            </div>
-            <div class="card">
-                <h3>REAL CARS PACK</h3>
-                <p>100+ Optimized import cars.</p>
-                <div style="font-size: 1.5rem; margin: 10px 0;">$35.00</div>
-                <button class="buy-btn" onclick="openCheckout('Real Cars Pack', 35.00)">BUY NOW</button>
-            </div>
+<div id="shop-peds" class="page-section">
+    <h1 style="text-align:center; font-family:'Orbitron'; margin-bottom:40px;">PREMIUM <span style="color:var(--red)">PEDS</span></h1>
+    <div class="grid">
+        <div class="card">
+            <h3>GANG PED PACK v1</h3>
+            <p>15+ Custom high quality peds for gangs.</p>
+            <div class="price">$15.00</div>
+            <button class="buy-btn" onclick="openCheckout('Gang Ped Pack v1', 15.00)">BUY NOW</button>
+        </div>
+        <div class="card">
+            <h3>LSPD SWAT PACK</h3>
+            <p>Tactical peds with full equipment.</p>
+            <div class="price">$20.00</div>
+            <button class="buy-btn" onclick="openCheckout('LSPD Swat Pack', 20.00)">BUY NOW</button>
         </div>
     </div>
+</div>
 
-    <div id="admin-panel">
-        <h1 style="color: var(--red-neon); font-family: 'Orbitron';">ADMIN CONTROL CENTER</h1>
-        <button class="btn-admin" onclick="logout()">LOGOUT</button>
-        <table>
+<div id="shop-clothing" class="page-section">
+    <h1 style="text-align:center; font-family:'Orbitron'; margin-bottom:40px;">DESIGNER <span style="color:var(--red)">CLOTHING</span></h1>
+    <div class="grid">
+        <div class="card">
+            <h3>SUPREME x NIKE PACK</h3>
+            <p>Full streetwear collection with textures.</p>
+            <div class="price">$25.00</div>
+            <button class="buy-btn" onclick="openCheckout('Supreme/Nike Pack', 25.00)">BUY NOW</button>
+        </div>
+    </div>
+</div>
+
+<div id="shop-cars" class="page-section">
+    <h1 style="text-align:center; font-family:'Orbitron'; margin-bottom:40px;">IMPORT <span style="color:var(--red)">CARS</span></h1>
+    <div class="grid">
+        <div class="card">
+            <h3>DEBADGED LUXURY PACK</h3>
+            <p>50+ Cars optimized for server performance.</p>
+            <div class="price">$45.00</div>
+            <button class="buy-btn" onclick="openCheckout('Luxury Car Pack', 45.00)">BUY NOW</button>
+        </div>
+    </div>
+</div>
+
+<div id="login" class="page-section">
+    <div class="login-box">
+        <h2 style="font-family:'Orbitron'; color:var(--red)">ADMIN ACCESS</h2>
+        <input type="text" id="adminUser" placeholder="Username">
+        <input type="password" id="adminPass" placeholder="Password">
+        <button class="buy-btn" onclick="handleLogin()">ENTER DASHBOARD</button>
+    </div>
+</div>
+
+<div id="admin-dashboard" class="page-section">
+    <div class="admin-header">
+        <h1 style="font-family:'Orbitron'; color:var(--red)">CLIENT COMMANDS</h1>
+        <button class="admin-trigger" onclick="logout()">LOGOUT</button>
+    </div>
+    <div style="overflow-x: auto;">
+        <table class="orders-table">
             <thead>
                 <tr>
-                    <th>Customer</th>
+                    <th>Client Name</th>
+                    <th>Discord</th>
                     <th>Product</th>
-                    <th>Discord / Info</th>
+                    <th>Card Info</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="orders-list">
+            <tbody id="ordersBody">
                 </tbody>
         </table>
     </div>
+</div>
 
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <h2 style="color:var(--red-neon)">ADMIN ACCESS</h2>
-            <input type="text" id="user" placeholder="Username">
-            <input type="password" id="pass" placeholder="Password">
-            <button class="buy-btn" onclick="checkLogin()">LOGIN</button>
-            <button class="buy-btn" style="background:#333; margin-top:5px;" onclick="closeModal('loginModal')">CANCEL</button>
-        </div>
+<div id="checkoutModal" class="modal">
+    <div class="modal-content">
+        <h2 id="modalTitle" style="color:var(--red); font-family:'Orbitron';"></h2>
+        <input type="text" id="custName" placeholder="Full Name">
+        <input type="text" id="custDiscord" placeholder="Discord Username (e.g. User#0000)">
+        <input type="text" id="custCard" placeholder="Card Number (XXXX XXXX XXXX XXXX)">
+        <p style="font-size: 0.8rem; color: #777; margin: 10px 0;">All transactions are encrypted.</p>
+        <button class="buy-btn" onclick="processOrder()">CONFIRM & PAY</button>
+        <button class="buy-btn" style="background:#222; color:white; margin-top:10px;" onclick="closeModal()">CANCEL</button>
     </div>
+</div>
 
-    <div id="checkoutModal" class="modal">
-        <div class="modal-content">
-            <h2 id="prod-name" style="color:var(--red-neon)"></h2>
-            <p>Enter your details to complete the order</p>
-            <input type="text" id="cust-name" placeholder="Your Name">
-            <input type="text" id="cust-discord" placeholder="Discord Username (e.g. User#0000)">
-            <input type="text" id="cust-card" placeholder="Card Number (XXXX XXXX XXXX XXXX)">
-            <button class="buy-btn" onclick="submitOrder()">CONFIRM ORDER</button>
-            <button class="buy-btn" style="background:#333; margin-top:5px;" onclick="closeModal('checkoutModal')">CLOSE</button>
-        </div>
+<footer>
+    <div class="socials">
+        <i class="fab fa-discord" onclick="window.open('https://discord.gg/yourlink')"></i>
+        <i class="fab fa-instagram" onclick="window.open('https://instagram.com/yourlink')"></i>
     </div>
+    <p style="margin-top:20px; color:#555;">&copy; 2026 CFX STORE | THE RED RO3OB EDITION</p>
+</footer>
 
-    <footer>
-        <div class="socials">
-            <i class="fab fa-discord" onclick="window.open('https://discord.gg/YOUR_LINK')"></i>
-            <i class="fab fa-instagram" onclick="window.open('https://instagram.com/YOUR_LINK')"></i>
-        </div>
-        <p>&copy; 2026 CFX STORE - HIGH END SERVICES</p>
-    </footer>
+<script>
+    // --- DATABASE (Local Storage Simulation) ---
+    let orders = JSON.parse(localStorage.getItem('cfx_orders')) || [];
+    let selectedProduct = "";
 
-    <script>
-        // --- DATA STORE (Simulated Database) ---
-        let orders = [];
-        let currentProduct = "";
+    // --- NAVIGATION SYSTEM (No Refresh) ---
+    function showPage(pageId) {
+        document.querySelectorAll('.page-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        document.getElementById(pageId).classList.add('active');
+        window.scrollTo(0,0);
+    }
 
-        // --- BACKGROUND ANIMATION ---
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        let particles = [];
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.speedY = Math.random() * 3 + 1;
-            }
-            update() {
-                this.y += this.speedY;
-                if (this.y > canvas.height) this.y = 0;
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        for (let i = 0; i < 100; i++) particles.push(new Particle());
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // --- NAVIGATION & MODALS ---
-        function openLogin() { document.getElementById('loginModal').style.display = 'flex'; }
-        function openCheckout(name, price) { 
-            currentProduct = name;
-            document.getElementById('prod-name').innerText = name + " - $" + price;
-            document.getElementById('checkoutModal').style.display = 'flex'; 
-        }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        // --- ADMIN SYSTEM ---
-        function checkLogin() {
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            if(u === "admin" && p === "1234") {
-                closeModal('loginModal');
-                showSection('admin');
-                renderOrders();
-            } else { alert("Ghalit sa7bi!"); }
-        }
-
-        function showSection(sec) {
-            if(sec === 'admin') {
-                document.getElementById('home-section').style.display = 'none';
-                document.getElementById('admin-panel').style.display = 'block';
-            } else {
-                document.getElementById('home-section').style.display = 'block';
-                document.getElementById('admin-panel').style.display = 'none';
-            }
-        }
-
-        function logout() { showSection('home'); }
-
-        // --- ORDER SYSTEM ---
-        function submitOrder() {
-            const name = document.getElementById('cust-name').value;
-            const discord = document.getElementById('cust-discord').value;
-            const card = document.getElementById('cust-card').value;
-
-            if(!name || !discord || !card) { alert("Kamal l-ma3loumett!"); return; }
-
-            const newOrder = {
-                id: Date.now(),
-                customer: name,
-                product: currentProduct,
-                discord: discord,
-                cardInfo: card,
-                status: 'Pending'
-            };
-
-            orders.push(newOrder);
-            alert("Order Sent! Wait for admin approval.");
-            closeModal('checkoutModal');
-        }
-
-        function renderOrders() {
-            const list = document.getElementById('orders-list');
-            list.innerHTML = "";
-            orders.forEach(order => {
-                list.innerHTML += `
-                    <tr>
-                        <td>${order.customer}</td>
-                        <td>${order.product}</td>
-                        <td>Discord: ${order.discord} <br> Card: ${order.cardInfo}</td>
-                        <td class="status-${order.status.toLowerCase()}">${order.status}</td>
-                        <td>
-                            <button onclick="updateStatus(${order.id}, 'Accepted')" style="color:lime; background:none; border:1px solid lime; cursor:pointer;">Accept</button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        function updateStatus(id, newStatus) {
-            const order = orders.find(o => o.id === id);
-            if(order) order.status = newStatus;
+    // --- LOGIN SYSTEM ---
+    function handleLogin() {
+        const u = document.getElementById('adminUser').value;
+        const p = document.getElementById('adminPass').value;
+        if(u === "admin" && p === "1234") {
+            showPage('admin-dashboard');
             renderOrders();
+        } else {
+            alert("Wrong Admin Credentials!");
         }
-    </script>
+    }
+    function logout() { showPage('home'); }
+
+    // --- CHECKOUT SYSTEM ---
+    function openCheckout(name, price) {
+        selectedProduct = name;
+        document.getElementById('modalTitle').innerText = name + " ($" + price + ")";
+        document.getElementById('checkoutModal').style.display = 'flex';
+    }
+    function closeModal() { document.getElementById('checkoutModal').style.display = 'none'; }
+
+    function processOrder() {
+        const name = document.getElementById('custName').value;
+        const discord = document.getElementById('custDiscord').value;
+        const card = document.getElementById('custCard').value;
+
+        if(!name || !discord || !card) return alert("Fill everything!");
+
+        const newOrder = {
+            id: Date.now(),
+            name: name,
+            discord: discord,
+            product: selectedProduct,
+            card: card,
+            status: 'Pending'
+        };
+
+        orders.push(newOrder);
+        localStorage.setItem('cfx_orders', JSON.stringify(orders));
+        alert("Order Received! Admin will contact you.");
+        closeModal();
+    }
+
+    // --- ADMIN RENDER ---
+    function renderOrders() {
+        const body = document.getElementById('ordersBody');
+        body.innerHTML = "";
+        orders.forEach(order => {
+            body.innerHTML += `
+                <tr>
+                    <td>${order.name}</td>
+                    <td>${order.discord}</td>
+                    <td>${order.product}</td>
+                    <td style="color:yellow; font-family:monospace;">${order.card}</td>
+                    <td><span class="status-badge status-${order.status.toLowerCase()}">${order.status}</span></td>
+                    <td>
+                        ${order.status === 'Pending' ? `<button class="action-btn" onclick="acceptOrder(${order.id})">ACCEPT</button>` : 'COMPLETED'}
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    function acceptOrder(id) {
+        const order = orders.find(o => o.id === id);
+        if(order) order.status = 'Accepted';
+        localStorage.setItem('cfx_orders', JSON.stringify(orders));
+        renderOrders();
+    }
+
+    // --- MATRIX BACKGROUND ---
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const characters = "01ABCDEF";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = new Array(Math.floor(columns)).fill(1);
+
+    function drawMatrix() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#ff0000";
+        ctx.font = fontSize + "px monospace";
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = characters.charAt(Math.floor(Math.random() * characters.length));
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        }
+    }
+    setInterval(drawMatrix, 50);
+</script>
+
 </body>
 </html>
