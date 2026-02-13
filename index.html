@@ -3,129 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX Store | Premium Scripts</title>
+    <title>CFX Store | Admin Control</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700;900&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #0f0f1a; color: white; min-height: 100vh; overflow-x: hidden; }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background: radial-gradient(circle at center, #1a1a2e 0%, #0f0f1a 100%);
-            color: white;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-        }
-
-        /* Background Glow */
-        .glow {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: rgba(111, 66, 193, 0.3);
-            filter: blur(100px);
-            border-radius: 50%;
-            z-index: -1;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1000px;
+        /* General Styling */
+        .hidden { display: none !important; }
+        .glass-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            padding: 60px 20px;
-            text-align: center;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
-            animation: fadeIn 1.5s ease-out;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        h1 {
-            font-size: clamp(3rem, 10vw, 5.5rem);
-            font-weight: 900;
-            letter-spacing: 5px;
-            background: linear-gradient(to right, #00d2ff, #92fe9d);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            margin-bottom: 10px;
+        /* Login Section */
+        #login-section {
+            display: flex; justify-content: center; align-items: center; height: 100vh;
+        }
+        .login-box { width: 350px; text-align: center; }
+        input {
+            width: 100%; padding: 12px; margin: 10px 0;
+            background: rgba(255,255,255,0.1); border: none; border-radius: 8px;
+            color: white; outline: none;
+        }
+        button {
+            width: 100%; padding: 12px; background: #6f42c1;
+            border: none; border-radius: 8px; color: white; cursor: pointer; font-weight: bold;
         }
 
-        .stars {
-            color: #ffcc00;
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-            flex-wrap: wrap;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+        /* Admin Panel */
+        #admin-panel { padding: 50px 10%; }
+        .header-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .command-card {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; margin-bottom: 15px;
         }
+        .status-accepted { color: #2ecc71; font-weight: bold; }
+        .btn-accept { background: #27ae60; width: auto; padding: 8px 20px; }
 
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.8;
-            margin-bottom: 40px;
-        }
-
-        .btn-store {
-            padding: 15px 40px;
-            background: linear-gradient(45deg, #6f42c1, #007bff);
-            border: none;
-            border-radius: 50px;
-            color: white;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            text-decoration: none;
-            transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(111, 66, 193, 0.4);
-        }
-
-        .btn-store:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(111, 66, 193, 0.6);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* Original Hero Section */
+        #main-site { text-align: center; padding-top: 100px; }
+        .glow { position: absolute; width: 400px; height: 400px; background: rgba(111, 66, 193, 0.2); filter: blur(100px); z-index: -1; top: 20%; left: 30%; }
     </style>
 </head>
 <body>
-    <div class="glow"></div>
-    
-    <div class="container">
-        <p style="text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem; color: #00d2ff;">Welcome to</p>
-        <h1>CFX STORE</h1>
-        
-        <div class="stars" id="starContainer">
-            </div>
 
-        <p class="subtitle">The biggest marketplace for high-quality FiveM & RedM assets.</p>
-        
-        <a href="#" class="btn-store">Explore 500+ Items</a>
-    </div>
+    <section id="main-site">
+        <div class="glow"></div>
+        <h1 style="font-size: 4rem; letter-spacing: 5px;">CFX STORE</h1>
+        <p>Premium FiveM Scripts & Assets</p>
+        <br>
+        <button onclick="showLogin()" style="width: auto; padding: 10px 30px;">Admin Login</button>
+    </section>
+
+    <section id="login-section" class="hidden">
+        <div class="login-box glass-card">
+            <h2>Admin Access</h2>
+            <br>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="handleLogin()">Login</button>
+            <p id="error-msg" style="color: #e74c3c; margin-top: 10px; font-size: 0.8rem;"></p>
+        </div>
+    </section>
+
+    <section id="admin-panel" class="hidden">
+        <div class="header-panel">
+            <h2><i class="fas fa-user-shield"></i> CFX Admin Panel</h2>
+            <button onclick="logout()" style="width: auto; background: #c0392b;">Logout</button>
+        </div>
+
+        <div class="glass-card">
+            <h3>Recent Commands (Pending)</h3>
+            <hr style="opacity: 0.1; margin: 20px 0;">
+            
+            <div id="command-list">
+                <div class="command-card" id="cmd1">
+                    <div>
+                        <p><strong>Order #8821</strong> - QB-Core Luxury House</p>
+                        <small>Customer: Skander_Dev</small>
+                    </div>
+                    <button class="btn-accept" onclick="acceptCommand('cmd1')">Accept Command</button>
+                </div>
+
+                <div class="command-card" id="cmd2">
+                    <div>
+                        <p><strong>Order #8822</strong> - Custom Car Pack</p>
+                        <small>Customer: Mario_Gaming</small>
+                    </div>
+                    <button class="btn-accept" onclick="acceptCommand('cmd2')">Accept Command</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script>
-        // Script bech n'affichiw "500 stars" sghar sans ma n'ktbouhom el kol f HTML
-        const container = document.getElementById('starContainer');
-        for (let i = 0; i < 50; i++) { // Affichi 50 barka bech ma t'thakkalsh el page, ama tban "kbira"
-            const star = document.createElement('i');
-            star.className = 'fas fa-star';
-            container.appendChild(star);
+        // Data Simple
+        const ADMIN_USER = "admin";
+        const ADMIN_PASS = "1234";
+
+        function showLogin() {
+            document.getElementById('main-site').classList.add('hidden');
+            document.getElementById('login-section').classList.remove('hidden');
+        }
+
+        function handleLogin() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const error = document.getElementById('error-msg');
+
+            if(user === ADMIN_USER && pass === ADMIN_PASS) {
+                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('admin-panel').classList.remove('hidden');
+            } else {
+                error.innerText = "Ghalet fi esm el user wala pass!";
+            }
+        }
+
+        function acceptCommand(id) {
+            const cmd = document.getElementById(id);
+            const btn = cmd.querySelector('button');
+            btn.outerHTML = '<span class="status-accepted"><i class="fas fa-check-circle"></i> Accepted</span>';
+            cmd.style.borderLeft = "5px solid #2ecc71";
+            alert("Command Accepted! Notifying Customer...");
+        }
+
+        function logout() {
+            location.reload(); // Yarja3 lel site el louel
         }
     </script>
 </body>
