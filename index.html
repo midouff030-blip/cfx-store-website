@@ -1,220 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" type="image/png" href="favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX STORE | PREMIUM CLOTHING & PEDS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <style>
-        /* --- الأساسيات --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { background: #000; color: white; font-family: 'Poppins', sans-serif; overflow: hidden; }
-
-        @keyframes glow { 0% { box-shadow: 0 0 5px #ff0000; } 50% { box-shadow: 0 0 20px #ff0000; } 100% { box-shadow: 0 0 5px #ff0000; } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* --- شاشة الـ Welcome --- */
-        #welcome-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, #220000 0%, #000 100%);
-            display: flex; flex-direction: column; justify-content: center;
-            align-items: center; z-index: 3000; transition: 0.8s ease-in-out;
-        }
-        .welcome-content { text-align: center; animation: fadeIn 1.5s ease; }
-        .welcome-logo { width: 150px; height: 150px; margin-bottom: 20px; border-radius: 50%; border: 3px solid #ff0000; box-shadow: 0 0 30px #ff0000; }
-        .welcome-btn {
-            margin-top: 30px; padding: 15px 50px; background: #ff0000; color: white;
-            border: none; border-radius: 50px; font-size: 1.2rem; font-weight: bold;
-            cursor: pointer; transition: 0.3s; box-shadow: 0 0 20px rgba(255,0,0,0.5);
-        }
-        .welcome-btn:hover { background: white; color: #ff0000; transform: scale(1.1); }
-
-        /* --- خلفية الفيديو (Background Video) --- */
-        .video-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; overflow: hidden;
-        }
-        #myVideo {
-            min-width: 100%; min-height: 100%; width: auto; height: auto;
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); object-fit: cover;
-        }
-        .video-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7); /* تغميق الفيديو باش الكتيبه تبان */
-        }
-
-        /* --- Navbar --- */
-        nav {
-            position: fixed; top: 0; width: 100%; display: flex;
-            justify-content: space-between; align-items: center;
-            padding: 15px 5%; background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px); z-index: 1000; border-bottom: 2px solid #ff0000;
-        }
-        .logo-container { display: flex; align-items: center; gap: 15px; }
-        .main-logo { width: 45px; height: 45px; border-radius: 50%; border: 1px solid #ff0000; }
-        .logo-text { font-size: 1.5rem; font-weight: 900; color: #fff; text-transform: uppercase; }
-        .logo-text span { color: #ff0000; }
-
-        .nav-links { display: flex; list-style: none; gap: 15px; }
-        .nav-links a { color: #fff; text-decoration: none; font-size: 0.9rem; font-weight: bold; cursor: pointer; transition: 0.3s; padding: 8px 15px; }
-        .nav-links a:hover, .nav-links a.active { color: #ff0000; background: rgba(255,0,0,0.1); border-radius: 5px; }
-
-        /* --- Store Section --- */
-        .store-section { padding: 120px 5% 50px; min-height: 100vh; position: relative; }
-        .tab-content { display: none; animation: fadeIn 0.5s ease-out; }
-        .tab-content.active { display: block; }
-        .section-title { font-size: 2.5rem; margin-bottom: 40px; text-shadow: 0 0 10px #ff0000; text-align: center; }
-
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; max-width: 1400px; margin: 0 auto; }
-
-        .card { background: rgba(10, 10, 10, 0.9); border: 1px solid #333; border-radius: 15px; overflow: hidden; transition: 0.3s; }
-        .card:hover { transform: translateY(-10px); border-color: #ff0000; box-shadow: 0 0 20px rgba(255,0,0,0.2); }
-        .card-img { height: 250px; width: 100%; background: url('image_6d42ed.png') no-repeat center/cover; border-bottom: 2px solid #ff0000; position: relative; }
-        
-        /* علامة Premium فوق التصويرة */
-        .badge { position: absolute; top: 10px; right: 10px; background: #ff0000; color: white; padding: 5px 10px; font-size: 0.7rem; font-weight: bold; border-radius: 5px; }
-
-        .card-body { padding: 20px; text-align: center; }
-        .price { font-size: 1.4rem; color: #ff0000; font-weight: bold; margin-bottom: 15px; display: block; }
-        .buy-btn { width: 100%; padding: 12px; background: #ff0000; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .buy-btn:hover { background: white; color: #ff0000; }
-
-        /* --- Music Control --- */
-        .music-control {
-            position: fixed; bottom: 25px; left: 25px; z-index: 2000;
-            background: rgba(255, 0, 0, 0.2); padding: 10px 20px;
-            border-radius: 50px; border: 2px solid #ff0000;
-            display: flex; align-items: center; gap: 10px;
-            cursor: pointer; transition: 0.3s; backdrop-filter: blur(5px); color: white;
-        }
-
-        /* --- Modal --- */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 4000; justify-content: center; align-items: center; }
-        .modal-content { background: #111; padding: 40px; border-radius: 20px; border: 2px solid #ff0000; text-align: center; width: 90%; max-width: 400px; }
-        .pay-link { display: block; padding: 15px; margin: 10px 0; border-radius: 10px; text-decoration: none; font-weight: bold; color: white; }
-        .paypal { background: #0070ba; } .ooredoo { background: #ed1c24; }
-    </style>
+    <title>CFX STORE | High-End GTA V Services</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <audio id="tick" src="tick.mp3"></audio>
-    <audio id="bg-music" src="music.mp3" loop></audio>
-
-    <div id="welcome-screen">
-        <div class="welcome-content">
-            <img src="logo.png" alt="Logo" class="welcome-logo">
-            <h1>WELCOME TO <span style="color: #ff0000;">CFX STORE</span></h1>
-            <p style="color: #aaa;">Premium FiveM Mods & Clothing</p>
-            <button class="welcome-btn" onclick="enterStore()">ENTER STORE</button>
+    <header class="top-bar">
+        <div class="server-status">
+            <i class="fas fa-signal"></i> <span>RDP HOSTING: ONLINE</span>
         </div>
-    </div>
-
-    <div class="video-container">
-        <video autoplay muted loop id="myVideo">
-            <source src="background.mp4" type="video/mp4">
-        </video>
-        <div class="video-overlay"></div>
-    </div>
-
-    <nav>
-        <div class="logo-container">
-            <img src="logo.png" alt="Logo" class="main-logo">
-            <div class="logo-text">CFX <span>STORE</span></div>
+        <div class="main-logo">CFX STORE</div>
+        <div class="discord-btn">
+            <a href="#"><i class="fab fa-discord"></i> JOIN COMMUNITY</a>
         </div>
-        <ul class="nav-links">
-            <li><a onclick="openTab(event, 'peds')" class="active">Peds</a></li>
-            <li><a onclick="openTab(event, 'hoodies')">Hoodies</a></li>
-            <li><a onclick="openTab(event, 'vests')">Vests</a></li>
-        </ul>
-        <a href="https://discord.gg/YOUR_LINK" target="_blank">
-            <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" width="40">
-        </a>
+    </header>
+
+    <nav class="nav-menu">
+        <a href="#" class="active">HOME</a>
+        <a href="#">PEDS & CLOTHING</a>
+        <a href="#">RDP HOSTING</a>
+        <a href="#">CUSTOM CARS</a>
+        <a href="#">GTA V ASSETS</a>
     </nav>
 
-    <div class="store-section">
-        <div id="peds" class="tab-content active">
-            <h2 class="section-title">EXCLUSIVE PEDS</h2>
-            <div class="products-grid" id="peds-grid"></div>
-        </div>
-        <div id="hoodies" class="tab-content">
-            <h2 class="section-title">PREMIUM HOODIES</h2>
-            <div class="products-grid" id="hoodies-grid"></div>
-        </div>
-        <div id="vests" class="tab-content">
-            <h2 class="section-title">TACTICAL VESTS</h2>
-            <div class="products-grid" id="vests-grid"></div>
-        </div>
-        <div id="Dising="tab-content">
-            <h2 class="section-title">TACS</h2>
-            <div class="products-grid" id="vests-grid"></div>
-        </div>
+    <section class="hero">
+        <h1>PREMIUM FIVE-M ASSETS</h1>
+        <p>Your one-stop shop for Peds, Clothing, Cars, and High-Speed Hosting.</p>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title">FEATURED CATEGORIES</h2>
+        <div class="products-grid" id="products">
+            </div>
     </div>
 
-    <div class="music-control" onclick="toggleMusic()">
-        <span id="m-icon">🔊</span> <span id="m-text">MUTE</span>
-    </div>
-
-    <div id="paymentModal" class="modal">
-        <div class="modal-content">
-            <h2 style="margin-bottom: 20px;">SELECT PAYMENT</h2>
-            <a href="#" class="pay-link paypal">PAYPAL</a>
-            <a href="#" class="pay-link ooredoo" onclick="alert('Contact Discord for D17')">D17 / OOREDOO</a>
-            <button onclick="closeModal()" style="margin-top: 20px; background: none; border: none; color: #ff0000; cursor: pointer;">CLOSE</button>
+    <footer class="footer">
+        <div class="payment-methods">
+            <i class="fab fa-cc-visa"></i>
+            <i class="fab fa-cc-mastercard"></i>
+            <i class="fab fa-cc-paypal"></i>
+            <i class="fab fa-cc-apple-pay"></i>
         </div>
-    </div>
+        <p>© 2026 CFX STORE. No affiliation with Rockstar Games or Take-Two.</p>
+    </footer>
 
-    <script>
-        const bgMusic = document.getElementById('bg-music');
-        
-        function enterStore() {
-            bgMusic.play();
-            document.getElementById('welcome-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('welcome-screen').style.display = 'none';
-                document.body.style.overflowY = 'auto';
-            }, 800);
-        }
-
-        function toggleMusic() {
-            bgMusic.muted = !bgMusic.muted;
-            document.getElementById('m-icon').innerText = bgMusic.muted ? "🔇" : "🔊";
-            document.getElementById('m-text').innerText = bgMusic.muted ? "UNMUTE" : "MUTE";
-        }
-
-        function generateCards(gridId, count, title) {
-            const grid = document.getElementById(gridId);
-            for (let i = 1; i <= count; i++) {
-                grid.innerHTML += `
-                    <div class="card">
-                        <div class="card-img"><div class="badge">ELITE</div></div>
-                        <div class="card-body">
-                            <h3>${title} #${i}</h3>
-                            <span class="price">20.00 DT</span>
-                            <button class="buy-btn" onclick="openModal()">BUY NOW</button>
-                        </div>
-                    </div>`;
-            }
-        }
-
-        window.onload = () => {
-            generateCards('peds-grid', 12, 'Premium Ped');
-            generateCards('hoodies-grid', 8, 'Designer Hoodie');
-            generateCards('vests-grid', 8, 'Tactical Vest');
-            generateCards('dising-grid', 8, 'Tactical Vest');
-        };
-
-        function openTab(evt, tabName) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
-            evt.currentTarget.classList.add('active');
-        }
-
-        function openModal() { document.getElementById('paymentModal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('paymentModal').style.display = 'none'; }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
