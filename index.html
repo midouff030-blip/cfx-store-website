@@ -3,225 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX STORE | Premium Admin Panel</title>
+    <title>CFX STORE | Advanced Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Poppins:wght@300;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&family=Poppins:wght@300;400;600&display=swap');
 
         :root {
-            --red-neon: #ff003c;
-            --blue-neon: #00d2ff;
-            --bg-dark: #05050a;
+            --red-main: #ff4b2b;
+            --red-dark: #ff416c;
+            --black-bg: #0b0b0b;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        
+
         body {
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 0, 60, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(0, 210, 255, 0.15) 0%, transparent 40%);
+            background-color: var(--black-bg);
             color: white;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
             overflow-x: hidden;
-        }
-
-        /* Full Screen Hero Section */
-        .hero {
             height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
         }
 
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(4rem, 15vw, 8rem);
-            font-weight: 900;
-            text-transform: uppercase;
-            line-height: 0.9;
-            background: linear-gradient(90deg, var(--red-neon), var(--blue-neon));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 20px rgba(255, 0, 60, 0.5));
+        /* Moving Red & Black Background */
+        .bg-animate {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a0000, #000);
+            z-index: -2;
+        }
+
+        .blob {
+            position: absolute;
+            width: 500px; height: 500px;
+            background: var(--red-main);
+            filter: blur(150px);
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: move 15s infinite alternate;
+        }
+
+        @keyframes move {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(110%, 110%); }
+        }
+
+        /* Login System */
+        #auth-page {
+            height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            background: rgba(0,0,0,0.8);
+            z-index: 100; position: relative;
+        }
+
+        .auth-card {
+            background: rgba(20, 20, 20, 0.9);
+            padding: 40px; border-radius: 20px;
+            border: 1px solid rgba(255, 75, 43, 0.3);
+            text-align: center; width: 400px;
+            backdrop-filter: blur(10px);
+        }
+
+        .google-btn {
+            background: white; color: #444; width: 100%;
+            padding: 12px; border-radius: 8px; border: none;
+            font-weight: bold; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; gap: 10px;
             margin-bottom: 20px;
         }
 
-        .stars-container {
-            display: grid;
-            grid-template-columns: repeat(25, 1fr);
-            gap: 5px;
-            max-width: 800px;
-            margin-bottom: 30px;
-            opacity: 0.8;
+        /* Main Site Content */
+        #main-site { display: none; }
+
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; background: rgba(0,0,0,0.8);
+            border-bottom: 1px solid rgba(255, 75, 43, 0.2);
+            position: sticky; top: 0; z-index: 10;
         }
 
-        .stars-container i { color: #ffcc00; font-size: 12px; text-shadow: 0 0 5px #ffcc00; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 0.9rem; letter-spacing: 1px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--red-main); }
 
-        /* Buttons & Inputs */
-        .btn-main {
-            padding: 18px 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            border: 2px solid var(--blue-neon);
-            background: transparent;
-            color: var(--blue-neon);
-            cursor: pointer;
-            transition: 0.4s;
-            clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+        .hero-section {
+            padding: 100px 5%; text-align: center;
         }
 
-        .btn-main:hover {
-            background: var(--blue-neon);
-            color: black;
-            box-shadow: 0 0 30px var(--blue-neon);
-            transform: scale(1.05);
+        .hero-section h1 {
+            font-family: 'Orbitron'; font-size: 5rem;
+            background: linear-gradient(to bottom, #fff, var(--red-main));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* Login & Admin Panel Area */
-        .glass-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+        .admin-panel {
+            margin: 50px 5%; background: rgba(255,255,255,0.02);
+            border-radius: 15px; padding: 30px;
         }
 
-        .admin-box {
-            width: 90%;
-            max-width: 1200px;
-            height: 80vh;
-            background: rgba(15, 15, 26, 0.95);
-            border: 2px solid var(--red-neon);
-            border-radius: 10px;
-            padding: 40px;
-            overflow-y: auto;
-            box-shadow: 0 0 50px rgba(255, 0, 60, 0.3);
-        }
-
-        .login-input {
-            width: 100%; padding: 15px; margin: 10px 0;
-            background: #111; border: 1px solid #333; color: white; border-radius: 5px;
-        }
-
-        /* Commands Styling */
-        .command-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 25px;
-            background: rgba(255,255,255,0.03);
-            margin-bottom: 15px;
-            border-left: 5px solid var(--red-neon);
+        .order-card {
+            background: #151515; border: 1px solid #333;
+            padding: 20px; border-radius: 10px; margin-bottom: 15px;
+            display: flex; justify-content: space-between; align-items: center;
             transition: 0.3s;
         }
 
-        .command-item:hover { background: rgba(255,255,255,0.07); }
+        .order-card:hover { border-color: var(--red-main); transform: scale(1.01); }
 
         .btn-accept {
-            background: var(--red-neon);
-            border: none; color: white; padding: 10px 25px;
-            font-weight: bold; cursor: pointer; border-radius: 4px;
+            background: var(--red-main); color: white; border: none;
+            padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold;
         }
-
-        .status-badge { color: var(--blue-neon); font-weight: bold; letter-spacing: 1px; }
 
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <section class="hero" id="hero-page">
-        <p style="color: var(--red-neon); letter-spacing: 8px; margin-bottom: 10px;">PREMIUM MARKETPLACE</p>
-        <h1>CFX STORE</h1>
-        
-        <div class="stars-container" id="starField"></div>
-        
-        <p style="max-width: 600px; font-size: 1.1rem; margin-bottom: 40px; opacity: 0.7;">
-            The most advanced FiveM scripts and digital assets in the industry. Experience the future of roleplay.
-        </p>
+    <div class="bg-animate">
+        <div class="blob"></div>
+    </div>
 
-        <button class="btn-main" onclick="openLogin()">ADMIN ACCESS</button>
-    </section>
+    <div id="auth-page">
+        <div class="auth-card">
+            <h1 style="font-family: 'Orbitron'; color: var(--red-main); margin-bottom: 10px;">CFX LOGIN</h1>
+            <p style="font-size: 0.8rem; opacity: 0.6; margin-bottom: 30px;">Access your premium assets dashboard</p>
+            
+            <button class="google-btn" onclick="login()">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20">
+                Sign in with Google
+            </button>
 
-    <div id="login-overlay" class="glass-overlay">
-        <div class="admin-box" style="max-width: 450px; height: auto; text-align: center;">
-            <h2 style="color: var(--red-neon); margin-bottom: 20px;">SYSTEM LOGIN</h2>
-            <input type="text" id="user" class="login-input" placeholder="Admin Username">
-            <input type="password" id="pass" class="login-input" placeholder="System Password">
-            <br><br>
-            <button class="btn-main" style="width: 100%; border-color: var(--red-neon); color: var(--red-neon);" onclick="checkLogin()">IDENTIFY</button>
-            <button onclick="closeLogin()" style="background: none; border: none; color: gray; margin-top: 15px; cursor: pointer;">Cancel</button>
+            <div style="margin: 20px 0; opacity: 0.3;">OR</div>
+
+            <input type="text" placeholder="Username" style="width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: white; border-radius: 8px; margin-bottom: 10px;">
+            <input type="password" placeholder="Password" style="width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: white; border-radius: 8px; margin-bottom: 20px;">
+            
+            <button class="btn-accept" style="width: 100%;" onclick="login()">Enter Store</button>
         </div>
     </div>
 
-    <div id="admin-overlay" class="glass-overlay">
-        <div class="admin-box">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 1px solid #333; padding-bottom: 20px;">
-                <h2 style="font-family: 'Orbitron'; color: var(--blue-neon);">CENTRAL COMMAND</h2>
-                <button class="btn-accept" style="background: #333;" onclick="location.reload()">LOGOUT</button>
+    <div id="main-site">
+        <nav>
+            <div class="logo" style="font-family: 'Orbitron'; font-weight: 900; color: var(--red-main);">CFX STORE</div>
+            <div class="nav-links">
+                <a href="#"><i class="fas fa-shopping-cart"></i> STORE</a>
+                <a href="#"><i class="fas fa-box-open"></i> INVENTORY</a>
+                <a href="#"><i class="fas fa-headset"></i> SUPPORT</a>
+                <a href="#" style="color: var(--red-main);"><i class="fas fa-user-shield"></i> ADMIN PANEL</a>
+            </div>
+            <button onclick="location.reload()" style="background: none; border: 1px solid #444; color: white; padding: 5px 15px; border-radius: 5px; cursor: pointer;">Logout</button>
+        </nav>
+
+        <section class="hero-section">
+            <p style="letter-spacing: 5px; color: var(--red-main);">AUTHENTICATED ACCESS</p>
+            <h1>DASHBOARD</h1>
+            <div id="stars" style="color: #ffcc00; margin-top: 10px; font-size: 0.8rem;"></div>
+        </section>
+
+        <section class="admin-panel">
+            <h2 style="margin-bottom: 25px;"><i class="fas fa-stream"></i> Pending Commands</h2>
+            
+            <div class="order-card">
+                <div>
+                    <h3 style="color: var(--red-main);">Order #5501</h3>
+                    <p>Product: Premium RedM Script Pack</p>
+                    <small>User: Skander_2026 | Price: 45.00 DT</small>
+                </div>
+                <button class="btn-accept" onclick="accept(this)">ACCEPT COMMAND</button>
             </div>
 
-            <div id="command-list">
-                <div class="command-item" id="c1">
-                    <div>
-                        <h4 style="font-size: 1.3rem;">Order #X-990 | <span style="color: var(--red-neon);">NoPixel Map Pack</span></h4>
-                        <p style="opacity: 0.6;">User: Tunisi-Gamer | Date: 13/02/2026</p>
-                    </div>
-                    <button class="btn-accept" onclick="approve('c1')">ACCEPT ORDER</button>
+            <div class="order-card">
+                <div>
+                    <h3 style="color: var(--red-main);">Order #5502</h3>
+                    <p>Product: Custom FiveM Map (Los Santos)</p>
+                    <small>User: Gaming_Pro | Price: 120.00 DT</small>
                 </div>
-                <div class="command-item" id="c2">
-                    <div>
-                        <h4 style="font-size: 1.3rem;">Order #X-991 | <span style="color: var(--red-neon);">Custom EUP Pack</span></h4>
-                        <p style="opacity: 0.6;">User: FiveM_King | Date: 13/02/2026</p>
-                    </div>
-                    <button class="btn-accept" onclick="approve('c2')">ACCEPT ORDER</button>
-                </div>
+                <button class="btn-accept" onclick="accept(this)">ACCEPT COMMAND</button>
             </div>
-        </div>
+        </section>
     </div>
 
     <script>
-        // Generate 500 Stars (Visual only)
-        const starField = document.getElementById('starField');
-        for (let i = 0; i < 500; i++) {
-            const star = document.createElement('i');
-            star.className = 'fas fa-star';
-            starField.appendChild(star);
+        // Star Generator
+        const starsContainer = document.getElementById('stars');
+        for(let i=0; i<100; i++) {
+            starsContainer.innerHTML += '<i class="fas fa-star"></i> ';
         }
 
-        // Logic
-        function openLogin() { document.getElementById('login-overlay').style.display = 'flex'; }
-        function closeLogin() { document.getElementById('login-overlay').style.display = 'none'; }
-
-        function checkLogin() {
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            if(u === 'admin' && p === '1234') {
-                document.getElementById('login-overlay').style.display = 'none';
-                document.getElementById('hero-page').style.display = 'none';
-                document.getElementById('admin-overlay').style.display = 'flex';
-            } else {
-                alert('Access Denied: Wrong Credentials');
-            }
+        // Login Logic
+        function login() {
+            document.getElementById('auth-page').classList.add('hidden');
+            document.getElementById('main-site').style.display = 'block';
+            // Animation for stars
+            alert('Welcome back, Admin!');
         }
 
-        function approve(id) {
-            const item = document.getElementById(id);
-            const btn = item.querySelector('.btn-accept');
-            btn.innerHTML = '<i class="fas fa-check"></i> APPROVED';
-            btn.style.background = '#00d2ff';
-            btn.style.color = 'black';
-            item.style.borderLeft = '5px solid var(--blue-neon)';
-            item.style.opacity = '0.6';
+        // Command Accept Logic
+        function accept(btn) {
+            btn.innerHTML = '<i class="fas fa-check"></i> COMMAND ACCEPTED';
+            btn.style.background = '#2ecc71';
+            btn.parentElement.style.borderLeft = '5px solid #2ecc71';
+            btn.disabled = true;
         }
     </script>
 </body>
