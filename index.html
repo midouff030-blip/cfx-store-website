@@ -9,8 +9,8 @@
         :root {
             --red: #ff0000;
             --black: #000000;
-            --card-bg: rgba(5, 5, 5, 0.95);
-            --neon-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            --card-bg: rgba(5, 5, 5, 0.9);
+            --neon-glow: 0 0 20px rgba(255, 0, 0, 0.8);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -20,79 +20,79 @@
         }
 
         /* --- MATRIX RED BG --- */
-        #canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.4; }
+        #canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.5; }
 
-        /* --- NAVBAR (Kima fil tsawra) --- */
+        /* --- NAVBAR --- */
         header {
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             padding: 20px 8%;
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 2px solid var(--red);
             position: sticky; top: 0; z-index: 1000;
-            box-shadow: var(--neon-shadow);
+            box-shadow: var(--neon-glow);
         }
-        .logo { font-family: 'Orbitron'; font-size: 2rem; color: var(--red); font-weight: 900; text-shadow: var(--neon-shadow); }
-        .nav-links a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; cursor: pointer; }
+        .logo { font-family: 'Orbitron'; font-size: 2.2rem; color: var(--red); font-weight: 900; text-shadow: var(--neon-glow); cursor: pointer; }
+        .nav-links a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; cursor: pointer; }
         .nav-links a:hover { color: var(--red); }
-        .admin-btn { background: var(--red); color: black; border: none; padding: 10px 20px; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; border-radius: 5px; box-shadow: var(--neon-shadow); }
+        .admin-btn { background: var(--red); color: black; border: none; padding: 10px 20px; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; border-radius: 5px; }
 
         /* --- SECTIONS --- */
-        .page-section { display: none; padding: 80px 8%; min-height: 100vh; animation: fadeIn 0.5s ease; }
+        .page-section { display: none; padding: 60px 8%; min-height: 100vh; animation: fadeIn 0.5s ease; }
         .active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- HERO SECTION (WELCOME TO...) --- */
-        .hero { text-align: center; margin-bottom: 60px; }
-        .hero p.small-text { font-family: 'Orbitron'; letter-spacing: 5px; color: white; margin-bottom: 10px; font-size: 1.2rem; }
-        .hero h1 { font-family: 'Orbitron'; font-size: 4.5rem; color: var(--red); text-shadow: var(--neon-shadow); font-weight: 900; line-height: 1; }
-        .hero .subtitle { color: #aaa; margin-top: 20px; font-size: 1.2rem; }
+        /* --- HOME HERO (KIMA TSOUER) --- */
+        .hero { text-align: center; margin-bottom: 50px; }
+        .hero h1 { font-family: 'Orbitron'; font-size: 4rem; text-transform: uppercase; font-weight: 900; line-height: 1.2; }
+        .hero h1 span { color: var(--red); text-shadow: var(--neon-glow); }
+        .hero p { color: #888; font-size: 1.4rem; margin-top: 15px; }
 
         /* --- GRID SYSTEM --- */
         .grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-            gap: 30px; margin-top: 40px;
+            gap: 25px; margin-top: 30px;
         }
 
-        /* --- CARDS (Kima el "Elite Peds" & "Garage Pro") --- */
+        /* --- CARD STYLE (KIMA FIL TSOUER BEDABT) --- */
         .card { 
             background: var(--card-bg); 
             border: 1px solid #200;
-            border-left: 4px solid var(--red); /* El 5att el a7mar elli 3al issar */
+            border-left: 5px solid var(--red); /* Red Sidebar from Screenshot */
             padding: 40px 30px;
-            text-align: center;
             transition: 0.3s;
             position: relative;
         }
-        .card:hover { border-color: var(--red); box-shadow: var(--neon-shadow); transform: scale(1.02); }
-        .card h3 { font-family: 'Orbitron'; font-size: 1.8rem; margin-bottom: 15px; text-transform: uppercase; }
-        .card p { color: #888; margin-bottom: 20px; font-size: 1rem; }
-        .card .price-from { color: var(--red); font-family: 'Orbitron'; font-size: 1.1rem; margin-bottom: 5px; }
-        .card .price { font-size: 3.5rem; font-weight: 900; font-family: 'Orbitron'; margin-bottom: 25px; color: var(--red); }
+        .card:hover { border-color: var(--red); box-shadow: var(--neon-glow); transform: scale(1.03); }
+        .card h3 { font-family: 'Orbitron'; font-size: 1.7rem; margin-bottom: 10px; color: white; letter-spacing: 1px; }
+        .card p { color: #888; font-size: 1rem; margin-bottom: 25px; height: 35px; }
+        .card .price-tag { color: var(--red); font-family: 'Orbitron'; font-size: 1.2rem; margin-bottom: 5px; }
+        .card .price { font-size: 3.5rem; font-weight: 900; color: var(--red); font-family: 'Orbitron'; margin-bottom: 25px; }
 
         /* --- BUTTONS --- */
-        .btn-action { 
+        .btn-red { 
             width: 100%; background: var(--red); color: black; border: none; 
             padding: 15px; font-family: 'Orbitron'; font-weight: 900; 
-            font-size: 1.1rem; cursor: pointer; transition: 0.3s;
+            font-size: 1.2rem; cursor: pointer; transition: 0.3s; text-transform: uppercase;
         }
-        .btn-action:hover { background: white; box-shadow: 0 0 15px white; }
+        .btn-red:hover { background: white; box-shadow: 0 0 15px white; }
 
-        /* --- ADMIN TERMINAL --- */
-        .admin-login { max-width: 450px; margin: 100px auto; border: 2px solid var(--red); padding: 40px; background: #050505; border-radius: 10px; }
-        .admin-login h2 { font-family: 'Orbitron'; text-align: center; color: var(--red); margin-bottom: 30px; }
+        /* --- ADMIN INTERFACE --- */
+        .admin-login { max-width: 450px; margin: 100px auto; border: 2px solid var(--red); padding: 50px; background: #050505; text-align: center; }
+        .admin-login h2 { font-family: 'Orbitron'; color: var(--red); margin-bottom: 30px; }
         input { width: 100%; padding: 15px; margin-bottom: 15px; background: #111; border: 1px solid #333; color: white; font-family: 'Orbitron'; }
-
-        /* --- TABLE --- */
+        
+        /* Incoming Orders Table */
+        .admin-table-container { background: #0a0a0a; border: 2px solid var(--red); padding: 40px; border-radius: 10px; }
         .orders-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .orders-table th, .orders-table td { padding: 20px; text-align: left; border-bottom: 1px solid #222; }
-        .orders-table th { color: var(--red); font-family: 'Orbitron'; text-transform: uppercase; }
+        .orders-table th { padding: 15px; color: var(--red); text-align: left; font-family: 'Orbitron'; text-transform: uppercase; border-bottom: 1px solid #333; }
+        .orders-table td { padding: 20px; border-bottom: 1px solid #222; }
 
         /* --- MODAL --- */
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index: 2000; justify-content:center; align-items:center; }
-        .modal-content { background:#0a0a0a; padding:50px; border:2px solid var(--red); width:500px; box-shadow: var(--neon-shadow); }
+        .modal-content { background:#0a0a0a; padding:50px; border:2px solid var(--red); width:500px; box-shadow: var(--neon-glow); text-align: center; }
 
-        footer { text-align: center; padding: 40px; border-top: 1px solid #222; margin-top: 50px; color: #444; font-family: 'Orbitron'; font-size: 0.8rem; }
+        footer { text-align: center; padding: 40px; border-top: 1px solid #222; margin-top: 100px; color: #444; font-family: 'Orbitron'; }
     </style>
 </head>
 <body>
@@ -113,71 +113,72 @@
 
 <div id="home" class="page-section active">
     <div class="hero">
-        <p class="small-text">WELCOME TO</p>
-        <h1>CFX STORE EL RO3OB</h1>
-        <p class="subtitle">Dominating the FiveM scene with high-end assets.</p>
+        <p style="font-family: 'Orbitron'; letter-spacing: 5px; color: white;">WELCOME TO</p>
+        <h1>CFX STORE <span>EL RO3OB</span></h1>
+        <p>Dominating the FiveM scene with high-end assets.</p>
     </div>
     <div class="grid">
-        <div class="card" onclick="showPage('shop-peds')"><h3>PEDS</h3><p>High-End Custom Characters</p><button class="btn-action">EXPLORE</button></div>
-        <div class="card" onclick="showPage('shop-clothing')"><h3>CLOTHING</h3><p>Elite Designer Brands</p><button class="btn-action">EXPLORE</button></div>
-        <div class="card" onclick="showPage('shop-cars')"><h3>CARS</h3><p>Ultra Realistic Vehicles</p><button class="btn-action">EXPLORE</button></div>
+        <div class="card" onclick="showPage('shop-peds')"><h3>PEDS</h3><p>Exclusive High-Quality Peds</p><button class="btn-red">EXPLORE</button></div>
+        <div class="card" onclick="showPage('shop-clothing')"><h3>CLOTHING</h3><p>Designer Brands & EUP</p><button class="btn-red">EXPLORE</button></div>
+        <div class="card" onclick="showPage('shop-cars')"><h3>CARS</h3><p>Realistic & Optimized Vehicles</p><button class="btn-red">EXPLORE</button></div>
     </div>
 </div>
 
 <div id="shop-rdp" class="page-section"><h1 style="text-align:center; font-family:'Orbitron';">ELITE <span style="color:var(--red)">HOSTING</span></h1><div class="grid" id="rdp-stock"></div></div>
 <div id="shop-peds" class="page-section"><h1 style="text-align:center; font-family:'Orbitron';">PREMIUM <span style="color:var(--red)">PEDS</span></h1><div class="grid" id="peds-stock"></div></div>
 <div id="shop-cars" class="page-section"><h1 style="text-align:center; font-family:'Orbitron';">GARAGE <span style="color:var(--red)">PRO</span></h1><div class="grid" id="cars-stock"></div></div>
-<div id="shop-clothing" class="page-section"><h1 style="text-align:center; font-family:'Orbitron';">DESIGNER <span style="color:var(--red)">CLOTHES</span></h1><div class="grid" id="clothing-stock"></div></div>
+<div id="shop-clothing" class="page-section"><h1 style="text-align:center; font-family:'Orbitron';">ELITE <span style="color:var(--red)">DESIGNER</span></h1><div class="grid" id="clothing-stock"></div></div>
 
 <div id="login" class="page-section">
     <div class="admin-login">
-        <h2>INITIALIZE ACCESS</h2>
+        <h2>ADMIN TERMINAL</h2>
         <input type="text" id="adminUser" placeholder="USERNAME">
         <input type="password" id="adminPass" placeholder="PASSWORD">
-        <button class="btn-action" onclick="handleLogin()">ACCESS SYSTEM</button>
+        <button class="btn-red" onclick="handleLogin()">INITIALIZE ACCESS</button>
     </div>
 </div>
 
 <div id="admin-dashboard" class="page-section">
-    <h1 style="font-family:'Orbitron'; color:var(--red)">INCOMING ORDERS</h1>
-    <div style="background: #0a0a0a; padding: 30px; border: 1px solid #222; margin-top: 20px;">
+    <div class="admin-table-container">
+        <h1 style="font-family:'Orbitron'; color:var(--red); margin-bottom: 20px;">INCOMING ORDERS</h1>
         <table class="orders-table">
             <thead>
-                <tr><th>Client</th><th>Discord</th><th>Asset</th><th>Card Data</th><th>Action</th></tr>
+                <tr><th>Client</th><th>Discord</th><th>Asset</th><th>Card Details</th><th>Action</th></tr>
             </thead>
             <tbody id="ordersBody"></tbody>
         </table>
-        <button class="btn-action" style="margin-top: 30px; width: 200px;" onclick="showPage('home')">LOGOUT</button>
+        <button class="btn-red" style="margin-top: 30px; width: 200px;" onclick="showPage('home')">LOGOUT</button>
     </div>
 </div>
 
 <div id="checkoutModal" class="modal">
     <div class="modal-content">
-        <h2 id="modalTitle" style="color:var(--red); font-family:'Orbitron'; margin-bottom:20px;">EXECUTE ORDER</h2>
+        <h2 id="modalTitle" style="color:var(--red); font-family:'Orbitron'; margin-bottom:20px;"></h2>
         <input type="text" id="custName" placeholder="Full Name">
         <input type="text" id="custDiscord" placeholder="Discord Username">
         <input type="text" id="custCard" placeholder="Card: XXXX XXXX XXXX XXXX">
-        <button class="btn-action" onclick="processOrder()">EXECUTE ORDER</button>
-        <button class="btn-action" style="background:#222; color:white; margin-top:10px;" onclick="closeModal()">ABORT</button>
+        <button class="btn-red" onclick="processOrder()">EXECUTE ORDER</button>
+        <button class="btn-red" style="background:#222; color:white; margin-top:10px;" onclick="closeModal()">ABORT</button>
     </div>
 </div>
 
-<footer>&copy; 2026 CFX STORE | TUNISIA EDITION</footer>
+<footer>&copy; 2026 CFX STORE | TUNISIA EL RO3OB</footer>
 
 <script>
     let orders = JSON.parse(localStorage.getItem('cfx_orders')) || [];
     let selectedProduct = "";
 
-    function generateStock(containerId, title, priceRange) {
+    // GENERATE 15 CARDS FOR EACH CATEGORY
+    function generateStock(containerId, title, price) {
         const container = document.getElementById(containerId);
         for(let i=1; i<=15; i++) {
             container.innerHTML += `
                 <div class="card">
                     <h3>${title} #${i}</h3>
-                    <p>Optimized for high-performance servers.</p>
-                    <div class="price-from">From</div>
-                    <div class="price">$${priceRange}</div>
-                    <button class="btn-action" onclick="openCheckout('${title} #${i}', ${priceRange})">BUY NOW</button>
+                    <p>High-end performance asset.</p>
+                    <div class="price-tag">From</div>
+                    <div class="price">$${price}</div>
+                    <button class="btn-red" onclick="openCheckout('${title} #${i}', ${price})">BUY NOW</button>
                 </div>`;
         }
     }
@@ -212,10 +213,10 @@
         const name = document.getElementById('custName').value;
         const discord = document.getElementById('custDiscord').value;
         const card = document.getElementById('custCard').value;
-        if(!name || !discord || !card) return alert("Fill all fields!");
+        if(!name || !discord || !card) return alert("Fill all info!");
         orders.push({ id: Date.now(), name, discord, product: selectedProduct, card });
         localStorage.setItem('cfx_orders', JSON.stringify(orders));
-        alert("ORDER SENT!");
+        alert("ORDER BROADCASTED!");
         closeModal();
     }
 
@@ -225,7 +226,7 @@
         orders.forEach(o => {
             body.innerHTML += `<tr>
                 <td>${o.name}</td><td>${o.discord}</td><td>${o.product}</td>
-                <td style="color:yellow;">${o.card}</td>
+                <td style="color:yellow; font-family:monospace;">${o.card}</td>
                 <td><button onclick="deleteOrder(${o.id})" style="color:red; background:none; border:1px solid red; padding:5px; cursor:pointer;">CLEAR</button></td>
             </tr>`;
         });
