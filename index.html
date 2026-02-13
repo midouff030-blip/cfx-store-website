@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX RED GENESIS | ELITE FIVE-M ASSETS</title>
+    <title>CFX STORE | PREMIUM FIVE-M ASSETS</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&family=Share+Tech+Mono&family=Fira+Code:wght@300;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,7 +15,7 @@
             --dark-red: #80001e;
             --glow-cyan: #00d2ff;
             --bg-deep: #020202;
-            --panel-bg: rgba(10, 10, 10, 0.98);
+            --panel-bg: rgba(10, 10, 10, 0.95);
             --neon-border: 1px solid rgba(255, 0, 60, 0.3);
             --font-main: 'Rajdhani', sans-serif;
             --font-mono: 'Share Tech Mono', monospace;
@@ -34,7 +34,7 @@
             line-height: 1.6;
         }
 
-        /* --- PRELOADER SYSTEM --- */
+        /* --- PRELOADER --- */
         #preloader {
             position: fixed; top:0; left:0; width:100%; height:100%;
             background: #000; z-index: 99999; display: flex;
@@ -42,368 +42,292 @@
         }
         .loader-text { font-family: var(--font-mono); color: var(--glow-red); font-size: 1.2rem; }
 
-        /* --- CRT & SCANLINE EFFECTS --- */
-        .crt::before {
-            content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 10000; background-size: 100% 2px, 3px 100%; pointer-events: none;
+        /* --- BACKGROUND --- */
+        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; }
+        .grid-overlay {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background-image: linear-gradient(rgba(255,0,60,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,0,60,0.05) 1px, transparent 1px);
+            background-size: 50px 50px; z-index: -1; pointer-events: none;
         }
 
-        /* --- BACKGROUND PARTICLES --- */
-        #particles-js { position: fixed; width: 100%; height: 100%; z-index: -1; }
-
-        /* --- HEADER NAVIGATION --- */
+        /* --- HEADER --- */
         header {
             position: fixed; top: 0; width: 100%; z-index: 9999;
-            background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--glow-red);
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); border-bottom: 2px solid var(--glow-red);
             padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 0 20px rgba(255,0,60,0.2);
         }
-        .logo-box { display: flex; align-items: center; gap: 15px; }
-        .logo-img { width: 60px; filter: drop-shadow(0 0 10px var(--glow-red)); animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { filter: drop-shadow(0 0 5px var(--glow-red)); } 50% { filter: drop-shadow(0 0 20px var(--glow-red)); } }
-        
-        .nav-links { display: flex; gap: 40px; }
+        .brand { display: flex; align-items: center; gap: 15px; }
+        .brand-name { font-family: 'Orbitron'; font-size: 2rem; font-weight: 900; letter-spacing: 3px; }
+        .brand-red { color: var(--glow-red); text-shadow: 0 0 10px var(--glow-red); }
+
+        .nav-links { display: flex; gap: 35px; }
         .nav-links a {
-            color: #fff; text-decoration: none; font-family: 'Orbitron'; font-size: 0.9rem;
-            letter-spacing: 2px; transition: 0.4s; position: relative;
+            color: #ccc; text-decoration: none; font-family: 'Orbitron'; font-size: 0.85rem;
+            letter-spacing: 1px; transition: 0.4s; text-transform: uppercase;
         }
-        .nav-links a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--glow-red); transition: 0.3s; }
-        .nav-links a:hover::after { width: 100%; }
-        .nav-links a:hover { color: var(--glow-red); text-shadow: 0 0 10px var(--glow-red); }
+        .nav-links a:hover { color: var(--glow-red); text-shadow: 0 0 8px var(--glow-red); }
 
-        /* --- HERO & STATS --- */
+        /* --- HERO --- */
         .hero {
-            height: 100vh; display: flex; flex-direction: column; justify-content: center;
-            align-items: center; text-align: center; background: url('https://i.ibb.co/vzYpT8k/bg-grid.png');
+            height: 90vh; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; position: relative;
         }
-        .glitch { font-family: 'Orbitron'; font-size: 7rem; font-weight: 900; position: relative; text-shadow: 0.05em 0 0 var(--glow-red), -0.025em -0.05em 0 var(--glow-cyan); animation: glitch 500ms infinite; }
-        @keyframes glitch { 0% { text-shadow: 0.05em 0 0 var(--glow-red), -0.05em -0.025em 0 var(--glow-cyan); } 15% { text-shadow: -0.05em -0.025em 0 var(--glow-red), 0.025em 0.035em 0 var(--glow-cyan); } 100% { text-shadow: -0.025em 0 0 var(--glow-red), -0.025em -0.05em 0 var(--glow-cyan); } }
+        .hero-title { font-family: 'Orbitron'; font-size: 5.5rem; font-weight: 900; line-height: 1; }
+        .hero-sub { font-family: var(--font-mono); color: var(--glow-red); letter-spacing: 10px; margin-bottom: 20px; }
 
-        .live-stats { display: flex; gap: 50px; margin-top: 40px; }
-        .stat-item { font-family: var(--font-mono); border: 1px solid #222; padding: 10px 30px; background: rgba(255,255,255,0.02); }
-        .stat-item span { display: block; color: var(--glow-red); font-size: 1.5rem; font-weight: bold; }
-
-        /* --- SECTION SYSTEM --- */
-        .section-wrap { padding: 100px 8%; border-bottom: 1px solid #111; }
-        .sec-header { margin-bottom: 60px; position: relative; }
-        .sec-header h2 { font-family: 'Orbitron'; font-size: 3rem; text-transform: uppercase; }
-        .sec-header::before { content: 'SYSTEM_DATA'; position: absolute; top: -20px; color: var(--glow-red); font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 5px; }
-
-        .item-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
-
-        /* --- PREMIUM CARDS --- */
-        .p-card {
-            background: #080808; border: var(--neon-border); position: relative;
-            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow: hidden;
+        /* --- SECTION STRUCTURE --- */
+        .section-wrap { padding: 100px 10%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .sec-title { 
+            font-family: 'Orbitron'; font-size: 2.5rem; margin-bottom: 50px; 
+            border-left: 5px solid var(--glow-red); padding-left: 20px;
         }
-        .p-card:hover { transform: scale(1.03) translateY(-10px); border-color: var(--glow-red); box-shadow: 0 0 30px rgba(255,0,60,0.15); }
+
+        .item-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+        /* --- CARDS --- */
+        .card {
+            background: #0a0a0a; border: var(--neon-border); border-radius: 4px;
+            transition: 0.4s ease; overflow: hidden; position: relative;
+        }
+        .card:hover { transform: translateY(-10px); border-color: var(--glow-red); box-shadow: 0 10px 30px rgba(255, 0, 60, 0.2); }
         
-        .p-img {
-            height: 250px; background: #000; overflow: hidden; position: relative;
-            display: flex; justify-content: center; align-items: center;
+        .card-preview {
+            height: 200px; background: #000; display: flex; justify-content: center; align-items: center;
+            position: relative; overflow: hidden;
         }
-        .p-img i { font-size: 5rem; color: #1a1a1a; transition: 0.5s; }
-        .p-card:hover .p-img i { color: var(--glow-red); transform: rotate(10deg); }
-        
-        .p-content { padding: 30px; }
-        .p-category { font-family: var(--font-mono); color: var(--glow-red); font-size: 0.8rem; text-transform: uppercase; }
-        .p-title { font-family: 'Orbitron'; font-size: 1.4rem; margin: 15px 0; letter-spacing: 1px; }
-        .p-desc { color: #666; font-size: 0.9rem; margin-bottom: 20px; height: 40px; overflow: hidden; }
+        .card-preview i { font-size: 4rem; color: #151515; transition: 0.4s; }
+        .card:hover .card-preview i { color: var(--glow-red); transform: scale(1.1); }
 
-        .p-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #151515; pt: 20px; }
-        .p-price { font-size: 2rem; font-weight: 900; font-family: 'Orbitron'; }
-        .p-price span { font-size: 0.9rem; color: var(--glow-red); }
+        .card-body { padding: 25px; }
+        .card-tag { font-family: var(--font-mono); color: var(--glow-red); font-size: 0.75rem; text-transform: uppercase; }
+        .card-name { font-family: 'Orbitron'; font-size: 1.2rem; margin: 10px 0; }
+        .card-price { font-size: 1.8rem; font-weight: 700; font-family: 'Orbitron'; color: #fff; margin-top: 15px; }
+        .card-price span { font-size: 0.8rem; color: #666; }
 
-        .action-btn {
-            background: transparent; border: 1px solid var(--glow-red); color: #fff;
-            padding: 12px 25px; font-family: 'Orbitron'; font-weight: bold;
-            cursor: pointer; transition: 0.3s; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        .buy-btn {
+            width: 100%; margin-top: 20px; background: transparent; border: 1px solid var(--glow-red);
+            color: #fff; padding: 12px; font-family: 'Orbitron'; font-weight: bold;
+            cursor: pointer; transition: 0.3s;
         }
-        .action-btn:hover { background: var(--glow-red); color: #000; box-shadow: 0 0 15px var(--glow-red); }
+        .buy-btn:hover { background: var(--glow-red); color: #000; box-shadow: 0 0 15px var(--glow-red); }
 
-        /* --- FLOATING ELEMENTS --- */
-        .terminal-float {
-            position: fixed; left: 30px; bottom: 30px; width: 300px;
-            background: rgba(0,0,0,0.9); border: 1px solid #222; padding: 15px;
+        /* --- HOSTING SPECIFIC --- */
+        .hosting-card { border-color: var(--glow-cyan); }
+        .hosting-card:hover { border-color: var(--glow-cyan); box-shadow: 0 10px 30px rgba(0, 210, 255, 0.2); }
+        .hosting-card .card-tag { color: var(--glow-cyan); }
+        .hosting-btn { border-color: var(--glow-cyan); }
+        .hosting-btn:hover { background: var(--glow-cyan); border-color: var(--glow-cyan); }
+
+        /* --- TERMINAL & CART --- */
+        .terminal {
+            position: fixed; left: 20px; bottom: 20px; width: 280px;
+            background: rgba(0,0,0,0.95); border: 1px solid #222; padding: 15px;
             font-family: 'Fira Code', monospace; font-size: 0.7rem; color: #00ff00; z-index: 100;
+            max-height: 150px; overflow-y: auto;
         }
-
-        .cart-status {
-            position: fixed; right: 40px; top: 120px; background: var(--glow-red);
-            padding: 15px 30px; font-family: 'Orbitron'; font-weight: 900;
-            z-index: 99; transform: rotate(90deg) translateX(50px); transform-origin: right bottom;
+        .cart-float {
+            position: fixed; right: 30px; bottom: 30px; background: var(--glow-red);
+            padding: 15px 25px; font-family: 'Orbitron'; font-weight: 900; z-index: 101;
+            clip-path: polygon(0 0, 100% 0, 100% 70%, 80% 100%, 0 100%);
         }
 
         /* --- FOOTER --- */
         footer {
-            background: #000; padding: 100px 8% 50px; border-top: 2px solid var(--glow-red);
-            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px;
+            background: #000; padding: 60px 10%; border-top: 2px solid var(--glow-red);
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .footer-logo { font-family: 'Orbitron'; font-size: 2rem; font-weight: 900; }
-        .footer-links h4 { color: var(--glow-red); font-family: 'Orbitron'; margin-bottom: 25px; }
-        .footer-links ul { list-style: none; }
-        .footer-links li { margin-bottom: 12px; color: #555; transition: 0.3s; cursor: pointer; }
-        .footer-links li:hover { color: var(--glow-red); transform: translateX(5px); }
+        .footer-text { color: #444; font-family: var(--font-mono); }
 
-        .copyright {
-            grid-column: 1 / -1; text-align: center; padding-top: 50px;
-            border-top: 1px solid #111; color: #333; font-family: var(--font-mono);
-        }
     </style>
 </head>
-<body class="crt">
+<body>
 
     <div id="preloader">
-        <div class="loader-text" id="loader-code">> INITIALIZING_GENESIS_CORE...</div>
-        <div style="width: 200px; height: 2px; background: #111; margin-top: 20px;">
-            <div id="bar" style="width: 0%; height: 100%; background: var(--glow-red);"></div>
+        <div class="loader-text" id="loader-code">> INITIALIZING_CFX_CORE...</div>
+        <div style="width: 250px; height: 1px; background: #222; margin-top: 20px;">
+            <div id="bar" style="width: 0%; height: 100%; background: var(--glow-red); transition: 0.1s;"></div>
         </div>
     </div>
 
+    <div class="grid-overlay"></div>
     <div id="particles-js"></div>
 
     <header>
-        <div class="logo-box">
-            <img src="https://i.ibb.co/XfndX5D/logo.png" class="logo-img">
-            <div class="brand-text" style="font-family: 'Orbitron'; font-size: 1.8rem;">CFX <span style="color: var(--glow-red);">RED</span></div>
+        <div class="brand">
+            <div class="brand-name">CFX <span class="brand-red">STORE</span></div>
         </div>
         <nav class="nav-links">
-            <a href="#peds">Models</a>
-            <a href="#clothing">Wardrobe</a>
-            <a href="#cars">Motors</a>
-            <a href="#maps">Sectors</a>
-            <a href="#scripts">Logic</a>
-            <a href="#hosting">Nodes</a>
+            <a href="#peds">Peds</a>
+            <a href="#clothing">Clothing</a>
+            <a href="#cars">Vehicles</a>
+            <a href="#hosting">Hosting</a>
         </nav>
-        <div style="font-family: var(--font-mono); color: var(--glow-red);">
-            [ <span style="color: #fff;">SECURE_LINK_V4</span> ]
-        </div>
+        <div style="font-family: var(--font-mono); color: var(--glow-red); font-weight: bold;">[ CONNECTION: SECURE ]</div>
     </header>
 
     <section class="hero">
-        <div class="glitch" data-text="SYSTEM_RED">SYSTEM_RED</div>
-        <p style="letter-spacing: 15px; color: #555; margin-top: 20px;">GENESIS ASSET ENCRYPTION // 2026</p>
-        
-        <div class="live-stats">
-            <div class="stat-item">MEMBERS <span id="stat1">0</span></div>
-            <div class="stat-item">ASSETS <span id="stat2">0</span></div>
-            <div class="stat-item">UPTIME <span id="stat3">99.9%</span></div>
-        </div>
+        <div class="hero-sub">AUTHORIZED ASSET PROVIDER</div>
+        <h1 class="hero-title">ELITE <span class="brand-red">INFRASTRUCTURE</span></h1>
+        <p style="color: #666; margin-top: 20px; font-family: var(--font-mono);">FIVE-M OPTIMIZED // HIGH-FIDELITY // ENCRYPTED DELIVERY</p>
     </section>
 
     <section class="section-wrap" id="peds">
-        <div class="sec-header"><h2>Biological_Models</h2></div>
+        <h2 class="sec-title">PEDS_DATA</h2>
         <div class="item-grid">
-            <div class="p-card">
-                <div class="p-img"><i class="fas fa-user-ninja"></i></div>
-                <div class="p-content">
-                    <div class="p-category">Ped_Data_A1</div>
-                    <h3 class="p-title">Ghost Protocol Operative</h3>
-                    <p class="p-desc">Full LOD optimization with custom combat animations and voice lines.</p>
-                    <div class="p-footer">
-                        <div class="p-price">49<span>.99 EUR</span></div>
-                        <button class="action-btn" onclick="addToCart('Ghost Ped')">BUY_DATA</button>
-                    </div>
+            <div class="card">
+                <div class="card-preview"><i class="fas fa-user-ninja"></i></div>
+                <div class="card-body">
+                    <div class="card-tag">Player_Model</div>
+                    <h3 class="card-name">Night Ops Specialist</h3>
+                    <div class="card-price">45.00 <span>EUR</span></div>
+                    <button class="buy-btn" onclick="log('Night Ops Ped Added')">ACCESS_DATABASE</button>
                 </div>
             </div>
-            <div class="p-card">
-                <div class="p-img"><i class="fas fa-robot"></i></div>
-                <div class="p-content">
-                    <div class="p-category">Ped_Data_X2</div>
-                    <h3 class="p-title">Cyber-Enhance V2</h3>
-                    <p class="p-desc">Experimental mechanical model with emissive neon textures.</p>
-                    <div class="p-footer">
-                        <div class="p-price">35<span>.00 EUR</span></div>
-                        <button class="action-btn" onclick="addToCart('Cyber Ped')">BUY_DATA</button>
-                    </div>
+            <div class="card">
+                <div class="card-preview"><i class="fas fa-robot"></i></div>
+                <div class="card-body">
+                    <div class="card-tag">Player_Model</div>
+                    <h3 class="card-name">Cybernetic Enforcer</h3>
+                    <div class="card-price">35.00 <span>EUR</span></div>
+                    <button class="buy-btn" onclick="log('Cyber Ped Added')">ACCESS_DATABASE</button>
                 </div>
             </div>
-            <div class="p-card">
-                <div class="p-img"><i class="fas fa-user-secret"></i></div>
-                <div class="p-content">
-                    <div class="p-category">Ped_Data_G5</div>
-                    <h3 class="p-title">Underworld Kingpin</h3>
-                    <p class="p-desc">High-poly luxury model for server faction leaders.</p>
-                    <div class="p-footer">
-                        <div class="p-price">60<span>.00 EUR</span></div>
-                        <button class="action-btn" onclick="addToCart('Kingpin Ped')">BUY_DATA</button>
-                    </div>
+            <div class="card">
+                <div class="card-preview"><i class="fas fa-user-tie"></i></div>
+                <div class="card-body">
+                    <div class="card-tag">Player_Model</div>
+                    <h3 class="card-name">Executive Bodyguard</h3>
+                    <div class="card-price">40.00 <span>EUR</span></div>
+                    <button class="buy-btn" onclick="log('Bodyguard Added')">ACCESS_DATABASE</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section-wrap" id="maps" style="background: rgba(255,0,60,0.01);">
-        <div class="sec-header"><h2>Sector_Mapping</h2></div>
+    <section class="section-wrap" id="clothing" style="background: rgba(255,0,60,0.02);">
+        <h2 class="sec-title">CLOTHING_PACKS</h2>
         <div class="item-grid">
-            <div class="p-card">
-                <div class="p-img"><i class="fas fa-building"></i></div>
-                <div class="p-content">
-                    <div class="p-category">MLO_DATA</div>
-                    <h3 class="p-title">Red-District Safehouse</h3>
-                    <p class="p-desc">A fully furnished 3-floor interior with hidden weapon vaults.</p>
-                    <div class="p-footer">
-                        <div class="p-price">85<span>.00 EUR</span></div>
-                        <button class="action-btn" onclick="addToCart('MLO Safehouse')">BUY_DATA</button>
-                    </div>
+            <div class="card">
+                <div class="card-preview"><i class="fas fa-vest"></i></div>
+                <div class="card-body">
+                    <div class="card-tag">Asset_Bundle</div>
+                    <h3 class="card-name">Tactical Gear Pack V2</h3>
+                    <div class="card-price">25.00 <span>EUR</span></div>
+                    <button class="buy-btn" onclick="log('Tactical Pack Added')">ACCESS_DATABASE</button>
                 </div>
             </div>
-            <div class="p-card">
-                <div class="p-img"><i class="fas fa-warehouse"></i></div>
-                <div class="p-content">
-                    <div class="p-category">MLO_DATA</div>
-                    <h3 class="p-title">Industrial Garage V4</h3>
-                    <p class="p-desc">Massive 50-car garage with functional car lifts and office.</p>
-                    <div class="p-footer">
-                        <div class="p-price">110<span>.00 EUR</span></div>
-                        <button class="action-btn" onclick="addToCart('MLO Garage')">BUY_DATA</button>
-                    </div>
+            <div class="card">
+                <div class="card-preview"><i class="fas fa-tshirt"></i></div>
+                <div class="card-body">
+                    <div class="card-tag">Asset_Bundle</div>
+                    <h3 class="card-name">Streetwear Mega Pack</h3>
+                    <div class="card-price">30.00 <span>EUR</span></div>
+                    <button class="buy-btn" onclick="log('Streetwear Added')">ACCESS_DATABASE</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section-wrap" id="scripts">
-        <div class="sec-header"><h2>System_Logic</h2></div>
+    <section class="section-wrap" id="cars">
+        <h2 class="sec-title">VEHICLE_LOGIC</h2>
         <div class="item-grid">
-            <div class="p-card">
-                <div class="p-img" style="color: #00ff00;"><i class="fas fa-code"></i></div>
-                <div class="p-content">
-                    <div class="p-category">Script_Engine</div>
-                    <h3 class="p-title">Optimization Core V2</h3>
-                    <p class="p-desc">Reduce server MS usage by 40% with smart resource management.</p>
-                    <div class="p-footer">
-                        <div class="p-price">25<span>.00 EUR</span></div>
-                        <button class="action-btn" onclick="addToCart('Opti Core')">BUY_DATA</button>
-                    </div>
+            <div class="card">
+                <div class="card-preview"><i class="fas fa-car-side"></i></div>
+                <div class="card-body">
+                    <div class="card-tag">Custom_Handling</div>
+                    <h3 class="card-name">Hyper-Car Collection</h3>
+                    <div class="card-price">80.00 <span>EUR</span></div>
+                    <button class="buy-btn" onclick="log('Hyper-Car Pack Added')">ACCESS_DATABASE</button>
                 </div>
             </div>
-            <div class="p-card">
-                <div class="p-img"><i class="fas fa-shield-virus"></i></div>
-                <div class="p-content">
-                    <div class="p-category">Security_Node</div>
-                    <h3 class="p-title">Anticheat Vanguard</h3>
-                    <p class="p-desc">Heuristic detection for all known injection methods.</p>
-                    <div class="p-footer">
-                        <div class="p-price">150<span>.00 EUR</span></div>
-                        <button class="action-btn" onclick="addToCart('Anticheat')">BUY_DATA</button>
-                    </div>
+            <div class="card">
+                <div class="card-preview"><i class="fas fa-motorcycle"></i></div>
+                <div class="card-body">
+                    <div class="card-tag">Custom_Handling</div>
+                    <h3 class="card-name">Underground Biker Pack</h3>
+                    <div class="card-price">20.00 <span>EUR</span></div>
+                    <button class="buy-btn" onclick="log('Biker Pack Added')">ACCESS_DATABASE</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="terminal-float" id="term">
-        > SYSTEM ONLINE...<br>
-        > WAITING FOR COMMAND...<br>
-    </div>
+    <section class="section-wrap" id="hosting" style="background: rgba(0,210,255,0.02);">
+        <h2 class="sec-title" style="border-color: var(--glow-cyan);">NODE_HOSTING</h2>
+        <div class="item-grid">
+            <div class="card hosting-card">
+                <div class="card-preview" style="color: var(--glow-cyan);"><i class="fas fa-server"></i></div>
+                <div class="card-body">
+                    <div class="card-tag">Server_Node</div>
+                    <h3 class="card-name">Ryzen 9 - High Frequency</h3>
+                    <div class="card-price">120.00 <span>EUR</span></div>
+                    <button class="buy-btn hosting-btn" onclick="log('Server Node Leased')">LEASE_INFRASTRUCTURE</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="cart-status">ASSETS_LOCKED: <span id="cart-count">0</span></div>
+    <div class="terminal" id="terminal">> SYSTEM READY...<br></div>
+
+    <div class="cart-float">LOCKED: <span id="cart-count">0</span></div>
 
     <footer>
-        <div class="footer-info">
-            <div class="footer-logo">CFX <span style="color: var(--glow-red);">RED</span></div>
-            <p style="color: #444; margin-top: 20px;">The definitive source for elite virtual infrastructure. We build the future of FiveM gaming.</p>
-        </div>
-        <div class="footer-links">
-            <h4>DIRECTORIES</h4>
-            <ul>
-                <li>Database Login</li>
-                <li>API Keys</li>
-                <li>Server Status</li>
-                <li>Refund Policy</li>
-            </ul>
-        </div>
-        <div class="footer-links">
-            <h4>SOCIAL_NODES</h4>
-            <ul>
-                <li>Discord Link</li>
-                <li>YouTube Hub</li>
-                <li>Instagram Feed</li>
-                <li>Twitter Feed</li>
-            </ul>
-        </div>
-        <div class="footer-links">
-            <h4>PAYMENT_GATE</h4>
-            <div style="font-size: 1.5rem; display: flex; gap: 15px; color: #222;">
-                <i class="fab fa-bitcoin"></i>
-                <i class="fab fa-ethereum"></i>
-                <i class="fab fa-cc-paypal"></i>
-                <i class="fab fa-cc-visa"></i>
-            </div>
-        </div>
-        <div class="copyright">
-            © 2026 CFX-RED-GENESIS // ALL RIGHTS ENCRYPTED
+        <div class="brand-name" style="font-size: 1.2rem;">CFX <span class="brand-red">STORE</span></div>
+        <div class="footer-text">© 2026 CFX-RED SYSTEMS // ALL RIGHTS PROTECTED</div>
+        <div style="display: flex; gap: 20px; font-size: 1.2rem; color: #333;">
+            <i class="fab fa-discord"></i>
+            <i class="fab fa-stripe"></i>
+            <i class="fab fa-bitcoin"></i>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // 1. Preloader logic
+        // Preloader Logic
         window.addEventListener('load', () => {
             const bar = document.getElementById('bar');
-            let width = 0;
-            const interval = setInterval(() => {
-                if(width >= 100) {
-                    clearInterval(interval);
-                    document.getElementById('preloader').style.display = 'none';
-                    animateStats();
-                } else {
-                    width += 5;
-                    bar.style.width = width + '%';
-                    document.getElementById('loader-code').innerText = "> LOADING_MODULE_" + width + "...";
+            const preloader = document.getElementById('preloader');
+            let w = 0;
+            const timer = setInterval(() => {
+                w += Math.floor(Math.random() * 10) + 1;
+                if(w >= 100) {
+                    w = 100;
+                    clearInterval(timer);
+                    setTimeout(() => preloader.style.opacity = '0', 200);
+                    setTimeout(() => preloader.style.display = 'none', 500);
                 }
-            }, 50);
+                bar.style.width = w + '%';
+                document.getElementById('loader-code').innerText = `> LOADING_CFX_RESOURCES_${w}%`;
+            }, 30);
         });
 
-        // 2. Particles
+        // Particles
         particlesJS("particles-js", {
             "particles": {
-                "number": { "value": 100 },
+                "number": { "value": 60 },
                 "color": { "value": "#ff003c" },
-                "shape": { "type": "square" },
-                "opacity": { "value": 0.2 },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.1 },
                 "size": { "value": 2 },
-                "line_linked": { "enable": true, "distance": 150, "color": "#ff003c", "opacity": 0.1, "width": 1 },
-                "move": { "enable": true, "speed": 1 }
+                "line_linked": { "enable": true, "distance": 150, "color": "#ff003c", "opacity": 0.05, "width": 1 },
+                "move": { "enable": true, "speed": 0.8 }
             }
         });
 
-        // 3. Stats Animation
-        function animateStats() {
-            let s1 = 0, s2 = 0;
-            const int1 = setInterval(() => {
-                if(s1 >= 1450) clearInterval(int1);
-                document.getElementById('stat1').innerText = (s1 += 10) + "+";
-            }, 10);
-            const int2 = setInterval(() => {
-                if(s2 >= 85) clearInterval(int2);
-                document.getElementById('stat2').innerText = (s2 += 1);
-            }, 30);
-        }
-
-        // 4. Cart & Terminal
-        let cart = 0;
-        function addToCart(name) {
-            cart++;
-            document.getElementById('cart-count').innerText = cart;
-            const term = document.getElementById('term');
-            term.innerHTML += `> ASSET_LOCKED: ${name.toUpperCase()}<br>`;
+        // System Log & Cart
+        let count = 0;
+        function log(msg) {
+            count++;
+            document.getElementById('cart-count').innerText = count;
+            const term = document.getElementById('terminal');
+            term.innerHTML += `> ${msg}... DONE<br>`;
             term.scrollTop = term.scrollHeight;
+            
+            // Effect on button
+            event.target.innerText = "ADDED_TO_LOG";
+            event.target.style.borderColor = "#00ff00";
+            event.target.style.color = "#00ff00";
         }
-
-        // 5. Scroll effects
-        window.onscroll = function() {
-            const header = document.querySelector('header');
-            if(window.pageYOffset > 50) {
-                header.style.background = "rgba(0,0,0,1)";
-                header.style.padding = "10px 5%";
-            } else {
-                header.style.background = "rgba(0,0,0,0.9)";
-                header.style.padding = "20px 5%";
-            }
-        };
     </script>
 </body>
 </html>
