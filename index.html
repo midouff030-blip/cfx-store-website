@@ -9,7 +9,7 @@
         :root {
             --red: #ff0000;
             --black: #000000;
-            --card-bg: rgba(5, 5, 5, 0.95);
+            --card-bg: rgba(5, 5, 5, 0.98);
             --neon: 0 0 20px rgba(255, 0, 0, 0.8);
         }
 
@@ -20,123 +20,115 @@
         #canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.4; }
 
         header {
-            background: rgba(0, 0, 0, 0.9); padding: 20px 8%;
+            background: rgba(0, 0, 0, 0.95); padding: 20px 8%;
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 2px solid var(--red); position: sticky; top: 0; z-index: 1000;
         }
         .logo { font-family: 'Orbitron'; font-size: 2rem; color: var(--red); font-weight: 900; text-shadow: var(--neon); }
-        .nav-links a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; cursor: pointer; }
-        .nav-links a:hover { color: var(--red); }
 
         .page-section { display: none; padding: 60px 8%; min-height: 100vh; animation: fadeIn 0.5s ease; }
         .active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* GRID SYSTEM */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 30px; }
 
-        /* --- CARD DESIGN (WITH IMAGES) --- */
+        /* --- CARD WITH IMAGE --- */
         .card { 
             background: var(--card-bg); 
             border: 1px solid #200;
-            border-left: 5px solid var(--red); /* El 5att el a7mar */
-            overflow: hidden;
+            border-left: 5px solid var(--red); /* El 5att el a7mar el mazyen */
             transition: 0.3s;
-            position: relative;
-        }
-        .card:hover { border-color: var(--red); box-shadow: var(--neon); transform: translateY(-5px); }
-
-        /* BLASA EL TSAWRA */
-        .card-img {
-            width: 100%;
-            height: 180px;
-            background: #111; /* Lawn e7tiyati */
             overflow: hidden;
+            display: flex; flex-direction: column;
+        }
+        .card:hover { border-color: var(--red); box-shadow: var(--neon); transform: translateY(-10px); }
+
+        .card-img-container {
+            width: 100%; height: 200px;
+            background: #111; overflow: hidden;
             border-bottom: 1px solid #300;
         }
-        .card-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Bch tsawra tji mrigla */
-            transition: 0.5s;
+        .card-img-container img {
+            width: 100%; height: 100%;
+            object-fit: cover; transition: 0.5s ease;
         }
-        .card:hover .card-img img { transform: scale(1.1); }
+        .card:hover .card-img-container img { transform: scale(1.1); }
 
         .card-content { padding: 25px; text-align: center; }
-        .card h3 { font-family: 'Orbitron'; font-size: 1.5rem; margin-bottom: 10px; }
-        .card p { color: #888; font-size: 0.9rem; margin-bottom: 15px; }
-        .card .price { font-size: 2.5rem; font-weight: 900; color: var(--red); font-family: 'Orbitron'; margin-bottom: 20px; }
+        .card h3 { font-family: 'Orbitron'; font-size: 1.5rem; margin-bottom: 10px; color: white; }
+        .card .price { font-size: 2.8rem; font-weight: 900; color: var(--red); font-family: 'Orbitron'; margin-bottom: 20px; }
 
-        .btn-red { 
+        .btn-action { 
             width: 100%; background: var(--red); color: black; border: none; 
-            padding: 12px; font-family: 'Orbitron'; font-weight: 900; cursor: pointer;
+            padding: 15px; font-family: 'Orbitron'; font-weight: 900; cursor: pointer;
         }
-        .btn-red:hover { background: white; }
+        .btn-action:hover { background: white; }
 
-        /* ADMIN & MODAL (Same as before) */
-        input { width: 100%; padding: 15px; margin-bottom: 10px; background: #111; border: 1px solid #333; color: white; }
+        /* MUSIC NOTICE */
+        #music-notice {
+            position: fixed; bottom: 20px; right: 20px; background: var(--red); color: black;
+            padding: 10px 20px; font-family: 'Orbitron'; font-weight: bold; font-size: 0.8rem;
+            border-radius: 50px; z-index: 9999; animation: pulse 2s infinite; cursor: pointer;
+        }
+        @keyframes pulse { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
     </style>
 </head>
-<body>
+<body onclick="playMusic()"> <canvas id="canvas"></canvas>
 
-<canvas id="canvas"></canvas>
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div id="music-notice">CLICK ANYWHERE FOR MUSIC 🎵</div>
 
 <header>
     <div class="logo">CFX STORE</div>
-    <nav class="nav-links">
-        <a onclick="showPage('home')">Home</a>
-        <a onclick="showPage('shop-rdp')">RDP</a>
-        <a onclick="showPage('shop-peds')">Peds</a>
-        <a onclick="showPage('shop-cars')">Cars</a>
+    <nav>
+        <button class="btn-action" style="padding: 10px 20px; width: auto;" onclick="showPage('shop-cars')">CARS</button>
+        <button class="btn-action" style="padding: 10px 20px; width: auto; background: #222; color: white;" onclick="showPage('home')">HOME</button>
     </nav>
-    <button style="background:var(--red); border:none; padding:10px; font-family:'Orbitron'; cursor:pointer;" onclick="showPage('login')">ADMIN</button>
 </header>
 
 <div id="home" class="page-section active">
-    <h1 style="text-align:center; font-family:'Orbitron'; font-size:3rem;">EL <span style="color:var(--red)">RO3OB</span> STORE</h1>
-    <div class="grid">
-        <div class="card" onclick="showPage('shop-peds')">
-            <div class="card-img"><img src="peds_cover.jpg" alt="PEDS"></div>
-            <div class="card-content"><h3>PEDS</h3><button class="btn-red">EXPLORE</button></div>
-        </div>
-        <div class="card" onclick="showPage('shop-cars')">
-            <div class="card-img"><img src="cars_cover.jpg" alt="CARS"></div>
-            <div class="card-content"><h3>CARS</h3><button class="btn-red">EXPLORE</button></div>
-        </div>
+    <div style="text-align:center;">
+        <h1 style="font-family:'Orbitron'; font-size:3.5rem;">WELCOME TO <span style="color:var(--red)">RO3OB</span></h1>
+        <p style="color:#888; margin-top:10px;">Music & Assets Loaded.</p>
     </div>
-</div>
-
-<div id="shop-peds" class="page-section">
-    <h1 style="text-align:center; font-family:'Orbitron';">ELITE <span style="color:var(--red)">PEDS</span></h1>
-    <div class="grid" id="peds-stock"></div>
+    <div class="grid" id="home-grid"></div>
 </div>
 
 <div id="shop-cars" class="page-section">
-    <h1 style="text-align:center; font-family:'Orbitron';">GARAGE <span style="color:var(--red)">PRO</span></h1>
+    <h1 style="text-align:center; font-family:'Orbitron';">ELITE <span style="color:var(--red)">GARAGE</span></h1>
     <div class="grid" id="cars-stock"></div>
 </div>
 
 <script>
-    // GENERATE 15 CARDS WITH IMAGE PLACEHOLDERS
+    // 1. MUSIC CONTROL
+    function playMusic() {
+        const music = document.getElementById('bgMusic');
+        music.play().catch(e => console.log("Waiting for user interaction"));
+        document.getElementById('music-notice').style.display = 'none';
+    }
+
+    // 2. STOCK GENERATOR (WITH IMAGES)
     function generateStock(containerId, title, price, imgPrefix) {
         const container = document.getElementById(containerId);
         for(let i=1; i<=15; i++) {
             container.innerHTML += `
                 <div class="card">
-                    <div class="card-img">
-                        <img src="${imgPrefix}${i}.jpg" onerror="this.src='https://via.placeholder.com/400x200/111/ff0000?text=NO+IMAGE'" alt="Asset">
+                    <div class="card-img-container">
+                        <img src="${imgPrefix}${i}.jpg" onerror="this.src='https://via.placeholder.com/400x200/111/ff0000?text=IMAGE+${i}'" alt="Asset">
                     </div>
                     <div class="card-content">
                         <h3>${title} #${i}</h3>
-                        <p>High-end server asset.</p>
                         <div class="price">$${price}</div>
-                        <button class="btn-red" onclick="alert('Checkout Modal')">BUY NOW</button>
+                        <button class="btn-action">BUY NOW</button>
                     </div>
                 </div>`;
         }
     }
 
-    generateStock('peds-stock', 'Elite Ped', '10.00', 'ped');
     generateStock('cars-stock', 'Garage Pro', '30.00', 'car');
 
     function showPage(pageId) {
@@ -144,7 +136,24 @@
         document.getElementById(pageId).classList.add('active');
     }
 
-    // Matrix Script (Omitted for brevity, keep the old one)
+    // MATRIX EFFECT (Same as before)
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const chars = "01ABCDEF";
+    const drops = new Array(Math.floor(canvas.width/20)).fill(1);
+    function draw() {
+        ctx.fillStyle = "rgba(0,0,0,0.05)";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = "#ff0000";
+        ctx.font = "15px monospace";
+        drops.forEach((y, i) => {
+            ctx.fillText(chars[Math.floor(Math.random()*chars.length)], i*20, y*20);
+            if(y*20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        });
+    }
+    setInterval(draw, 50);
 </script>
 </body>
 </html>
