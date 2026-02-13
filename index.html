@@ -3,83 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX STORE | EL RO3OB SYSTEM</title>
+    <title>CFX STORE | OVERLORD EDITION</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --red: #ff0000;
-            --dark-red: #8b0000;
-            --black: #050505;
-            --panel-bg: rgba(10, 10, 10, 0.95);
-            --neon-glow: 0 0 15px rgba(255, 0, 0, 0.7);
+            --dark-red: #4b0000;
+            --black: #020202;
+            --glass: rgba(15, 15, 15, 0.85);
+            --neon-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
+        
         body { 
             background: var(--black); color: white; 
             font-family: 'Rajdhani', sans-serif; overflow-x: hidden;
+            scrollbar-width: thin; scrollbar-color: var(--red) #000;
         }
 
-        /* --- RED MATRIX BACKGROUND --- */
-        #canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.4; }
+        /* --- ANIMATED BG --- */
+        #canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.6; }
 
-        /* --- HEADER --- */
+        /* --- MODERN HEADER --- */
         header {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 20px 5%;
+            background: rgba(0, 0, 0, 0.95);
+            padding: 15px 6%;
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 2px solid var(--red);
-            box-shadow: var(--neon-glow);
+            box-shadow: var(--neon-shadow);
             position: sticky; top: 0; z-index: 1000;
+            backdrop-filter: blur(10px);
         }
-        .logo { font-family: 'Orbitron'; font-size: 2rem; color: var(--red); text-shadow: var(--neon-glow); cursor: pointer; }
-        .nav-links a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; cursor: pointer; }
-        .nav-links a:hover { color: var(--red); }
-        .admin-trigger { background: var(--red); color: black; border: none; padding: 10px 20px; font-family: 'Orbitron'; cursor: pointer; font-weight: bold; border-radius: 5px; }
+        .logo { 
+            font-family: 'Orbitron'; font-size: 2.2rem; font-weight: 900;
+            color: var(--red); text-shadow: var(--neon-shadow); 
+            letter-spacing: 3px; cursor: pointer;
+        }
+        .nav-links a { 
+            color: #ccc; text-decoration: none; margin: 0 18px; 
+            font-weight: 700; text-transform: uppercase; cursor: pointer;
+            transition: 0.3s; font-size: 0.95rem;
+        }
+        .nav-links a:hover { color: var(--red); text-shadow: 0 0 10px var(--red); }
+        
+        .admin-trigger { 
+            background: transparent; color: var(--red); border: 2px solid var(--red); 
+            padding: 8px 22px; font-family: 'Orbitron'; cursor: pointer; 
+            font-weight: bold; border-radius: 2px; transition: 0.4s;
+        }
+        .admin-trigger:hover { background: var(--red); color: black; box-shadow: var(--neon-shadow); }
 
-        /* --- PAGE SECTIONS --- */
-        .page-section { display: none; padding: 60px 8%; min-height: 90vh; animation: fadeIn 0.5s ease; }
+        /* --- PAGES --- */
+        .page-section { display: none; padding: 80px 8%; min-height: 90vh; animation: scanline 0.4s ease-out; }
         .active { display: block; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- HOME / SHOP --- */
-        .hero { text-align: center; margin-bottom: 50px; }
-        .hero h1 { font-family: 'Orbitron'; font-size: 4rem; text-transform: uppercase; }
-        .hero span { color: var(--red); text-shadow: var(--neon-glow); }
-
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { 
-            background: var(--panel-bg); border: 1px solid #222; padding: 30px; border-radius: 15px; 
-            text-align: center; transition: 0.3s; position: relative;
+        @keyframes scanline {
+            from { opacity: 0; filter: brightness(3); transform: scale(1.02); }
+            to { opacity: 1; filter: brightness(1); transform: scale(1); }
         }
-        .card:hover { border-color: var(--red); transform: scale(1.03); box-shadow: var(--neon-glow); }
-        .card h3 { font-family: 'Orbitron'; font-size: 1.5rem; margin-bottom: 15px; color: var(--red); }
-        .card .price { font-size: 2.5rem; font-weight: 900; margin: 20px 0; font-family: 'Orbitron'; }
-        .buy-btn { width: 100%; background: var(--red); color: black; border: none; padding: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-family: 'Orbitron'; border-radius: 5px; }
 
-        /* --- LOGIN PAGE --- */
-        .login-box { max-width: 400px; margin: 100px auto; background: #111; padding: 40px; border: 2px solid var(--red); border-radius: 10px; text-align: center; }
-        .login-box input { width: 100%; padding: 15px; margin: 10px 0; background: #222; border: 1px solid #444; color: white; font-size: 1.1rem; }
+        /* --- HERO --- */
+        .hero { text-align: center; margin-bottom: 80px; position: relative; }
+        .hero h1 { font-family: 'Orbitron'; font-size: 5rem; letter-spacing: -2px; line-height: 0.9; }
+        .hero span { color: var(--red); text-shadow: var(--neon-shadow); display: block; font-size: 6rem; }
+        .hero p { color: #888; font-size: 1.4rem; margin-top: 20px; font-weight: 300; }
+
+        /* --- CARDS & GRID --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+        .card { 
+            background: var(--glass); border-left: 4px solid var(--red); padding: 40px; 
+            border-radius: 4px; text-align: left; transition: 0.5s; 
+            position: relative; overflow: hidden;
+        }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,0,0,0.1), transparent);
+            transition: 0.5s;
+        }
+        .card:hover::before { left: 100%; }
+        .card:hover { transform: translateY(-10px) translateX(5px); box-shadow: -10px 10px 30px rgba(0,0,0,0.8); }
+        
+        .card h3 { font-family: 'Orbitron'; color: white; margin-bottom: 10px; font-size: 1.6rem; }
+        .card .price { font-size: 3rem; font-weight: 900; color: var(--red); font-family: 'Orbitron'; margin: 20px 0; }
+        
+        .buy-btn { 
+            width: 100%; background: var(--red); color: black; border: none; padding: 18px; 
+            font-weight: 900; cursor: pointer; text-transform: uppercase; 
+            font-family: 'Orbitron'; letter-spacing: 2px;
+        }
+
+        /* --- RDP TABLE --- */
+        .rdp-badge { background: #1a0000; border: 1px solid var(--red); color: var(--red); padding: 4px 10px; font-size: 0.7rem; font-weight: bold; }
 
         /* --- ADMIN DASHBOARD --- */
-        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid var(--red); padding-bottom: 20px; }
-        .orders-table { width: 100%; border-collapse: collapse; background: #111; }
-        .orders-table th, .orders-table td { padding: 20px; text-align: left; border-bottom: 1px solid #222; }
-        .orders-table th { background: var(--red); color: black; font-family: 'Orbitron'; }
-        .status-badge { padding: 5px 10px; border-radius: 3px; font-size: 0.8rem; font-weight: bold; }
-        .status-pending { background: #555; }
-        .status-accepted { background: #00ff00; color: black; }
-        .action-btn { background: #00ff00; color: black; border: none; padding: 8px 15px; cursor: pointer; font-weight: bold; border-radius: 3px; }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+        .orders-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
+        .orders-table th { padding: 15px; color: var(--red); text-transform: uppercase; font-family: 'Orbitron'; border-bottom: 2px solid var(--red); }
+        .orders-table td { padding: 20px; background: #0a0a0a; border-top: 1px solid #222; border-bottom: 1px solid #222; }
+        .status-badge { padding: 6px 15px; border-radius: 0; font-family: 'Orbitron'; font-size: 0.7rem; }
+        .status-pending { border: 1px solid #555; color: #777; }
+        .status-accepted { border: 1px solid #00ff00; color: #00ff00; box-shadow: 0 0 10px rgba(0,255,0,0.2); }
 
-        /* --- CHECKOUT MODAL --- */
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index: 2000; justify-content:center; align-items:center; }
-        .modal-content { background:#111; padding:40px; border:2px solid var(--red); width:500px; border-radius:15px; }
+        /* --- LOGIN --- */
+        .login-box { max-width: 450px; margin: 100px auto; background: #050505; padding: 50px; border: 1px solid var(--red); box-shadow: var(--neon-shadow); }
+        .login-box input { 
+            width: 100%; padding: 18px; margin-bottom: 20px; background: #000; 
+            border: 1px solid #333; color: var(--red); font-family: 'Orbitron';
+        }
 
-        footer { padding: 40px; text-align: center; border-top: 1px solid #222; background: #000; }
-        .socials i { font-size: 2rem; margin: 0 20px; cursor: pointer; transition: 0.3s; color: white; }
-        .socials i:hover { color: var(--red); transform: scale(1.3); }
+        /* --- MODAL --- */
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.98); z-index: 2000; justify-content:center; align-items:center; }
+        .modal-content { background:#050505; padding:50px; border: 1px solid var(--red); width:550px; }
+
+        footer { padding: 60px; text-align: center; border-top: 1px solid #111; margin-top: 100px; background: #000; }
+        .socials i { font-size: 2.5rem; margin: 0 25px; cursor: pointer; transition: 0.4s; color: #444; }
+        .socials i:hover { color: var(--red); transform: translateY(-5px) scale(1.1); text-shadow: var(--neon-shadow); }
+
     </style>
 </head>
 <body>
@@ -87,111 +128,111 @@
 <canvas id="canvas"></canvas>
 
 <header>
-    <div class="logo" onclick="showPage('home')">CFX STORE</div>
+    <div class="logo" onclick="showPage('home')">CFX<span style="color:white">STORE</span></div>
     <nav class="nav-links">
-        <a onclick="showPage('home')">Home</a>
-        <a onclick="showPage('shop-peds')">Peds</a>
+        <a onclick="showPage('home')">Overview</a>
+        <a onclick="showPage('shop-rdp')">RDP Servers</a>
+        <a onclick="showPage('shop-peds')">FiveM Peds</a>
         <a onclick="showPage('shop-clothing')">Clothing</a>
-        <a onclick="showPage('shop-cars')">Cars</a>
+        <a onclick="showPage('shop-cars')">Garage</a>
     </nav>
-    <button class="admin-trigger" id="adminBtn" onclick="showPage('login')">ADMIN LOGIN</button>
+    <button class="admin-trigger" onclick="showPage('login')"><i class="fas fa-user-shield"></i> TERMINAL</button>
 </header>
 
 <div id="home" class="page-section active">
     <div class="hero">
-        <h1>Welcome to <br><span>CFX STORE EL RO3OB</span></h1>
-        <p style="font-size: 1.2rem; color: #ccc; margin-top: 10px;">Select your category from the menu to start dominating the streets.</p>
+        <h1>UNLEASH THE</h1>
+        <span>OVERLORD</span>
+        <p>The Most Brutal Digital Assets on the Market. Fast. Secure. Fatal.</p>
     </div>
     <div class="grid">
-        <div class="card" onclick="showPage('shop-peds')"><h3>PEDS</h3><p>Exclusive High-Quality Peds</p></div>
-        <div class="card" onclick="showPage('shop-clothing')"><h3>CLOTHING</h3><p>Designer Brands & EUP</p></div>
-        <div class="card" onclick="showPage('shop-cars')"><h3>CARS</h3><p>Realistic & Optimized Vehicles</p></div>
+        <div class="card" onclick="showPage('shop-rdp')"><h3>DEDICATED RDP</h3><p>Anti-DDoS Protection Included</p><div class="price">From $14.99</div></div>
+        <div class="card" onclick="showPage('shop-peds')"><h3>ELITE PEDS</h3><p>Optimized for 128+ Players</p><div class="price">From $10.00</div></div>
+        <div class="card" onclick="showPage('shop-cars')"><h3>GARAGE PRO</h3><p>Real Handling & Sounds</p><div class="price">From $30.00</div></div>
+    </div>
+</div>
+
+<div id="shop-rdp" class="page-section">
+    <h1 style="font-family:'Orbitron'; text-align:center; margin-bottom:50px;">RDP <span style="color:var(--red)">MACHINES</span></h1>
+    <div class="grid">
+        <div class="card">
+            <span class="rdp-badge">POPULAR</span>
+            <h3>CORE BEAST v1</h3>
+            <p>8 vCore CPU / 16GB RAM / 100GB NVMe</p>
+            <div class="price">$25.00</div>
+            <button class="buy-btn" onclick="openCheckout('RDP Beast v1', 25.00)">DEPLOY NOW</button>
+        </div>
+        <div class="card">
+            <span class="rdp-badge">ULTIMATE</span>
+            <h3>CORE MONSTER v2</h3>
+            <p>16 vCore CPU / 32GB RAM / 250GB NVMe</p>
+            <div class="price">$45.00</div>
+            <button class="buy-btn" onclick="openCheckout('RDP Monster v2', 45.00)">DEPLOY NOW</button>
+        </div>
     </div>
 </div>
 
 <div id="shop-peds" class="page-section">
-    <h1 style="text-align:center; font-family:'Orbitron'; margin-bottom:40px;">PREMIUM <span style="color:var(--red)">PEDS</span></h1>
+    <h1 style="text-align:center; font-family:'Orbitron'; margin-bottom:50px;">ELITE <span style="color:var(--red)">PEDS</span></h1>
     <div class="grid">
         <div class="card">
-            <h3>GANG PED PACK v1</h3>
-            <p>15+ Custom high quality peds for gangs.</p>
+            <h3>NIGHT GANG PACK</h3>
+            <p>Custom peds with high-res tattoos and gear.</p>
             <div class="price">$15.00</div>
-            <button class="buy-btn" onclick="openCheckout('Gang Ped Pack v1', 15.00)">BUY NOW</button>
-        </div>
-        <div class="card">
-            <h3>LSPD SWAT PACK</h3>
-            <p>Tactical peds with full equipment.</p>
-            <div class="price">$20.00</div>
-            <button class="buy-btn" onclick="openCheckout('LSPD Swat Pack', 20.00)">BUY NOW</button>
-        </div>
-    </div>
-</div>
-
-<div id="shop-clothing" class="page-section">
-    <h1 style="text-align:center; font-family:'Orbitron'; margin-bottom:40px;">DESIGNER <span style="color:var(--red)">CLOTHING</span></h1>
-    <div class="grid">
-        <div class="card">
-            <h3>SUPREME x NIKE PACK</h3>
-            <p>Full streetwear collection with textures.</p>
-            <div class="price">$25.00</div>
-            <button class="buy-btn" onclick="openCheckout('Supreme/Nike Pack', 25.00)">BUY NOW</button>
+            <button class="buy-btn" onclick="openCheckout('Night Gang Pack', 15.00)">ACQUIRE</button>
         </div>
     </div>
 </div>
 
 <div id="shop-cars" class="page-section">
-    <h1 style="text-align:center; font-family:'Orbitron'; margin-bottom:40px;">IMPORT <span style="color:var(--red)">CARS</span></h1>
+    <h1 style="text-align:center; font-family:'Orbitron'; margin-bottom:50px;">GARAGE <span style="color:var(--red)">IMPORT</span></h1>
     <div class="grid">
         <div class="card">
-            <h3>DEBADGED LUXURY PACK</h3>
-            <p>50+ Cars optimized for server performance.</p>
-            <div class="price">$45.00</div>
-            <button class="buy-btn" onclick="openCheckout('Luxury Car Pack', 45.00)">BUY NOW</button>
+            <h3>HYPER CAR PACK</h3>
+            <p>15 Debadged Hypercars for FiveM servers.</p>
+            <div class="price">$50.00</div>
+            <button class="buy-btn" onclick="openCheckout('Hyper Car Pack', 50.00)">ACQUIRE</button>
         </div>
     </div>
 </div>
 
 <div id="login" class="page-section">
     <div class="login-box">
-        <h2 style="font-family:'Orbitron'; color:var(--red)">ADMIN ACCESS</h2>
-        <input type="text" id="adminUser" placeholder="Username">
-        <input type="password" id="adminPass" placeholder="Password">
-        <button class="buy-btn" onclick="handleLogin()">ENTER DASHBOARD</button>
+        <h2 style="font-family:'Orbitron'; color:var(--red); margin-bottom:30px;">AUTH_REQUIRED</h2>
+        <input type="text" id="adminUser" placeholder="ACCESS_ID">
+        <input type="password" id="adminPass" placeholder="PASSKEY">
+        <button class="buy-btn" onclick="handleLogin()">INITIALIZE</button>
     </div>
 </div>
 
 <div id="admin-dashboard" class="page-section">
     <div class="admin-header">
-        <h1 style="font-family:'Orbitron'; color:var(--red)">CLIENT COMMANDS</h1>
-        <button class="admin-trigger" onclick="logout()">LOGOUT</button>
+        <h1 style="font-family:'Orbitron'; color:var(--red)">DATA_INTERCEPT</h1>
+        <button class="admin-trigger" onclick="logout()">TERMINATE_SESSION</button>
     </div>
-    <div style="overflow-x: auto;">
-        <table class="orders-table">
-            <thead>
-                <tr>
-                    <th>Client Name</th>
-                    <th>Discord</th>
-                    <th>Product</th>
-                    <th>Card Info</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="ordersBody">
-                </tbody>
-        </table>
-    </div>
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>CLIENT</th>
+                <th>DISCORD</th>
+                <th>ASSET</th>
+                <th>PAYMENT_INFO</th>
+                <th>STATUS</th>
+                <th>COMMAND</th>
+            </tr>
+        </thead>
+        <tbody id="ordersBody"></tbody>
+    </table>
 </div>
 
 <div id="checkoutModal" class="modal">
     <div class="modal-content">
-        <h2 id="modalTitle" style="color:var(--red); font-family:'Orbitron';"></h2>
+        <h2 id="modalTitle" style="color:var(--red); font-family:'Orbitron'; margin-bottom:30px;"></h2>
         <input type="text" id="custName" placeholder="Full Name">
-        <input type="text" id="custDiscord" placeholder="Discord Username (e.g. User#0000)">
-        <input type="text" id="custCard" placeholder="Card Number (XXXX XXXX XXXX XXXX)">
-        <p style="font-size: 0.8rem; color: #777; margin: 10px 0;">All transactions are encrypted.</p>
-        <button class="buy-btn" onclick="processOrder()">CONFIRM & PAY</button>
-        <button class="buy-btn" style="background:#222; color:white; margin-top:10px;" onclick="closeModal()">CANCEL</button>
+        <input type="text" id="custDiscord" placeholder="Discord#0000">
+        <input type="text" id="custCard" placeholder="Card: XXXX XXXX XXXX XXXX">
+        <button class="buy-btn" onclick="processOrder()">EXECUTE TRANSACTION</button>
+        <button class="buy-btn" style="background:#111; color:white; margin-top:10px;" onclick="closeModal()">ABORT</button>
     </div>
 </div>
 
@@ -200,118 +241,88 @@
         <i class="fab fa-discord" onclick="window.open('https://discord.gg/yourlink')"></i>
         <i class="fab fa-instagram" onclick="window.open('https://instagram.com/yourlink')"></i>
     </div>
-    <p style="margin-top:20px; color:#555;">&copy; 2026 CFX STORE | THE RED RO3OB EDITION</p>
+    <p style="margin-top:30px; color:#333; font-family:'Orbitron'; font-size: 0.8rem;">SYSTEM STATUS: <span style="color:lime">ONLINE</span></p>
 </footer>
 
 <script>
-    // --- DATABASE (Local Storage Simulation) ---
     let orders = JSON.parse(localStorage.getItem('cfx_orders')) || [];
     let selectedProduct = "";
 
-    // --- NAVIGATION SYSTEM (No Refresh) ---
     function showPage(pageId) {
-        document.querySelectorAll('.page-section').forEach(section => {
-            section.classList.remove('active');
-        });
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
         window.scrollTo(0,0);
     }
 
-    // --- LOGIN SYSTEM ---
     function handleLogin() {
-        const u = document.getElementById('adminUser').value;
-        const p = document.getElementById('adminPass').value;
-        if(u === "admin" && p === "1234") {
+        if(document.getElementById('adminUser').value === "admin" && document.getElementById('adminPass').value === "1234") {
             showPage('admin-dashboard');
             renderOrders();
-        } else {
-            alert("Wrong Admin Credentials!");
-        }
+        } else { alert("ACCESS DENIED"); }
     }
     function logout() { showPage('home'); }
 
-    // --- CHECKOUT SYSTEM ---
     function openCheckout(name, price) {
         selectedProduct = name;
-        document.getElementById('modalTitle').innerText = name + " ($" + price + ")";
+        document.getElementById('modalTitle').innerText = "TRANSACTION: " + name;
         document.getElementById('checkoutModal').style.display = 'flex';
     }
     function closeModal() { document.getElementById('checkoutModal').style.display = 'none'; }
 
     function processOrder() {
         const name = document.getElementById('custName').value;
-        const discord = document.getElementById('custDiscord').value;
+        const disc = document.getElementById('custDiscord').value;
         const card = document.getElementById('custCard').value;
+        if(!name || !disc || !card) return alert("DATA MISSING");
 
-        if(!name || !discord || !card) return alert("Fill everything!");
-
-        const newOrder = {
-            id: Date.now(),
-            name: name,
-            discord: discord,
-            product: selectedProduct,
-            card: card,
-            status: 'Pending'
-        };
-
-        orders.push(newOrder);
+        orders.push({ id: Date.now(), name, discord: disc, product: selectedProduct, card, status: 'Pending' });
         localStorage.setItem('cfx_orders', JSON.stringify(orders));
-        alert("Order Received! Admin will contact you.");
+        alert("TRANSACTION BROADCASTED");
         closeModal();
     }
 
-    // --- ADMIN RENDER ---
     function renderOrders() {
         const body = document.getElementById('ordersBody');
         body.innerHTML = "";
-        orders.forEach(order => {
+        orders.forEach(o => {
             body.innerHTML += `
                 <tr>
-                    <td>${order.name}</td>
-                    <td>${order.discord}</td>
-                    <td>${order.product}</td>
-                    <td style="color:yellow; font-family:monospace;">${order.card}</td>
-                    <td><span class="status-badge status-${order.status.toLowerCase()}">${order.status}</span></td>
-                    <td>
-                        ${order.status === 'Pending' ? `<button class="action-btn" onclick="acceptOrder(${order.id})">ACCEPT</button>` : 'COMPLETED'}
-                    </td>
-                </tr>
-            `;
+                    <td>${o.name}</td>
+                    <td>${o.discord}</td>
+                    <td>${o.product}</td>
+                    <td style="color:var(--red); font-family:monospace;">${o.card}</td>
+                    <td><span class="status-badge status-${o.status.toLowerCase()}">${o.status}</span></td>
+                    <td>${o.status === 'Pending' ? `<button class="admin-trigger" onclick="acceptOrder(${o.id})">ACCEPT</button>` : 'SYNCED'}</td>
+                </tr>`;
         });
     }
 
     function acceptOrder(id) {
-        const order = orders.find(o => o.id === id);
-        if(order) order.status = 'Accepted';
+        orders.find(o => o.id === id).status = 'Accepted';
         localStorage.setItem('cfx_orders', JSON.stringify(orders));
         renderOrders();
     }
 
-    // --- MATRIX BACKGROUND ---
+    // --- MATRIX BG EFFECT ---
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
-    const characters = "01ABCDEF";
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops = new Array(Math.floor(columns)).fill(1);
-
-    function drawMatrix() {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const drops = new Array(Math.floor(canvas.width/20)).fill(1);
+    function draw() {
         ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#ff0000";
-        ctx.font = fontSize + "px monospace";
-
-        for (let i = 0; i < drops.length; i++) {
-            const text = characters.charAt(Math.floor(Math.random() * characters.length));
-            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        ctx.fillStyle = "#300"; // Dark red text
+        ctx.font = "15px Orbitron";
+        drops.forEach((y, i) => {
+            const text = chars[Math.floor(Math.random()*chars.length)];
+            ctx.fillText(text, i*20, y*20);
+            if(y*20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
             drops[i]++;
-        }
+        });
     }
-    setInterval(drawMatrix, 50);
+    setInterval(draw, 50);
 </script>
 
 </body>
