@@ -3,317 +3,406 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX STORE | Exclusive FiveM Marketplace</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>CFX STORE | THE ULTIMATE GALACTIC MARKET</title>
     
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
-        /* CSS START - SPACE THEME */
+        /* --- 1. GLOBAL RESET & THEME --- */
         :root {
-            --primary: #0096db; /* اللون السماوي اللي في التصويرة */
-            --bg-dark: #050505;
-            --container-bg: rgba(15, 15, 15, 0.95);
-            --border-color: #222;
+            --glow: #00f2ff;
+            --accent: #7000ff;
+            --dark: #020202;
+            --panel: rgba(10, 10, 10, 0.9);
+            --border: rgba(0, 242, 255, 0.2);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
         body {
-            background-color: var(--bg-dark);
-            background-image: url('https://r4.wallpaperflare.com/wallpaper/961/541/39/stars-space-galaxy-nebula-wallpaper-e8263d6850208cb830ec116ea8623837.jpg');
-            background-size: cover;
-            background-attachment: fixed;
+            background: var(--dark);
             color: #fff;
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.6;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Top Header Info */
-        .top-info {
-            display: flex;
-            justify-content: space-between;
-            padding: 25px 10%;
-            align-items: center;
+        /* --- 2. DYNAMIC BACKGROUND (STARS) --- */
+        #star-canvas {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
         }
 
-        .info-box { display: flex; align-items: center; gap: 15px; }
-        .info-box i { font-size: 2rem; color: #fff; }
-        .info-box span { font-weight: bold; font-size: 1.1rem; }
-        .info-box small { color: var(--primary); cursor: pointer; display: block; }
-
-        .main-logo {
-            font-family: 'Orbitron';
-            font-size: 4rem;
-            letter-spacing: 10px;
-            text-shadow: 0 0 20px rgba(255,255,255,0.2);
+        /* --- 3. CUSTOM SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--dark); }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(var(--glow), var(--accent)); 
+            border-radius: 10px; 
         }
 
-        /* Navbar Style */
-        .nav-container {
-            width: 80%;
-            margin: 20px auto;
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            text-align: center;
-            background: rgba(0,0,0,0.5);
+        /* --- 4. PRELOADER --- */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 10000; display: flex;
+            flex-direction: column; justify-content: center; align-items: center;
+        }
+        .scanline {
+            width: 200px; height: 2px; background: var(--glow);
+            box-shadow: 0 0 20px var(--glow); animation: scan 2s linear infinite;
+        }
+        @keyframes scan { 0% { transform: translateY(-50px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(50px); opacity: 0; } }
+
+        /* --- 5. NAVIGATION --- */
+        header {
+            position: fixed; top: 0; width: 100%; padding: 25px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border); z-index: 1000;
+        }
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .logo-text {
+            font-family: 'Orbitron'; font-size: 2.2rem; font-weight: 900;
+            letter-spacing: 5px; background: linear-gradient(90deg, #fff, var(--glow));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 2px;
-            transition: 0.3s;
+        .nav-menu { display: flex; gap: 30px; list-style: none; }
+        .nav-menu a {
+            text-decoration: none; color: #fff; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+            padding: 5px 10px;
+        }
+        .nav-menu a:hover { color: var(--glow); text-shadow: 0 0 10px var(--glow); }
+
+        .cart-trigger { position: relative; font-size: 1.5rem; color: var(--glow); }
+        #cart-count {
+            position: absolute; top: -10px; right: -15px; background: var(--accent);
+            color: white; font-size: 0.7rem; padding: 2px 7px; border-radius: 50%;
         }
 
-        .nav-links a.active, .nav-links a:hover {
-            color: var(--primary);
+        /* --- 6. HERO SECTION --- */
+        .hero {
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            background: radial-gradient(circle, rgba(112, 0, 255, 0.1) 0%, transparent 70%);
+        }
+        .hero h1 {
+            font-family: 'Orbitron'; font-size: clamp(3rem, 10vw, 7rem);
+            text-shadow: 0 0 50px rgba(0, 242, 255, 0.4); margin-bottom: 10px;
+        }
+        .hero-sub { color: var(--glow); font-size: 1.5rem; letter-spacing: 10px; margin-bottom: 40px; }
+
+        .btn-glitch {
+            padding: 15px 40px; font-family: 'Orbitron'; background: transparent;
+            border: 1px solid var(--glow); color: #fff; font-size: 1.1rem;
+            position: relative; transition: 0.3s; overflow: hidden;
+        }
+        .btn-glitch:hover { background: var(--glow); color: #000; box-shadow: 0 0 40px var(--glow); }
+
+        /* --- 7. MAIN STORE GRID --- */
+        .store-container {
+            max-width: 1500px; margin: 50px auto; padding: 0 5%;
+            display: grid; grid-template-columns: 320px 1fr; gap: 40px;
         }
 
-        /* Main Content Grid */
-        .wrapper {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 25px;
-            width: 80%;
-            margin: 0 auto 50px auto;
+        /* Sidebar Side */
+        .sidebar { position: sticky; top: 120px; height: fit-content; }
+        .widget {
+            background: var(--panel); border: 1px solid var(--border);
+            padding: 25px; margin-bottom: 30px; border-radius: 5px;
+        }
+        .widget-title { font-family: 'Orbitron'; font-size: 1rem; margin-bottom: 20px; color: var(--glow); }
+
+        /* Product Cards */
+        .products-wrapper {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;
+        }
+        .item-card {
+            background: var(--panel); border: 1px solid var(--border);
+            border-radius: 10px; overflow: hidden; transition: var(--transition);
+            position: relative;
+        }
+        .item-card:hover {
+            transform: translateY(-15px) scale(1.02); border-color: var(--glow);
+            box-shadow: 0 10px 40px rgba(0, 242, 255, 0.15);
+        }
+        .item-img {
+            height: 220px; background: #0a0a0a; display: flex;
+            justify-content: center; align-items: center; font-size: 4rem;
+            color: #222; transition: 0.5s;
+        }
+        .item-card:hover .item-img { color: var(--glow); background: #000; }
+        
+        .item-info { padding: 25px; }
+        .item-cat { color: var(--glow); font-size: 0.8rem; font-weight: 800; letter-spacing: 2px; }
+        .item-name { font-family: 'Orbitron'; font-size: 1.4rem; margin: 10px 0; }
+        .item-price { font-size: 2rem; font-weight: 900; margin-bottom: 20px; }
+        .item-price span { font-size: 1rem; color: #666; }
+
+        .add-btn {
+            width: 100%; padding: 12px; background: transparent;
+            border: 1px solid #333; color: #fff; font-weight: bold;
+            transition: 0.3s; cursor: pointer;
+        }
+        .add-btn:hover { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 20px var(--accent); }
+
+        /* --- 8. ADMIN PANEL (SECRET) --- */
+        #admin-auth {
+            position: fixed; bottom: 10px; right: 10px; width: 30px; height: 30px;
+            opacity: 0.2; cursor: pointer; z-index: 5000;
+        }
+        #admin-modal {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: #0a0a0a; border: 2px solid var(--glow); padding: 40px;
+            z-index: 10001; display: none; width: 400px;
         }
 
-        /* Sidebar - Top Supporter */
-        .sidebar-section {
-            background: var(--container-bg);
-            border: 1px solid var(--border-color);
-            padding: 0;
-            margin-bottom: 25px;
+        /* --- 9. FOOTER --- */
+        footer {
+            margin-top: 100px; padding: 80px 10%; border-top: 1px solid var(--border);
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;
+            background: #000;
+        }
+        .footer-logo { font-family: 'Orbitron'; font-size: 1.5rem; color: var(--glow); margin-bottom: 20px; }
+        .footer-socials i { font-size: 1.5rem; margin-right: 20px; cursor: pointer; transition: 0.3s; }
+        .footer-socials i:hover { color: var(--glow); }
+
+        /* --- 10. NOTIFICATIONS --- */
+        .toast {
+            position: fixed; bottom: 30px; right: 30px; background: var(--glow);
+            color: #000; padding: 15px 30px; font-weight: 900; border-radius: 5px;
+            transform: translateX(200%); transition: 0.5s; z-index: 9999;
         }
 
-        .side-header {
-            background: #151515;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 0.8rem;
-            border-bottom: 1px solid var(--border-color);
-            text-transform: uppercase;
-        }
-
-        .supporter-content {
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        .avatar {
-            width: 80px;
-            height: 80px;
-            background: #222;
-            border-radius: 50%;
-            margin: 0 auto 15px auto;
-            border: 2px solid var(--border-color);
-            background-image: url('https://cdn-icons-png.flaticon.com/512/149/149071.png');
-            background-size: cover;
-        }
-
-        /* Main Store Body */
-        .store-body {
-            background: var(--container-bg);
-            border: 1px solid var(--border-color);
-            padding: 40px;
-        }
-
-        .store-body h2 { margin-bottom: 20px; font-size: 1.4rem; }
-        .store-body p { color: #ccc; margin-bottom: 20px; }
-
-        /* Package List */
-        .package-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid var(--border-color);
-            padding: 25px;
-            margin-top: 20px;
-            transition: 0.3s;
-        }
-
-        .package-item:hover { border-color: #444; background: rgba(255,255,255,0.02); }
-
-        .package-info { display: flex; align-items: center; gap: 20px; }
-        .package-info i { font-size: 2.5rem; color: var(--primary); }
-
-        .price-tag { font-size: 1.5rem; font-weight: bold; margin-right: 20px; }
-
-        .buy-btn {
-            background: #005a84;
-            color: #fff;
-            border: 2px solid var(--primary);
-            padding: 10px 25px;
-            cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        .buy-btn:hover { background: var(--primary); }
-
-        /* Footer Payments */
-        .footer-payments {
-            text-align: right;
-            padding: 20px 10%;
-            border-top: 1px solid var(--border-color);
-            margin-top: 50px;
-        }
-
-        .footer-payments i { font-size: 2.5rem; margin-left: 15px; color: #fff; vertical-align: middle; }
-
-        /* Welcome Overlay */
-        #welcome-page {
-            position: fixed; top:0; left:0; width:100%; height:100%;
-            background: #000; z-index: 9999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-
-        .enter-shop-btn {
-            border: 1px solid #fff; background: transparent; color: #fff;
-            padding: 15px 40px; cursor: pointer; font-family: 'Orbitron';
-            letter-spacing: 5px; margin-top: 20px;
-        }
     </style>
 </head>
 <body>
 
-    <div id="welcome-page">
-        <h1 class="main-logo" style="font-size: 5rem;">CFX STORE</h1>
-        <button class="enter-shop-btn" onclick="startApp()">CLICK TO ENTER</button>
+    <canvas id="star-canvas"></canvas>
+
+    <div id="preloader">
+        <h1 style="font-family: 'Orbitron'; margin-bottom: 20px;">SYSTEM BOOTING</h1>
+        <div class="scanline"></div>
     </div>
 
-    <div id="app-content" style="display: none;">
-        
-        <div class="top-info">
-            <div class="info-box">
-                <i class="fas fa-user-circle"></i>
-                <div>
-                    PLAY.CFX-STORE.COM<br>
-                    <small>Click to Copy</small>
-                </div>
+    <header>
+        <div class="logo-container">
+            <i class="fas fa-atom fa-spin" style="color: var(--glow); font-size: 1.5rem;"></i>
+            <span class="logo-text">CFX STORE</span>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="#home">Terminal</a></li>
+            <li><a href="#store">Assets</a></li>
+            <li><a href="#" onclick="showAdmin()">Database</a></li>
+        </ul>
+        <div class="cart-trigger">
+            <i class="fas fa-shopping-bag"></i>
+            <span id="cart-count">0</span>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <h1 class="glitch">GENESIS STORE</h1>
+        <p class="hero-sub">VIRTUAL ASSET ACQUISITION</p>
+        <div style="display: flex; gap: 20px;">
+            <button class="btn-glitch" onclick="window.scrollTo(0, 900)">BROWSE STORE</button>
+            <button class="btn-glitch" style="border-color: var(--accent);">JOIN FACTION</button>
+        </div>
+    </section>
+
+    <div class="store-container" id="store">
+        <aside class="sidebar">
+            <div class="widget">
+                <div class="widget-title">SUPPORTER OF THE MONTH</div>
+                <center>
+                    <div style="width: 120px; height: 120px; border: 2px solid var(--glow); border-radius: 50%; padding: 5px; margin-bottom: 15px;">
+                        <img src="https://i.pravatar.cc/150?u=midouff" style="width:100%; height:100%; border-radius: 50%;">
+                    </div>
+                    <h3 style="font-family: 'Orbitron';">MIDOUFF030</h3>
+                    <p style="color: #666; font-size: 0.8rem; margin-top: 5px;">GENESIS MEMBER</p>
+                </center>
+            </div>
+
+            <div class="widget">
+                <div class="widget-title">NETWORK STATUS</div>
+                <p style="font-size: 0.9rem; margin-bottom: 10px;">
+                    <i class="fas fa-circle" style="color: #00ff00; font-size: 0.6rem;"></i> 
+                    RDP NODES: <b>ONLINE</b>
+                </p>
+                <p style="font-size: 0.9rem;">
+                    <i class="fas fa-circle" style="color: #00ff00; font-size: 0.6rem;"></i> 
+                    ASSET SERVER: <b>STABLE</b>
+                </p>
+            </div>
+        </aside>
+
+        <main>
+            <div style="margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end;">
+                <h2 style="font-family: 'Orbitron'; font-size: 2.5rem;">PRIMARY_DATA_STREAM</h2>
+                <span style="color: #444;">88% SYNCED</span>
             </div>
             
-            <div class="main-logo">CFX STORE</div>
-            
-            <div class="info-box">
-                <div style="text-align: right;">
-                    JOIN OUR DISCORD<br>
-                    <small>Click to Join</small>
+            <div class="products-wrapper" id="products-list">
                 </div>
+        </main>
+    </div>
+
+    <div id="admin-auth" onclick="showAdmin()"></div>
+    <div id="admin-modal">
+        <h2 style="font-family: 'Orbitron'; margin-bottom: 20px; color: var(--glow);">ROOT ACCESS</h2>
+        <input type="password" id="admin-pass" placeholder="Enter Password" style="width: 100%; padding: 10px; background: #000; border: 1px solid #333; color: white; margin-bottom: 20px;">
+        <button class="add-btn" onclick="verifyAdmin()">LOGIN</button>
+        <button class="add-btn" style="margin-top: 10px; border-color: red;" onclick="closeAdmin()">CLOSE</button>
+    </div>
+
+    <div id="toast" class="toast">ITEM ENCRYPTED & ADDED TO BASKET</div>
+
+    <footer>
+        <div>
+            <div class="footer-logo">CFX STORE</div>
+            <p style="color: #555; line-height: 1.8;">Leading the evolution of virtual assets. We provide high-performance RDP, optimized clothing, and exclusive GTA V models.</p>
+        </div>
+        <div>
+            <h4 style="font-family: 'Orbitron'; margin-bottom: 25px;">CONNECT</h4>
+            <div class="footer-socials">
                 <i class="fab fa-discord"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-youtube"></i>
+                <i class="fab fa-github"></i>
             </div>
         </div>
-
-        <div class="nav-container">
-            <nav class="nav-links">
-                <a href="#" class="active" onclick="showTab('home')">HOME</a>
-                <a href="#" onclick="showTab('unban')">UNBAN</a>
-                <a href="#" onclick="showTab('clothing')">CLOTHING</a>
-                <a href="#" onclick="showTab('cars')">CARS</a>
-                <a href="#" onclick="showTab('rdp')">RDP HOSTING</a>
-            </nav>
+        <div style="text-align: right;">
+            <h4 style="font-family: 'Orbitron'; margin-bottom: 25px;">SECURE GATEWAY</h4>
+            <i class="fab fa-cc-visa" style="font-size: 2.5rem; color: #333;"></i>
+            <i class="fab fa-cc-paypal" style="font-size: 2.5rem; color: #333; margin-left: 20px;"></i>
+            <p style="margin-top: 20px; color: #222;">© 2026 CFX-GENESIS.SYSTEMS</p>
         </div>
-
-        <div class="wrapper">
-            <aside>
-                <div class="sidebar-section">
-                    <div class="side-header">TOP SUPPORTER</div>
-                    <div class="supporter-content">
-                        <div class="avatar"></div>
-                        <p style="font-weight: bold;">midouff</p>
-                        <small style="color: #666;">Paid the most this week.</small>
-                    </div>
-                </div>
-
-                <div class="sidebar-section">
-                    <div class="side-header">FEATURED PACKAGE</div>
-                    <div style="padding: 20px; text-align: center;">
-                        <i class="fas fa-gem" style="font-size: 3rem; color: var(--primary); margin-bottom: 15px;"></i>
-                        <p>VIP ELITE</p>
-                        <button class="buy-btn" style="width: 100%; margin-top: 10px;">VIEW</button>
-                    </div>
-                </div>
-            </aside>
-
-            <main class="store-body" id="dynamic-content">
-                <h2>Welcome to CFX STORE</h2>
-                <p>We now offer <b>special services and privileges</b> to enhance your gaming experience on our server. Through this page, you can purchase exclusive features that help you enjoy the game to its fullest.</p>
-                
-                <h3 style="border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 30px;">Currently Available Products</h3>
-                <ul style="margin: 20px; color: #ccc;">
-                    <li><b>Unban</b> - Purchase this option to have your in-game bans removed.</li>
-                    <li><b>VIP</b> - Become a VIP member and enjoy exclusive benefits.</li>
-                    <li><b>Clothing & Peds</b> - Exclusive high-quality models.</li>
-                </ul>
-                <p style="font-size: 0.9rem; margin-top: 30px;">All payments are securely processed through our trusted partners.</p>
-            </main>
-        </div>
-
-        <div class="footer-payments">
-            <span style="color: #444; float: left; margin-top: 15px;">© 2026 CFX STORE. All Rights Reserved.</span>
-            <i class="fab fa-cc-apple-pay"></i>
-            <i class="fab fa-google-pay"></i>
-            <i class="fab fa-cc-mastercard"></i>
-            <i class="fab fa-cc-visa"></i>
-        </div>
-    </div>
+    </footer>
 
     <script>
-        // LOGIC START
-        function startApp() {
-            document.getElementById('welcome-page').style.display = 'none';
-            document.getElementById('app-content').style.display = 'block';
+        /* --- JS MASTER LOGIC --- */
+
+        // 1. STAR BACKGROUND ENGINE
+        const canvas = document.getElementById('star-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function initStars() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = [];
+            for(let i=0; i<200; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2,
+                    speed: Math.random() * 0.5
+                });
+            }
         }
 
-        const products = {
-            unban: [
-                { title: "Unban (Read Description)", price: "49.99", icon: "fa-ban" }
-            ],
-            clothing: [
-                { title: "EUP Police Pack v2", price: "25.00", icon: "fa-shield-alt" },
-                { title: "Gang Clothing Bundle", price: "15.00", icon: "fa-tshirt" }
-            ],
-            cars: [
-                { title: "Import Supercar Pack", price: "60.00", icon: "fa-car" },
-                { title: "Offroad 4x4 Pack", price: "35.00", icon: "fa-truck-monster" }
-            ],
-            rdp: [
-                { title: "Gaming RDP 16GB RAM", price: "45.00", icon: "fa-server" }
-            ]
-        };
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffffff';
+            stars.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI*2);
+                ctx.fill();
+                s.y += s.speed;
+                if(s.y > canvas.height) s.y = 0;
+            });
+            requestAnimationFrame(drawStars);
+        }
 
-        function showTab(category) {
-            const content = document.getElementById('dynamic-content');
-            if(category === 'home') {
-                location.reload(); // Simple reload for home
-                return;
-            }
+        // 2. PRODUCT DATABASE
+        const database = [
+            { name: "S.A.F.E UNBAN v2", price: "49.99", cat: "PROTOCOL", icon: "fa-key" },
+            { name: "ELITE CLOTHING PACK", price: "29.50", cat: "ASSET", icon: "fa-tshirt" },
+            { name: "CORE RDP 16GB", price: "39.99", cat: "HOSTING", icon: "fa-microchip" },
+            { name: "GANG BUNDLE V4", price: "19.99", cat: "ASSET", icon: "fa-mask" },
+            { name: "CUSTOM PED MODEL", price: "55.00", cat: "MODEL", icon: "fa-user-ninja" },
+            { name: "IMPORT CAR PACK", price: "79.99", cat: "VEHICLE", icon: "fa-car-side" },
+            { name: "GRAPHICS REDUX", price: "12.00", cat: "MOD", icon: "fa-eye" },
+            { name: "OPTIMIZED SCRIPTS", price: "85.00", cat: "CODE", icon: "fa-terminal" }
+        ];
 
-            let html = `<h2>Category: ${category.toUpperCase()}</h2>`;
-            products[category].forEach(item => {
-                html += `
-                    <div class="package-item">
-                        <div class="package-info">
-                            <i class="fas ${item.icon}"></i>
-                            <div>
-                                <h3 style="font-family: 'Poppins';">${item.title}</h3>
-                                <small style="color:#666;">Instant Delivery after payment</small>
-                            </div>
+        function loadStore() {
+            const container = document.getElementById('products-list');
+            container.innerHTML = '';
+            database.forEach((p, index) => {
+                container.innerHTML += `
+                    <div class="item-card" style="animation: fadeInUp ${0.3 + (index*0.1)}s ease forwards;">
+                        <div class="item-img">
+                            <i class="fas ${p.icon}"></i>
                         </div>
-                        <div style="display: flex; align-items: center;">
-                            <span class="price-tag">€${item.price}</span>
-                            <button class="buy-btn">ADD TO BASKET</button>
+                        <div class="item-info">
+                            <span class="item-cat">${p.cat}</span>
+                            <h3 class="item-name">${p.name}</h3>
+                            <div class="item-price">€${p.price} <span>/ EUR</span></div>
+                            <button class="add-btn" onclick="addToCart('${p.name}')">ACQUIRE ASSET</button>
                         </div>
                     </div>
                 `;
             });
-            content.innerHTML = html;
         }
+
+        // 3. CART SYSTEM
+        let cartItems = 0;
+        function addToCart(name) {
+            cartItems++;
+            document.getElementById('cart-count').innerText = cartItems;
+            
+            const toast = document.getElementById('toast');
+            toast.style.transform = "translateX(0)";
+            setTimeout(() => {
+                toast.style.transform = "translateX(200%)";
+            }, 3000);
+
+            Swal.fire({
+                title: 'ASSET SECURED',
+                text: `${name} has been added to your encrypted basket.`,
+                icon: 'success',
+                background: '#0a0a0a',
+                color: '#fff',
+                confirmButtonColor: '#00f2ff'
+            });
+        }
+
+        // 4. ADMIN & MODALS
+        function showAdmin() {
+            document.getElementById('admin-modal').style.display = 'block';
+        }
+        function closeAdmin() {
+            document.getElementById('admin-modal').style.display = 'none';
+        }
+        function verifyAdmin() {
+            const pass = document.getElementById('admin-pass').value;
+            if(pass === 'root123') {
+                Swal.fire('ACCESS GRANTED', 'Welcome back, Admin.', 'success');
+                closeAdmin();
+            } else {
+                Swal.fire('ACCESS DENIED', 'Invalid decryption key.', 'error');
+            }
+        }
+
+        // 5. INITIALIZATION
+        window.addEventListener('load', () => {
+            initStars();
+            drawStars();
+            loadStore();
+            setTimeout(() => {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('preloader').style.display = 'none';
+                }, 500);
+            }, 2000);
+        });
+
+        window.addEventListener('resize', initStars);
+
     </script>
 </body>
 </html>
