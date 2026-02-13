@@ -3,68 +3,345 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX STORE | The Ultimate FiveM Marketplace</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <title>CFX STORE | THE ULTIMATE MARKETPLACE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@200;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* CSS START - TOTAL DESIGN CONTROL */
+        :root {
+            --primary: #ff0000;
+            --primary-dim: #8b0000;
+            --bg-dark: #050505;
+            --card-bg: #111111;
+            --glass: rgba(255, 255, 255, 0.03);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 1. WELCOME SCREEN */
+        #welcome-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #1a0000 0%, #000 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, visibility 1s;
+        }
+
+        .welcome-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 30px var(--primary);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .enter-btn {
+            padding: 15px 50px;
+            font-family: 'Orbitron';
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            letter-spacing: 5px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .enter-btn:hover {
+            background: var(--primary);
+            box-shadow: 0 0 50px var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* 2. HEADER & NAVIGATION */
+        .main-header {
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.9);
+            border-bottom: 1px solid #222;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-small {
+            font-family: 'Orbitron';
+            font-weight: 900;
+            font-size: 1.8rem;
+        }
+        .logo-small span { color: var(--primary); }
+
+        .nav-links { display: flex; gap: 25px; list-style: none; }
+        .nav-links a {
+            text-decoration: none;
+            color: #aaa;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .nav-links a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+
+        /* 3. HERO SECTION */
+        .hero {
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://r4.wallpaperflare.com/wallpaper/550/474/824/gta-v-gta-5-video-games-rockstar-games-wallpaper-7900b86d616a9d7b4617584f30c17637.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero h2 { font-family: 'Orbitron'; font-size: 3rem; margin-bottom: 10px; }
+        .hero p { color: #ccc; max-width: 600px; margin-bottom: 30px; }
+
+        /* 4. STORE GRID & CATEGORIES */
+        .container { padding: 60px 8%; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .section-header h2 { font-family: 'Orbitron'; font-size: 2rem; }
+        .line { flex: 1; height: 2px; background: var(--primary); box-shadow: 0 0 10px var(--primary); }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #222;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255, 0, 0, 0.2);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 220px;
+            background-color: #222;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-body { padding: 25px; }
+        .category-tag {
+            color: var(--primary);
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .item-title { font-size: 1.3rem; margin: 10px 0; font-family: 'Orbitron'; }
+        .price { font-size: 1.6rem; color: #fff; font-weight: 700; margin-bottom: 20px; }
+        .price span { color: var(--primary); font-size: 0.9rem; margin-left: 5px; }
+
+        .buy-button {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid #444;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 5px;
+            text-transform: uppercase;
+        }
+
+        .buy-button:hover { background: var(--primary); border-color: var(--primary); }
+
+        /* 5. FOOTER */
+        footer {
+            background: #000;
+            padding: 80px 8% 40px;
+            border-top: 1px solid #222;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-box h3 { font-family: 'Orbitron'; margin-bottom: 20px; color: var(--primary); }
+        .footer-box p { color: #888; line-height: 1.6; }
+
+        .payment-methods { display: flex; gap: 20px; font-size: 2rem; color: #444; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+    </style>
 </head>
 <body>
 
-    <header class="main-header">
-        <div class="top-announcement">🚀 FAST DELIVERY • 24/7 SUPPORT • PREMIUM QUALITY</div>
-        <div class="header-content">
-            <div class="server-ip">
-                <span>SERVER STATUS: <b style="color: #00ff00;">ONLINE</b></span><br>
-                <small>PLAY.CFX-STORE.COM</small>
-            </div>
-            
-            <div class="logo">CFX<span>STORE</span></div>
-            
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-discord"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-    </header>
-
-    <nav class="mega-nav">
-        <ul>
-            <li><a href="#" class="active"><i class="fas fa-home"></i> HOME</a></li>
-            <li><a href="#"><i class="fas fa-tshirt"></i> CLOTHING & PEDS</a></li>
-            <li><a href="#"><i class="fas fa-car"></i> CUSTOM CARS</a></li>
-            <li><a href="#"><i class="fas fa-server"></i> RDP HOSTING</a></li>
-            <li><a href="#"><i class="fas fa-code"></i> SCRIPTS</a></li>
-        </ul>
-    </nav>
-
-    <section class="hero-banner">
-        <div class="hero-overlay">
-            <h1>DOMINATE THE CITY</h1>
-            <p>High-End Peds, Clothing, and Performance RDP Servers for Professional Communities.</p>
-            <button class="cta-btn">EXPLORE SHOP</button>
-        </div>
-    </section>
-
-    <div class="container">
-        <h2 class="category-title"><span>BEST SELLERS</span></h2>
-        <div class="store-grid" id="storeGrid">
-            </div>
+    <div id="welcome-overlay">
+        <div class="welcome-logo">CFX STORE</div>
+        <p style="margin-bottom: 30px; letter-spacing: 3px; color: #888;">PREMIUM FIVE-M SERVICES</p>
+        <button class="enter-btn" onclick="initStore()">ENTER SITE</button>
     </div>
 
-    <footer class="main-footer">
-        <div class="footer-grid">
-            <div class="footer-about">
-                <h3>CFX STORE</h3>
-                <p>The #1 Source for GTA V & FiveM assets. Professional grade clothing, cars and RDP hosting.</p>
+    <div id="main-content" style="opacity: 0;">
+        
+        <header class="main-header">
+            <div class="logo-small">CFX<span>STORE</span></div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#clothing">Clothing</a></li>
+                <li><a href="#cars">Cars</a></li>
+                <li><a href="#hosting">Hosting</a></li>
+                <li><a href="#peds">Peds</a></li>
+            </ul>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-bag" style="font-size: 1.5rem; cursor:pointer;"></i>
             </div>
-            <div class="payment-badges">
-                <i class="fab fa-cc-visa"></i>
-                <i class="fab fa-cc-mastercard"></i>
-                <i class="fab fa-cc-paypal"></i>
-                <i class="fab fa-apple-pay"></i>
-            </div>
-        </div>
-        <div class="copyright">© 2026 CFX STORE. All rights reserved. Developed with ❤️</div>
-    </footer>
+        </header>
 
+        <section class="hero" id="home">
+            <h2>QUALITY OVER QUANTITY</h2>
+            <p>We provide the most optimized assets for your GTA V Server. From custom 3D models to high-speed RDP solutions.</p>
+            <a href="#store" class="enter-btn" style="text-decoration: none; font-size: 0.9rem;">VIEW CATALOG</a>
+        </section>
+
+        <section class="container" id="store">
+            <div class="section-header">
+                <h2>LATEST RELEASES</h2>
+                <div class="line"></div>
+            </div>
+
+            <div class="grid" id="product-grid">
+                </div>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-box">
+                    <h3>CFX STORE</h3>
+                    <p>Dedicated to providing high-quality assets for the FiveM community since 2024. Your satisfaction is our priority.</p>
+                </div>
+                <div class="footer-box">
+                    <h3>QUICK LINKS</h3>
+                    <p>Terms of Service</p>
+                    <p>Privacy Policy</p>
+                    <p>Refund Policy</p>
+                </div>
+                <div class="footer-box">
+                    <h3>PAYMENTS</h3>
+                    <div class="payment-methods">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-paypal"></i>
+                    </div>
+                </div>
+            </div>
+            <center style="color: #333; font-size: 0.8rem; border-top: 1px solid #111; padding-top: 20px;">
+                © 2026 CFX STORE WEB. NOT AFFILIATED WITH ROCKSTAR GAMES.
+            </center>
+        </footer>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // JS START - LOGIC & DYNAMIC CONTENT
+        
+        function initStore() {
+            const overlay = document.getElementById('welcome-overlay');
+            const content = document.getElementById('main-content');
+            const music = document.getElementById('bg-music');
+
+            // Play music (ensure music.mp3 exists)
+            music.play().catch(e => console.log("Music blocked by browser"));
+
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                content.style.opacity = '1';
+                content.style.transition = 'opacity 1.5s ease';
+            }, 1000);
+        }
+
+        // DATABASE - PRODUCTS
+        const products = [
+            { name: "S.A.P.D EUP Pack", price: "25.00", cat: "Clothing", img: "https://via.placeholder.com/400x250/111/ff0000?text=CLOTHING" },
+            { name: "Unlimited RDP V1", price: "45.00", cat: "Hosting", img: "https://via.placeholder.com/400x250/111/ff0000?text=RDP+HOSTING" },
+            { name: "Supercar Import Pack", price: "60.00", cat: "Cars", img: "https://via.placeholder.com/400x250/111/ff0000?text=CUSTOM+CARS" },
+            { name: "Female Ped Models", price: "15.00", cat: "Peds", img: "https://via.placeholder.com/400x250/111/ff0000?text=PEDS" },
+            { name: "Optimized MLO Pack", price: "35.00", cat: "Maps", img: "https://via.placeholder.com/400x250/111/ff0000?text=MLO+MAPS" },
+            { name: "Custom Rim Pack", price: "10.00", cat: "Cars", img: "https://via.placeholder.com/400x250/111/ff0000?text=WHEELS" },
+            { name: "Business Suits v2", price: "12.00", cat: "Clothing", img: "https://via.placeholder.com/400x250/111/ff0000?text=SUITS" },
+            { name: "Core Server Scripts", price: "90.00", cat: "Scripts", img: "https://via.placeholder.com/400x250/111/ff0000?text=SCRIPTS" }
+        ];
+
+        const grid = document.getElementById('product-grid');
+
+        function loadProducts() {
+            products.forEach(p => {
+                const card = `
+                    <div class="card">
+                        <div class="card-img" style="background-image: url('${p.img}')"></div>
+                        <div class="card-body">
+                            <span class="category-tag">${p.cat}</span>
+                            <h3 class="item-title">${p.name}</h3>
+                            <div class="price">${p.price} <span>DT</span></div>
+                            <button class="buy-button" onclick="alert('Adding ${p.name} to cart...')">Add to Basket</button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        window.onload = loadProducts;
+
+    </script>
 </body>
 </html>
