@@ -3,168 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX STORE | EL RO3OB OFFICIAL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+    <title>CFX STORE | EL RO3OB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --red: #ff0000;
-            --black: #000000;
-            --card-bg: rgba(5, 5, 5, 0.95);
-            --neon: 0 0 20px rgba(255, 0, 0, 0.8);
-        }
-
+        :root { --red: #ff0000; --black: #000000; --card-bg: rgba(10, 10, 10, 0.95); }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--black); color: white; font-family: 'Rajdhani', sans-serif; overflow-x: hidden; }
 
-        /* --- MOVING RED BACKGROUND --- */
-        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; }
+        /* Background Moving Red Dots */
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
 
         header {
-            background: rgba(0, 0, 0, 0.95); padding: 15px 8%;
+            background: rgba(0,0,0,0.9); padding: 15px 5%;
             display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 2px solid var(--red); position: sticky; top: 0; z-index: 1000;
+            border-bottom: 2px solid var(--red); sticky; top: 0; z-index: 1000;
         }
 
-        /* --- VOLUME CONTROL STYLE --- */
-        .audio-control { display: flex; align-items: center; gap: 10px; background: rgba(255,0,0,0.1); padding: 5px 15px; border-radius: 20px; border: 1px solid var(--red); }
-        .audio-control span { font-family: 'Orbitron'; font-size: 0.7rem; color: var(--red); }
-        input[type=range] { cursor: pointer; accent-color: var(--red); width: 80px; }
+        /* --- VOLUME CONTROL --- */
+        .audio-box { display: flex; align-items: center; gap: 10px; background: #111; padding: 5px 15px; border: 1px solid var(--red); border-radius: 5px; }
+        .audio-box label { font-family: 'Orbitron'; font-size: 10px; color: var(--red); }
+        input[type=range] { accent-color: var(--red); cursor: pointer; width: 80px; }
 
-        .logo { font-family: 'Orbitron'; font-size: 1.8rem; color: var(--red); font-weight: 900; text-shadow: var(--neon); cursor: pointer; }
+        .logo { font-family: 'Orbitron'; color: var(--red); font-size: 1.5rem; text-shadow: 0 0 10px var(--red); }
 
-        /* --- CARDS DESIGN (KIMA TSOUER) --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; padding: 50px 8%; }
+        /* --- CARDS (FIXED) --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 40px 5%; }
         .card { 
-            background: var(--card-bg); border-left: 5px solid var(--red); 
-            transition: 0.3s; position: relative; overflow: hidden;
+            background: var(--card-bg); border-left: 4px solid var(--red); 
+            transition: 0.3s; overflow: hidden; position: relative;
         }
-        .card:hover { box-shadow: var(--neon); transform: translateY(-5px); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(255,0,0,0.4); }
+
+        /* IMAGE CONTAINER */
+        .card-img-box { width: 100%; height: 200px; background: #050505; position: relative; }
+        .card-img-box img { width: 100%; height: 100%; object-fit: cover; }
         
-        .card-img { width: 100%; height: 180px; background: #0a0a0a; border-bottom: 1px solid #222; overflow: hidden; }
-        .card-img img { width: 100%; height: 100%; object-fit: cover; }
+        /* Placeholder styling if image is missing */
+        .img-error { position: absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#000; color:var(--red); font-family:'Orbitron'; font-size:12px; border: 1px solid #222; }
 
-        .card-content { padding: 25px; text-align: center; }
-        .card h3 { font-family: 'Orbitron'; color: white; margin-bottom: 10px; }
-        .card .price { font-size: 3rem; font-weight: 900; color: var(--red); font-family: 'Orbitron'; margin: 15px 0; }
+        .card-body { padding: 20px; text-align: center; }
+        .card h3 { font-family: 'Orbitron'; margin-bottom: 10px; font-size: 1.2rem; }
+        .price { color: var(--red); font-family: 'Orbitron'; font-size: 2.2rem; margin: 15px 0; font-weight: 900; }
+        
+        .btn-buy { width: 100%; background: var(--red); color: black; border: none; padding: 12px; font-family: 'Orbitron'; font-weight: 900; cursor: pointer; }
+        .btn-buy:hover { background: white; }
 
-        .btn-red { 
-            width: 100%; background: var(--red); color: black; border: none; 
-            padding: 15px; font-family: 'Orbitron'; font-weight: 900; cursor: pointer; 
-        }
-
-        #music-trigger {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: var(--red); color: black; padding: 10px 30px; 
-            font-family: 'Orbitron'; font-weight: 900; cursor: pointer; z-index: 2000;
-        }
+        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
     </style>
 </head>
-<body onclick="initAudio()">
+<body>
+
+<div id="overlay">
+    <h1 style="font-family:'Orbitron'; color:var(--red); margin-bottom:20px;">CFX STORE EL RO3OB</h1>
+    <button onclick="startSite()" class="btn-buy" style="width:200px;">ENTER SYSTEM</button>
+</div>
 
 <canvas id="bg-canvas"></canvas>
 
-<audio id="myAudio" loop>
+<audio id="bgMusic" loop>
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<div id="music-trigger">CLICK TO ENTER THE RO3OB</div>
-
 <header>
     <div class="logo">CFX STORE</div>
-    <div class="audio-control">
-        <span>VOL</span>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5">
+    <div class="audio-box">
+        <label>VOLUME</label>
+        <input type="range" id="volRange" min="0" max="1" step="0.1" value="0.5">
     </div>
 </header>
 
-<div id="home" style="padding-top: 50px; text-align: center;">
-    <h1 style="font-family: 'Orbitron'; font-size: 3.5rem;">WELCOME TO <span style="color:var(--red)">RO3OB</span></h1>
-    <div class="grid" id="main-grid"></div>
+<div id="home-content">
+    <h2 style="text-align:center; font-family:'Orbitron'; margin-top:50px; font-size:3rem;">EL <span style="color:var(--red)">RO3OB</span> STORE</h2>
+    
+    <div class="grid">
+        <div class="card">
+            <div class="card-img-box">
+                <img src="car1.jpg" alt="Car" onerror="this.parentElement.innerHTML='<div class=\'img-error\'>IMAGE NOT FOUND</div>'">
+            </div>
+            <div class="card-body">
+                <h3>GARAGE PRO #1</h3>
+                <div class="price">$30.00</div>
+                <button class="btn-buy">BUY NOW</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-img-box">
+                <img src="ped1.jpg" alt="Ped" onerror="this.parentElement.innerHTML='<div class=\'img-error\'>IMAGE NOT FOUND</div>'">
+            </div>
+            <div class="card-body">
+                <h3>ELITE PED #1</h3>
+                <div class="price">$10.00</div>
+                <button class="btn-buy">BUY NOW</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-    // 1. AUDIO & VOLUME CONTROL
-    const audio = document.getElementById('myAudio');
-    const slider = document.getElementById('volumeSlider');
-    const trigger = document.getElementById('music-trigger');
+    const music = document.getElementById('bgMusic');
+    const vol = document.getElementById('volRange');
 
-    function initAudio() {
-        audio.play().catch(() => {});
-        trigger.style.display = 'none';
+    function startSite() {
+        document.getElementById('overlay').style.display = 'none';
+        music.play();
     }
 
-    slider.addEventListener('input', (e) => {
-        audio.volume = e.target.value;
+    vol.addEventListener('input', () => {
+        music.volume = vol.value;
     });
 
-    // 2. GENERATE CARDS (Stock)
-    const grid = document.getElementById('main-grid');
-    const items = [
-        {title: "GARAGE PRO #1", price: "30.00", img: "car1.jpg"},
-        {title: "ELITE PED #1", price: "10.00", img: "ped1.jpg"},
-        {title: "GANG PACK V1", price: "29.99", img: "gang1.jpg"}
-    ];
-
-    items.forEach(item => {
-        grid.innerHTML += `
-            <div class="card">
-                <div class="card-img"><img src="${item.img}" onerror="this.src='https://via.placeholder.com/400x200/000/ff0000?text=ASSET+IMAGE'"></div>
-                <div class="card-content">
-                    <h3>${item.title}</h3>
-                    <div class="price">$${item.price}</div>
-                    <button class="btn-red">BUY NOW</button>
-                </div>
-            </div>`;
-    });
-
-    // 3. MOVING RED BACKGROUND (Particles Effect)
+    // Background Particles
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
-    let particles = [];
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2 + 1;
-            this.speedX = Math.random() * 1 - 0.5;
-            this.speedY = Math.random() * 1 - 0.5;
-        }
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            if (this.x > canvas.width) this.x = 0;
-            if (this.x < 0) this.x = canvas.width;
-            if (this.y > canvas.height) this.y = 0;
-            if (this.y < 0) this.y = canvas.height;
-        }
-        draw() {
-            ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
+    let dots = [];
+    for(let i=0; i<80; i++) dots.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*2});
+    function draw() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = "rgba(255,0,0,0.5)";
+        dots.forEach(d => {
+            ctx.beginPath(); ctx.arc(d.x, d.y, d.s, 0, Math.PI*2); ctx.fill();
+            d.y += 0.5; if(d.y > canvas.height) d.y = 0;
+        });
+        requestAnimationFrame(draw);
     }
-
-    function init() {
-        for (let i = 0; i < 100; i++) particles.push(new Particle());
-    }
-
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => { p.update(); p.draw(); });
-        requestAnimationFrame(animate);
-    }
-
-    init();
-    animate();
-
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
+    draw();
 </script>
 </body>
 </html>
