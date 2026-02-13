@@ -3,207 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX STORE | Advanced Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>CFX STORE | THE BEAST</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&family=Poppins:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rajdhani:wght@500;700&display=swap');
 
         :root {
-            --red-main: #ff4b2b;
-            --red-dark: #ff416c;
-            --black-bg: #0b0b0b;
+            --blood-red: #8b0000;
+            --neon-red: #ff0000;
+            --dark-black: #050505;
+            --glitch-speed: 0.3s;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; cursor: crosshair; }
 
         body {
-            background-color: var(--black-bg);
+            background-color: var(--dark-black);
             color: white;
             overflow-x: hidden;
-            height: 100vh;
         }
 
-        /* Moving Red & Black Background */
-        .bg-animate {
+        /* Background Ro3b Effect */
+        .smoke-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #1a0000, #000);
-            z-index: -2;
+            background: radial-gradient(circle at center, rgba(139, 0, 0, 0.1) 0%, transparent 70%);
+            z-index: -1;
+            filter: contrast(150%);
         }
 
-        .blob {
-            position: absolute;
-            width: 500px; height: 500px;
-            background: var(--red-main);
-            filter: blur(150px);
-            border-radius: 50%;
-            opacity: 0.2;
-            animation: move 15s infinite alternate;
+        /* Glitch Animation for Title */
+        .glitch-text {
+            font-family: 'Permanent Marker', cursive;
+            font-size: clamp(4rem, 15vw, 10rem);
+            color: white;
+            position: relative;
+            text-shadow: 2px 2px var(--neon-red);
+            animation: glitch 2s infinite;
         }
 
-        @keyframes move {
-            from { transform: translate(-10%, -10%); }
-            to { transform: translate(110%, 110%); }
+        @keyframes glitch {
+            0% { transform: skew(0deg); }
+            20% { transform: skew(3deg); text-shadow: -2px -2px #00ffff; }
+            40% { transform: skew(-3deg); text-shadow: 2px 2px var(--neon-red); }
+            100% { transform: skew(0deg); }
         }
 
-        /* Login System */
-        #auth-page {
-            height: 100vh;
-            display: flex; justify-content: center; align-items: center;
-            background: rgba(0,0,0,0.8);
-            z-index: 100; position: relative;
-        }
-
-        .auth-card {
-            background: rgba(20, 20, 20, 0.9);
-            padding: 40px; border-radius: 20px;
-            border: 1px solid rgba(255, 75, 43, 0.3);
-            text-align: center; width: 400px;
-            backdrop-filter: blur(10px);
-        }
-
-        .google-btn {
-            background: white; color: #444; width: 100%;
-            padding: 12px; border-radius: 8px; border: none;
-            font-weight: bold; cursor: pointer; display: flex;
-            align-items: center; justify-content: center; gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        /* Main Site Content */
-        #main-site { display: none; }
-
+        /* Navbar */
         nav {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%; background: rgba(0,0,0,0.8);
-            border-bottom: 1px solid rgba(255, 75, 43, 0.2);
-            position: sticky; top: 0; z-index: 10;
+            padding: 30px 5%;
+            border-bottom: 2px solid var(--blood-red);
+            background: rgba(0,0,0,0.9);
+            box-shadow: 0 0 20px var(--blood-red);
         }
 
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 0.9rem; letter-spacing: 1px; transition: 0.3s; }
-        .nav-links a:hover { color: var(--red-main); }
-
-        .hero-section {
-            padding: 100px 5%; text-align: center;
-        }
-
-        .hero-section h1 {
-            font-family: 'Orbitron'; font-size: 5rem;
-            background: linear-gradient(to bottom, #fff, var(--red-main));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-
-        .admin-panel {
-            margin: 50px 5%; background: rgba(255,255,255,0.02);
-            border-radius: 15px; padding: 30px;
-        }
-
-        .order-card {
-            background: #151515; border: 1px solid #333;
-            padding: 20px; border-radius: 10px; margin-bottom: 15px;
-            display: flex; justify-content: space-between; align-items: center;
+        .nav-links a {
+            color: white; text-decoration: none; margin-left: 30px;
+            font-weight: bold; text-transform: uppercase; letter-spacing: 2px;
             transition: 0.3s;
         }
 
-        .order-card:hover { border-color: var(--red-main); transform: scale(1.01); }
+        .nav-links a:hover { color: var(--neon-red); text-shadow: 0 0 10px var(--neon-red); }
 
-        .btn-accept {
-            background: var(--red-main); color: white; border: none;
-            padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold;
+        /* Product Sections */
+        .section-title {
+            text-align: center; margin: 80px 0 40px;
+            font-size: 3rem; text-transform: uppercase;
+            border-bottom: 5px solid var(--neon-red); display: inline-block;
+            margin-left: 50%; transform: translateX(-50%);
         }
 
-        .hidden { display: none; }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px; padding: 20px 5%;
+        }
+
+        .card {
+            background: #111; border: 1px solid #222;
+            padding: 20px; transition: 0.5s;
+            position: relative; overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--neon-red);
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+        }
+
+        .card img {
+            width: 100%; height: 200px; object-fit: cover;
+            filter: grayscale(80%) sepia(20%) hue-rotate(-50deg);
+        }
+
+        .price { color: var(--neon-red); font-size: 1.5rem; font-weight: bold; }
+
+        .btn-buy {
+            width: 100%; padding: 10px; background: var(--blood-red);
+            color: white; border: none; margin-top: 15px;
+            font-weight: bold; transition: 0.3s;
+        }
+
+        .btn-buy:hover { background: var(--neon-red); letter-spacing: 5px; }
+
+        /* Footer Ro3b */
+        footer {
+            background: #000; padding: 50px; text-align: center;
+            border-top: 1px solid #333; margin-top: 100px;
+        }
     </style>
 </head>
 <body>
 
-    <div class="bg-animate">
-        <div class="blob"></div>
-    </div>
+    <div class="smoke-bg"></div>
 
-    <div id="auth-page">
-        <div class="auth-card">
-            <h1 style="font-family: 'Orbitron'; color: var(--red-main); margin-bottom: 10px;">CFX LOGIN</h1>
-            <p style="font-size: 0.8rem; opacity: 0.6; margin-bottom: 30px;">Access your premium assets dashboard</p>
-            
-            <button class="google-btn" onclick="login()">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="20">
-                Sign in with Google
-            </button>
+    <nav>
+        <div style="font-size: 2rem; font-family: 'Permanent Marker';">CFX <span style="color: var(--neon-red);">STORE</span></div>
+        <div class="nav-links">
+            <a href="#rdp">RDP Servers</a>
+            <a href="#peds">Peds</a>
+            <a href="#clothing">Clothing</a>
+            <a href="#cars">Cars</a>
+            <a href="#" style="border: 1px solid var(--neon-red); padding: 5px 15px;">Admin</a>
+        </div>
+    </nav>
 
-            <div style="margin: 20px 0; opacity: 0.3;">OR</div>
+    <header style="height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <h1 class="glitch-text">CFX STORE</h1>
+        <p style="letter-spacing: 10px; opacity: 0.7;">NO MERCY • HIGH PERFORMANCE • ELITE ASSETS</p>
+        <div style="margin-top: 50px; font-size: 1.2rem; color: #ffcc00;">
+            <i class="fas fa-star"></i> 500+ Verified Sales
+        </div>
+    </header>
 
-            <input type="text" placeholder="Username" style="width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: white; border-radius: 8px; margin-bottom: 10px;">
-            <input type="password" placeholder="Password" style="width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: white; border-radius: 8px; margin-bottom: 20px;">
-            
-            <button class="btn-accept" style="width: 100%;" onclick="login()">Enter Store</button>
+    <h2 id="rdp" class="section-title">RDP MACHINES</h2>
+    <div class="grid-container">
+        <div class="card">
+            <h3>RYZEN 9 - MONSTER</h3>
+            <p>64GB RAM | 1TB NVMe | DDOS Protect</p>
+            <div class="price">450.00 DT / mo</div>
+            <button class="btn-buy">PURCHASE MACHINE</button>
+        </div>
+        <div class="card">
+            <h3>INTEL I9 - BEAST</h3>
+            <div class="price">320.00 DT / mo</div>
+            <button class="btn-buy">PURCHASE MACHINE</button>
         </div>
     </div>
 
-    <div id="main-site">
-        <nav>
-            <div class="logo" style="font-family: 'Orbitron'; font-weight: 900; color: var(--red-main);">CFX STORE</div>
-            <div class="nav-links">
-                <a href="#"><i class="fas fa-shopping-cart"></i> STORE</a>
-                <a href="#"><i class="fas fa-box-open"></i> INVENTORY</a>
-                <a href="#"><i class="fas fa-headset"></i> SUPPORT</a>
-                <a href="#" style="color: var(--red-main);"><i class="fas fa-user-shield"></i> ADMIN PANEL</a>
-            </div>
-            <button onclick="location.reload()" style="background: none; border: 1px solid #444; color: white; padding: 5px 15px; border-radius: 5px; cursor: pointer;">Logout</button>
-        </nav>
-
-        <section class="hero-section">
-            <p style="letter-spacing: 5px; color: var(--red-main);">AUTHENTICATED ACCESS</p>
-            <h1>DASHBOARD</h1>
-            <div id="stars" style="color: #ffcc00; margin-top: 10px; font-size: 0.8rem;"></div>
-        </section>
-
-        <section class="admin-panel">
-            <h2 style="margin-bottom: 25px;"><i class="fas fa-stream"></i> Pending Commands</h2>
-            
-            <div class="order-card">
-                <div>
-                    <h3 style="color: var(--red-main);">Order #5501</h3>
-                    <p>Product: Premium RedM Script Pack</p>
-                    <small>User: Skander_2026 | Price: 45.00 DT</small>
-                </div>
-                <button class="btn-accept" onclick="accept(this)">ACCEPT COMMAND</button>
-            </div>
-
-            <div class="order-card">
-                <div>
-                    <h3 style="color: var(--red-main);">Order #5502</h3>
-                    <p>Product: Custom FiveM Map (Los Santos)</p>
-                    <small>User: Gaming_Pro | Price: 120.00 DT</small>
-                </div>
-                <button class="btn-accept" onclick="accept(this)">ACCEPT COMMAND</button>
-            </div>
-        </section>
+    <h2 id="peds" class="section-title">FIVE-M ASSETS</h2>
+    <div class="grid-container">
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200?text=Custom+Peds" alt="Peds">
+            <h3>PREMIUM PEDS PACK</h3>
+            <p>100+ High Quality Optimized Peds</p>
+            <div class="price">85.00 DT</div>
+            <button class="btn-buy">ADD TO CART</button>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200?text=Designer+Clothing" alt="Clothing">
+            <h3>CLOTHING BUNDLE</h3>
+            <p>Designer Brands & EUP Updates</p>
+            <div class="price">60.00 DT</div>
+            <button class="btn-buy">ADD TO CART</button>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200?text=Sports+Cars" alt="Cars">
+            <h3>CAR PACK (100 CARS)</h3>
+            <p>Debadged & Optimized for FiveM</p>
+            <div class="price">150.00 DT</div>
+            <button class="btn-buy">ADD TO CART</button>
+        </div>
     </div>
 
+    <footer>
+        <p>&copy; 2026 CFX STORE - ALL RIGHTS RESERVED BY BEAST MODS</p>
+        <div style="margin-top: 20px; font-size: 2rem; gap: 20px; display: flex; justify-content: center;">
+            <i class="fab fa-discord"></i>
+            <i class="fab fa-youtube"></i>
+            <i class="fab fa-instagram"></i>
+        </div>
+    </footer>
+
     <script>
-        // Star Generator
-        const starsContainer = document.getElementById('stars');
-        for(let i=0; i<100; i++) {
-            starsContainer.innerHTML += '<i class="fas fa-star"></i> ';
-        }
-
-        // Login Logic
-        function login() {
-            document.getElementById('auth-page').classList.add('hidden');
-            document.getElementById('main-site').style.display = 'block';
-            // Animation for stars
-            alert('Welcome back, Admin!');
-        }
-
-        // Command Accept Logic
-        function accept(btn) {
-            btn.innerHTML = '<i class="fas fa-check"></i> COMMAND ACCEPTED';
-            btn.style.background = '#2ecc71';
-            btn.parentElement.style.borderLeft = '5px solid #2ecc71';
-            btn.disabled = true;
-        }
+        // Simple Interaction
+        document.querySelectorAll('.btn-buy').forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('Redirecting to Secure Payment... Get ready for the Beast!');
+            });
+        });
     </script>
 </body>
 </html>
