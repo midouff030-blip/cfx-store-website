@@ -3,126 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX STORE | EL RO3OB</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <title>CFX STORE | EL RO3OB OFFICIAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --red: #ff0000; --black: #000000; --card-bg: rgba(10, 10, 10, 0.95); }
+        :root {
+            --red: #ff0000;
+            --black: #000000;
+            --card-bg: rgba(5, 5, 5, 0.95);
+            --neon: 0 0 20px rgba(255, 0, 0, 0.8);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--black); color: white; font-family: 'Rajdhani', sans-serif; overflow-x: hidden; }
 
-        /* Background Moving Red Dots */
-        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        /* BACKGROUND PARTICLES */
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; }
 
         header {
-            background: rgba(0,0,0,0.9); padding: 15px 5%;
+            background: rgba(0, 0, 0, 0.95); padding: 20px 8%;
             display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 2px solid var(--red); sticky; top: 0; z-index: 1000;
+            border-bottom: 2px solid var(--red); position: sticky; top: 0; z-index: 1000;
         }
+        .logo { font-family: 'Orbitron'; font-size: 2rem; color: var(--red); font-weight: 900; text-shadow: var(--neon); }
+        
+        .nav-links a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; text-transform: uppercase; cursor: pointer; font-family: 'Orbitron'; font-size: 0.8rem; }
+        .nav-links a:hover { color: var(--red); }
 
-        /* --- VOLUME CONTROL --- */
-        .audio-box { display: flex; align-items: center; gap: 10px; background: #111; padding: 5px 15px; border: 1px solid var(--red); border-radius: 5px; }
-        .audio-box label { font-family: 'Orbitron'; font-size: 10px; color: var(--red); }
+        .btn-admin { background: var(--red); color: black; border: none; padding: 10px 20px; font-family: 'Orbitron'; font-weight: 900; cursor: pointer; transition: 0.3s; }
+        .btn-admin:hover { background: white; box-shadow: 0 0 10px white; }
+
+        /* VOLUME CONTROL (LOUTA 3AL IJNAB) */
+        .volume-container {
+            position: fixed; bottom: 20px; right: 20px;
+            background: rgba(0,0,0,0.8); border: 1px solid var(--red);
+            padding: 10px 15px; border-radius: 5px; z-index: 2000;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .volume-container label { font-family: 'Orbitron'; font-size: 10px; color: var(--red); }
         input[type=range] { accent-color: var(--red); cursor: pointer; width: 80px; }
 
-        .logo { font-family: 'Orbitron'; color: var(--red); font-size: 1.5rem; text-shadow: 0 0 10px var(--red); }
+        /* SECTIONS */
+        .page-section { display: none; padding: 60px 8%; min-height: 100vh; animation: fadeIn 0.5s ease; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- CARDS (FIXED) --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 40px 5%; }
+        /* CARDS GRID */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 30px; }
+        
         .card { 
-            background: var(--card-bg); border-left: 4px solid var(--red); 
-            transition: 0.3s; overflow: hidden; position: relative;
+            background: var(--card-bg); border: 1px solid #111; border-left: 5px solid var(--red);
+            transition: 0.3s; overflow: hidden; display: flex; flex-direction: column;
         }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(255,0,0,0.4); }
+        .card:hover { border-color: var(--red); transform: translateY(-10px); box-shadow: var(--neon); }
 
-        /* IMAGE CONTAINER */
-        .card-img-box { width: 100%; height: 200px; background: #050505; position: relative; }
-        .card-img-box img { width: 100%; height: 100%; object-fit: cover; }
-        
-        /* Placeholder styling if image is missing */
-        .img-error { position: absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#000; color:var(--red); font-family:'Orbitron'; font-size:12px; border: 1px solid #222; }
+        .card-img { width: 100%; height: 200px; background: #0a0a0a; border-bottom: 1px solid #222; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; }
 
-        .card-body { padding: 20px; text-align: center; }
-        .card h3 { font-family: 'Orbitron'; margin-bottom: 10px; font-size: 1.2rem; }
-        .price { color: var(--red); font-family: 'Orbitron'; font-size: 2.2rem; margin: 15px 0; font-weight: 900; }
-        
-        .btn-buy { width: 100%; background: var(--red); color: black; border: none; padding: 12px; font-family: 'Orbitron'; font-weight: 900; cursor: pointer; }
+        .card-content { padding: 30px; text-align: center; }
+        .card h3 { font-family: 'Orbitron'; font-size: 1.5rem; margin-bottom: 10px; }
+        .price { font-size: 3rem; font-weight: 900; color: var(--red); font-family: 'Orbitron'; margin-bottom: 20px; }
+
+        .btn-buy { width: 100%; background: var(--red); color: black; border: none; padding: 15px; font-family: 'Orbitron'; font-weight: 900; cursor: pointer; }
         .btn-buy:hover { background: white; }
 
-        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        /* MODALS */
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.98); z-index: 3000; justify-content:center; align-items:center; }
+        .modal-content { background:#050505; padding:40px; border:2px solid var(--red); width:400px; text-align:center; }
+        input { width: 100%; padding: 15px; margin-bottom: 15px; background: #111; border: 1px solid #333; color: white; font-family: 'Orbitron'; }
+
+        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 9999; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
-<body>
-
-<div id="overlay">
-    <h1 style="font-family:'Orbitron'; color:var(--red); margin-bottom:20px;">CFX STORE EL RO3OB</h1>
-    <button onclick="startSite()" class="btn-buy" style="width:200px;">ENTER SYSTEM</button>
-</div>
+<body onclick="playAudio()">
 
 <canvas id="bg-canvas"></canvas>
+
+<div id="overlay">
+    <button class="btn-buy" style="width:250px;" onclick="startSite()">INITIALIZE SYSTEM</button>
+</div>
 
 <audio id="bgMusic" loop>
     <source src="music.mp3" type="audio/mpeg">
 </audio>
 
+<div class="volume-container">
+    <label>VOL</label>
+    <input type="range" id="volSlider" min="0" max="1" step="0.1" value="0.5">
+</div>
+
 <header>
     <div class="logo">CFX STORE</div>
-    <div class="audio-box">
-        <label>VOLUME</label>
-        <input type="range" id="volRange" min="0" max="1" step="0.1" value="0.5">
-    </div>
+    <nav class="nav-links">
+        <a onclick="showPage('home')">HOME</a>
+        <a onclick="showPage('shop-peds')">PEDS</a>
+        <a onclick="showPage('shop-cars')">CARS</a>
+    </nav>
+    <button class="btn-admin" onclick="showPage('admin-login')">ADMIN LOGIN</button>
 </header>
 
-<div id="home-content">
-    <h2 style="text-align:center; font-family:'Orbitron'; margin-top:50px; font-size:3rem;">EL <span style="color:var(--red)">RO3OB</span> STORE</h2>
-    
+<div id="home" class="page-section active">
+    <div style="text-align:center;">
+        <h1 style="font-family:'Orbitron'; font-size:4rem; text-shadow: var(--neon);">WELCOME TO <span style="color:var(--red)">RO3OB</span></h1>
+    </div>
     <div class="grid">
-        <div class="card">
-            <div class="card-img-box">
-                <img src="car1.jpg" alt="Car" onerror="this.parentElement.innerHTML='<div class=\'img-error\'>IMAGE NOT FOUND</div>'">
-            </div>
-            <div class="card-body">
-                <h3>GARAGE PRO #1</h3>
-                <div class="price">$30.00</div>
-                <button class="btn-buy">BUY NOW</button>
-            </div>
+        <div class="card" onclick="showPage('shop-peds')">
+            <div class="card-img"><img src="peds_banner.jpg" onerror="this.src='https://via.placeholder.com/400x200/000/ff0000?text=PEDS+CATEGORY'"></div>
+            <div class="card-content"><h3>PEDS</h3><button class="btn-buy">EXPLORE</button></div>
         </div>
+        <div class="card" onclick="showPage('shop-cars')">
+            <div class="card-img"><img src="cars_banner.jpg" onerror="this.src='https://via.placeholder.com/400x200/000/ff0000?text=CARS+CATEGORY'"></div>
+            <div class="card-content"><h3>CARS</h3><button class="btn-buy">EXPLORE</button></div>
+        </div>
+    </div>
+</div>
 
-        <div class="card">
-            <div class="card-img-box">
-                <img src="ped1.jpg" alt="Ped" onerror="this.parentElement.innerHTML='<div class=\'img-error\'>IMAGE NOT FOUND</div>'">
-            </div>
-            <div class="card-body">
-                <h3>ELITE PED #1</h3>
-                <div class="price">$10.00</div>
-                <button class="btn-buy">BUY NOW</button>
-            </div>
+<div id="shop-peds" class="page-section">
+    <h1 style="text-align:center; font-family:'Orbitron';">ELITE <span style="color:var(--red)">PEDS</span></h1>
+    <div class="grid" id="peds-list"></div>
+</div>
+
+<div id="admin-login" class="page-section">
+    <div style="display:flex; justify-content:center;">
+        <div class="modal-content" style="display:block;">
+            <h2 style="font-family:'Orbitron'; color:var(--red); margin-bottom:20px;">ADMIN TERMINAL</h2>
+            <input type="text" placeholder="Username">
+            <input type="password" placeholder="•••••">
+            <button class="btn-buy">INITIALIZE ACCESS</button>
         </div>
     </div>
 </div>
 
 <script>
     const music = document.getElementById('bgMusic');
-    const vol = document.getElementById('volRange');
+    const slider = document.getElementById('volSlider');
 
     function startSite() {
         document.getElementById('overlay').style.display = 'none';
         music.play();
     }
 
-    vol.addEventListener('input', () => {
-        music.volume = vol.value;
-    });
+    slider.addEventListener('input', () => { music.volume = slider.value; });
 
-    // Background Particles
+    function showPage(id) {
+        document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    // GENERATE STOCK
+    function gen() {
+        const list = document.getElementById('peds-list');
+        for(let i=1; i<=3; i++) {
+            list.innerHTML += `
+            <div class="card">
+                <div class="card-img"><img src="ped${i}.jpg" onerror="this.src='https://via.placeholder.com/400x200/000/ff0000?text=PED+IMAGE+${i}'"></div>
+                <div class="card-content">
+                    <h3>Elite Ped #${i}</h3>
+                    <div class="price">$10.00</div>
+                    <button class="btn-buy">BUY NOW</button>
+                </div>
+            </div>`;
+        }
+    }
+    gen();
+
+    // BACKGROUND PARTICLES (RED)
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
     let dots = [];
-    for(let i=0; i<80; i++) dots.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*2});
+    for(let i=0; i<100; i++) dots.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*2});
     function draw() {
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = "rgba(255,0,0,0.5)";
+        ctx.fillStyle = "rgba(255,0,0,0.4)";
         dots.forEach(d => {
             ctx.beginPath(); ctx.arc(d.x, d.y, d.s, 0, Math.PI*2); ctx.fill();
             d.y += 0.5; if(d.y > canvas.height) d.y = 0;
