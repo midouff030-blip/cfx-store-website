@@ -3,152 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX STORE | EL RO3OB</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <title>CFX Store | Peds & Clothing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        :root { --red: #ff0000; --black: #000000; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--black); color: white; font-family: 'Rajdhani', sans-serif; overflow-x: hidden; }
-
-        /* Background Canvas */
-        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
-
-        header {
-            background: rgba(0,0,0,0.95); padding: 20px 5%;
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 2px solid var(--red); position: sticky; top: 0; z-index: 100;
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), 
+                        url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: 'Inter', sans-serif;
         }
-        .logo { font-family: 'Orbitron'; color: var(--red); font-size: 1.5rem; text-shadow: 0 0 10px var(--red); }
-        .nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; cursor: pointer; font-family: 'Orbitron'; font-size: 0.8rem; }
-        .btn-admin { background: var(--red); color: black; border: none; padding: 10px 20px; font-family: 'Orbitron'; font-weight: 900; cursor: pointer; }
-
-        /* Volume Position (Louta 3al ijnab) */
-        .volume-ctrl { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); padding: 10px; border: 1px solid var(--red); z-index: 1000; display: flex; align-items: center; gap: 10px; }
-        input[type=range] { accent-color: var(--red); cursor: pointer; width: 80px; }
-
-        /* Sections Control */
-        .section { display: none; padding: 50px 5%; min-height: 80vh; }
-        .active { display: block; }
-
-        /* Card Design */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: #050505; border: 1px solid #111; border-left: 5px solid var(--red); padding: 20px; text-align: center; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(255,0,0,0.3); }
-        .price { color: var(--red); font-family: 'Orbitron'; font-size: 2.5rem; margin: 20px 0; font-weight: 900; }
-        .btn-red { width: 100%; background: var(--red); color: black; border: none; padding: 15px; font-family: 'Orbitron'; font-weight: 900; cursor: pointer; }
-
-        /* Overlay */
-        #enter-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 9999; display: flex; align-items: center; justify-content: center; }
-        
-        /* Form Admin/Buy */
-        .form-box { max-width: 400px; margin: 50px auto; background: #080808; padding: 30px; border: 1px solid var(--red); }
-        input { width: 100%; padding: 12px; margin-bottom: 15px; background: #111; border: 1px solid #333; color: white; }
+        .glass-nav {
+            background: rgba(15, 15, 15, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hero-text {
+            text-shadow: 0px 0px 20px rgba(255, 69, 0, 0.5);
+        }
+        .btn-orange {
+            background: linear-gradient(90deg, #FF4B2B, #FF416C);
+            transition: 0.3s;
+        }
+        .btn-orange:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 75, 43, 0.4);
+        }
     </style>
 </head>
-<body>
+<body class="text-white min-h-screen">
 
-<div id="enter-overlay">
-    <button class="btn-red" style="width:200px;" onclick="initSite()">ENTER SYSTEM</button>
-</div>
-
-<canvas id="bg-canvas"></canvas>
-<audio id="music" loop><source src="music.mp3" type="audio/mpeg"></audio>
-
-<header>
-    <div class="logo">CFX STORE</div>
-    <div class="nav">
-        <a onclick="go('home')">HOME</a>
-        <a onclick="go('shop')">SHOP</a>
-    </div>
-    <button class="btn-admin" onclick="go('admin')">ADMIN TERMINAL</button>
-</header>
-
-<div class="volume-ctrl">
-    <span style="font-family:'Orbitron'; font-size:10px; color:var(--red)">VOL</span>
-    <input type="range" id="vol" min="0" max="1" step="0.1" value="0.5">
-</div>
-
-<div id="home" class="section active">
-    <h1 style="text-align:center; font-family:'Orbitron'; font-size:3rem; margin-bottom:40px;">WELCOME TO <span style="color:var(--red)">RO3OB</span></h1>
-    <div class="grid">
-        <div class="card">
-            <h3>PEDS CATEGORY</h3>
-            <div class="price">EXPLORE</div>
-            <button class="btn-red" onclick="go('shop')">VIEW ASSETS</button>
+    <nav class="glass-nav sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <div class="bg-red-600 p-1 rounded italic font-black text-xs">CFX</div>
+            <span class="font-bold tracking-tighter text-lg uppercase">Store</span>
         </div>
-    </div>
-</div>
 
-<div id="shop" class="section">
-    <h2 style="text-align:center; font-family:'Orbitron'; margin-bottom:30px;">ELITE ASSETS</h2>
-    <div class="grid">
-        <div class="card">
-            <h3>GANG PACK V1</h3>
-            <div class="price">$29.99</div>
-            <button class="btn-red" onclick="go('buy-form')">BUY NOW</button>
+        <div class="hidden md:flex gap-8 text-sm font-medium uppercase tracking-widest text-gray-300">
+            <a href="#" class="hover:text-white transition">Home</a>
+            <a href="#" class="hover:text-white transition">Peds</a>
+            <a href="#" class="hover:text-white transition">Featured</a>
+            <a href="#" class="hover:text-white transition">Upload</a>
         </div>
-        <div class="card">
-            <h3>POLICE PACK</h3>
-            <div class="price">$19.99</div>
-            <button class="btn-red" onclick="go('buy-form')">BUY NOW</button>
+
+        <div class="flex items-center gap-6">
+            <div class="relative cursor-pointer">
+                <i class="fa-solid fa-cart-shopping text-xl text-gray-300"></i>
+                <span class="absolute -top-2 -right-2 bg-red-600 text-[10px] px-1.5 rounded-full">0</span>
+            </div>
+            <button class="bg-[#5865F2] hover:bg-[#4752C4] px-4 py-2 rounded flex items-center gap-2 text-sm font-bold transition">
+                <i class="fa-brands fa-discord text-lg"></i>
+                LOGIN WITH DISCORD
+            </button>
         </div>
-    </div>
-</div>
+    </nav>
 
-<div id="buy-form" class="section">
-    <div class="form-box">
-        <h2 style="color:var(--red); font-family:'Orbitron'; margin-bottom:20px;">EXECUTE ORDER</h2>
-        <input type="text" placeholder="Full Name">
-        <input type="text" placeholder="Discord Username">
-        <input type="text" placeholder="Card: XXXX XXXX XXXX XXXX">
-        <button class="btn-red">EXECUTE ORDER</button>
-        <button onclick="go('shop')" style="background:none; color:white; border:none; margin-top:10px; cursor:pointer; width:100%">ABORT</button>
-    </div>
-</div>
+    <main class="flex flex-col items-center justify-center text-center px-4 mt-32">
+        <span class="bg-red-500/20 text-red-500 border border-red-500/50 px-4 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6">
+            Premium Characters
+        </span>
 
-<div id="admin" class="section">
-    <div class="form-box">
-        <h2 style="color:var(--red); font-family:'Orbitron'; margin-bottom:20px;">ADMIN TERMINAL</h2>
-        <input type="text" placeholder="Username">
-        <input type="password" placeholder="•••••">
-        <button class="btn-red">INITIALIZE ACCESS</button>
-    </div>
-</div>
+        <h1 class="text-5xl md:text-7xl font-black italic uppercase leading-tight">
+            Specialists in <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600 hero-text">
+                Peds & Clothing
+            </span>
+        </h1>
 
-<script>
-    const m = document.getElementById('music');
-    const v = document.getElementById('vol');
+        <p class="mt-6 text-gray-400 max-w-2xl text-lg leading-relaxed">
+            The premier marketplace for high-quality character models, realistic EUP packs, and custom accessories. Redefine your roleplay experience today.
+        </p>
 
-    function initSite() {
-        document.getElementById('enter-overlay').style.display = 'none';
-        m.play();
-    }
+        <div class="mt-10 flex flex-wrap justify-center gap-4">
+            <button id="browseBtn" class="btn-orange px-10 py-4 rounded font-bold flex items-center gap-2 uppercase tracking-wider">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Browse Catalog
+            </button>
+            <button id="discordBtn" class="bg-transparent border border-white/20 hover:bg-white/10 px-10 py-4 rounded font-bold flex items-center gap-2 uppercase tracking-wider transition">
+                <i class="fa-brands fa-discord text-xl"></i>
+                Join Discord
+            </button>
+        </div>
+    </main>
 
-    v.addEventListener('input', () => { m.volume = v.value; });
-
-    // Function bech el buttons yemchiw s7i7
-    function go(id) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        window.scrollTo(0,0);
-    }
-
-    // Red Particles Background
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    let particles = [];
-    for(let i=0; i<100; i++) particles.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*2});
-    function move() {
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = "rgba(255,0,0,0.4)";
-        particles.forEach(p => {
-            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
-            p.y += 0.5; if(p.y > canvas.height) p.y = 0;
+    <script>
+        // Logique simple pour les boutons
+        document.getElementById('browseBtn').addEventListener('click', () => {
+            alert('Redirecting to Catalog...');
         });
-        requestAnimationFrame(move);
-    }
-    move();
-</script>
+
+        document.getElementById('discordBtn').addEventListener('click', () => {
+            window.open('https://discord.com', '_blank');
+        });
+
+        // Animation simple au scroll pour la navbar
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.padding = '10px 24px';
+            } else {
+                nav.style.padding = '16px 24px';
+            }
+        });
+    </script>
 </body>
 </html>
