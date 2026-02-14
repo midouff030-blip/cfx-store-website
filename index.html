@@ -3,278 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX RED | THE APEX STORE</title>
+    <title>RED APEX | THE ULTIMATE EXPERIENCE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Bebas+Neue&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700&display=swap');
+        :root { --red: #ff0000; --dark-red: #4a0000; }
+        
+        * { cursor: crosshair; }
+        body { background: #000; color: #fff; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--red); box-shadow: 0 0 10px var(--red); }
 
-        :root {
-            --red-glow: #ff003c;
-            --carbon: #0a0a0a;
-        }
-
-        * { cursor: none !important; } /* Custom Pro Cursor */
-
-        body {
-            background-color: var(--carbon);
-            color: white;
-            font-family: 'Space Grotesk', sans-serif;
-            overflow-x: hidden;
-        }
-
-        /* Custom Pro Cursor Elements */
-        #cursor {
-            position: fixed; width: 10px; height: 10px; background: var(--red-glow);
-            border-radius: 50%; pointer-events: none; z-index: 9999; transition: transform 0.1s;
-        }
-        #cursor-follower {
-            position: fixed; width: 40px; height: 40px; border: 1px solid var(--red-glow);
-            border-radius: 50%; pointer-events: none; z-index: 9998; transition: transform 0.2s, background 0.3s;
-        }
-
-        /* Background Noise Effect */
-        .noise {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://grainy-gradients.vercel.app/noise.svg');
-            opacity: 0.05; pointer-events: none; z-index: 50;
-        }
-
+        .font-bebas { font-family: 'Bebas Neue', cursive; }
         .font-sync { font-family: 'Syncopate', sans-serif; }
 
-        .hero-title {
-            font-size: clamp(3rem, 15vw, 12rem);
-            line-height: 0.8;
-            letter-spacing: -0.05em;
-            text-transform: uppercase;
-            font-weight: 900;
-            background: linear-gradient(180deg, #fff 0%, #333 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Video Background Styling */
+        #bg-video {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: -2; opacity: 0.4; filter: saturate(0) contrast(1.2);
+        }
+        .vignette {
+            position: fixed; inset: 0; 
+            background: radial-gradient(circle, transparent 20%, black 100%);
+            z-index: -1; pointer-events: none;
         }
 
-        .red-glitch {
-            text-shadow: 2px 0 var(--red-glow), -2px 0 #00fff9;
-            animation: glitch 3s infinite;
+        /* Glitch & Animations */
+        .glitch-text {
+            text-shadow: 2px 0 #ff0000, -2px 0 #fff;
+            animation: glitch 2s infinite alternate-reverse;
         }
-
         @keyframes glitch {
-            0% { text-shadow: 2px 0 var(--red-glow), -2px 0 #00fff9; }
-            50% { text-shadow: -2px 0 var(--red-glow), 2px 0 #00fff9; }
-            100% { text-shadow: 2px 0 var(--red-glow), -2px 0 #00fff9; }
+            0% { transform: skew(0deg); }
+            20% { transform: skew(-1deg); }
+            40% { transform: skew(1deg); }
+            100% { transform: skew(0deg); }
         }
 
-        .btn-apex {
-            position: relative; overflow: hidden;
-            border: 1px solid rgba(255,0,60,0.3);
+        .red-btn {
+            background: linear-gradient(45deg, var(--dark-red), var(--red));
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            transition: 0.4s;
+            border: none;
+            color: white;
+            font-weight: 900;
+        }
+        .red-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px var(--red);
+            letter-spacing: 2px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border-left: 3px solid var(--red);
             transition: 0.5s;
         }
-        .btn-apex::before {
-            content: ''; position: absolute; top: 0; left: -100%;
-            width: 100%; height: 100%; background: var(--red-glow);
-            transition: 0.5s; z-index: -1;
-        }
-        .btn-apex:hover::before { left: 0; }
-        .btn-apex:hover { box-shadow: 0 0 30px var(--red-glow); }
+        .glass-card:hover { background: rgba(255, 0, 0, 0.05); transform: perspective(1000px) rotateY(10deg); }
 
-        .card-pro {
-            background: linear-gradient(145deg, #111, #050505);
-            border: 1px solid rgba(255,255,255,0.03);
-            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        .card-pro:hover {
-            transform: translateY(-15px) scale(1.02);
-            border-color: var(--red-glow);
+        /* Live Sale Pop-up */
+        #sale-popup {
+            position: fixed; bottom: -100px; left: 20px;
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid var(--red);
+            padding: 15px; border-radius: 10px;
+            display: flex; align-items: center; gap: 15px;
+            transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
         }
 
-        /* Admin Layout Custom */
-        .admin-glass {
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(40px);
-            border-left: 2px solid var(--red-glow);
+        .music-visualizer {
+            display: flex; align-items: flex-end; gap: 2px; height: 15px;
         }
+        .bar { width: 3px; background: var(--red); animation: bounce 0.5s infinite alternate; }
+        @keyframes bounce { from { height: 2px; } to { height: 15px; } }
     </style>
 </head>
 <body>
 
-    <div id="cursor"></div>
-    <div id="cursor-follower"></div>
-    <div class="noise"></div>
+    <video autoplay muted loop id="bg-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-top-view-of-a-busy-city-at-night-3420-large.mp4" type="video/mp4">
+    </video>
+    <div class="vignette"></div>
 
-    <nav class="fixed w-full z-[100] mix-blend-difference px-12 py-8 flex justify-between items-center">
-        <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden group">
-                <div class="w-full h-full bg-red-600 translate-y-full group-hover:translate-y-0 transition-transform"></div>
-            </div>
-            <span class="font-sync text-sm tracking-[0.5em]">APEX</span>
+    <div class="fixed top-32 right-10 z-[100] flex items-center gap-3 bg-black/50 p-3 rounded-full border border-white/10">
+        <div class="music-visualizer" id="visualizer" style="display: none;">
+            <div class="bar"></div><div class="bar" style="animation-delay: 0.1s"></div><div class="bar" style="animation-delay: 0.2s"></div>
         </div>
-        <div class="flex items-center gap-12 font-bold text-[10px] tracking-[0.4em] uppercase">
-            <a href="#shop" class="hover:text-red-600 transition">Market</a>
-            <a href="javascript:void(0)" onclick="openLogin()" class="opacity-30 hover:opacity-100">Access_Portal</a>
-            <div class="bg-red-600 px-6 py-2 rounded-full cursor-pointer hover:scale-110 transition">Cart (<span id="cart-val">0</span>)</div>
+        <button onclick="toggleMusic()" class="text-[10px] font-bold uppercase tracking-tighter" id="musicBtn">Play Atmosphere</button>
+        <audio id="bgMusic" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" type="audio/mp3">
+        </audio>
+    </div>
+
+    <nav class="p-10 flex justify-between items-center relative z-50">
+        <div class="flex items-center gap-3 group">
+            <h1 class="text-4xl font-bebas tracking-tighter group-hover:glitch-text transition">RED <span class="text-red-600 italic">SYSTEMS</span></h1>
+        </div>
+        <div class="flex gap-10 font-sync text-[9px] tracking-[0.4em] uppercase">
+            <a href="#store" class="hover:text-red-600 transition">Market</a>
+            <a href="#" class="hover:text-red-600 transition">Showcase</a>
+            <a href="javascript:void(0)" onclick="openLogin()" class="bg-red-600/20 px-4 py-1 border border-red-600 text-red-600">Admin_Access</a>
+        </div>
+        <div class="flex items-center gap-5">
+            <div class="text-right mr-4">
+                <p class="text-[9px] font-bold text-gray-500 uppercase">Cart Total</p>
+                <p id="total-price" class="font-bebas text-xl text-red-600">$0.00</p>
+            </div>
+            <i class="fa-solid fa-square-rss text-red-600 animate-pulse"></i>
         </div>
     </nav>
 
-    <section class="relative min-h-screen flex flex-col items-center justify-center p-6 text-center overflow-hidden">
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-red-600/20 blur-[180px] rounded-full animate-pulse"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-600/10 blur-[180px] rounded-full animate-pulse"></div>
-
-        <div data-aos="fade-up" data-aos-duration="1200">
-            <p class="text-red-500 font-sync text-[10px] tracking-[0.8em] mb-4 uppercase">The Apex of FiveM Modification</p>
-            <h1 class="hero-title red-glitch">ULTRA<br>RE<span class="italic">D</span></h1>
-            
-            <div class="mt-12 flex flex-col md:flex-row gap-8 justify-center items-center">
-                <button onclick="scrollToShop()" class="btn-apex px-16 py-6 font-sync text-[10px] tracking-widest bg-transparent border border-white/10 uppercase">
-                    Enter Marketplace
-                </button>
-                <div class="h-[1px] w-20 bg-white/10 hidden md:block"></div>
-                <p class="text-gray-500 text-xs tracking-widest uppercase italic">Optimized for high-tickrate servers</p>
-            </div>
+    <main class="h-[80vh] flex flex-col items-center justify-center text-center px-4">
+        <div data-aos="zoom-in" data-aos-duration="1500">
+            <h2 class="text-red-600 font-sync text-[12px] tracking-[1em] mb-4 uppercase">Proprietary Modification Tools</h2>
+            <h1 class="text-8xl md:text-[12rem] font-bebas leading-[0.8] mb-8">NEXT GEN<br><span class="text-red-600">ASSETS</span></h1>
+            <p class="max-w-xl mx-auto text-gray-400 text-sm tracking-widest uppercase mb-10">Optimized for high-performance roleplay. Zero frame-loss. 8K High-Fidelity models.</p>
+            <button onclick="scrollToStore()" class="red-btn px-20 py-6 text-xl font-bebas italic tracking-widest">ENTER THE ARMORY</button>
         </div>
-    </section>
+    </main>
 
-    <section id="shop" class="py-40 px-12 max-w-[1600px] mx-auto">
-        <div class="grid grid-cols-12 gap-4 mb-24 border-b border-white/5 pb-10">
-            <div class="col-span-12 md:col-span-6">
-                <h2 class="text-6xl font-black uppercase italic mb-4">The Collection</h2>
-            </div>
-            <div class="col-span-12 md:col-span-6 flex items-end justify-end gap-10">
-                <div class="text-right">
-                    <p class="text-red-600 font-bold">120+ Assets</p>
-                    <p class="text-gray-500 text-xs">Updated 2 hours ago</p>
+    <section id="store" class="py-40 px-10 max-w-7xl mx-auto">
+        <h3 class="text-6xl font-bebas mb-20 italic underline decoration-red-600 underline-offset-8">Top-Tier Assets</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+            <div class="glass-card p-2 flex flex-col md:flex-row gap-6 group" data-aos="fade-right">
+                <div class="w-full md:w-1/2 h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-125 transition duration-1000">
                 </div>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div class="card-pro p-6 rounded-[2rem] group" data-aos="fade-up">
-                <div class="relative rounded-[1.5rem] overflow-hidden aspect-[4/5] mb-8">
-                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000 grayscale group-hover:grayscale-0">
-                    <div class="absolute top-6 left-6 flex gap-2">
-                        <span class="bg-red-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase">8K Textures</span>
-                    </div>
-                </div>
-                <div class="flex justify-between items-start px-2">
+                <div class="flex-1 p-4 flex flex-col justify-between">
                     <div>
-                        <h3 class="text-xl font-bold uppercase mb-1">Cyber-Street Ped Pack</h3>
-                        <p class="text-gray-500 text-sm">Includes 12 Varied outfits & masks</p>
+                        <span class="text-red-600 text-[10px] font-bold font-sync">#001 - CHARACTER</span>
+                        <h4 class="text-3xl font-bebas tracking-widest mt-2 uppercase">Custom Mafia Leader</h4>
                     </div>
-                    <div class="text-right">
-                        <p class="text-2xl font-black text-white">$89.00</p>
-                        <button onclick="addToCart(89)" class="text-red-600 text-[10px] font-black tracking-widest uppercase hover:text-white transition mt-2">Add_to_Bag</button>
+                    <div class="flex justify-between items-end">
+                        <span class="text-4xl font-bebas">$120</span>
+                        <button onclick="buy(120)" class="red-btn px-6 py-2 text-xs">ACQUIRE</button>
                     </div>
                 </div>
             </div>
 
-            <div class="card-pro p-6 rounded-[2rem] group" data-aos="fade-up" data-aos-delay="200">
-                <div class="relative rounded-[1.5rem] overflow-hidden aspect-[4/5] mb-8">
-                    <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=600&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-1000 grayscale group-hover:grayscale-0">
+            <div class="glass-card p-2 flex flex-col md:flex-row gap-6 group" data-aos="fade-left">
+                <div class="w-full md:w-1/2 h-64 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1624280483735-3733230a8459?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-125 transition duration-1000">
                 </div>
-                <div class="flex justify-between items-start px-2">
+                <div class="flex-1 p-4 flex flex-col justify-between">
                     <div>
-                        <h3 class="text-xl font-bold uppercase mb-1">Executive Office Interior</h3>
-                        <p class="text-gray-500 text-sm">MLO Compatible with custom lighting</p>
+                        <span class="text-red-600 text-[10px] font-bold font-sync">#002 - PACK</span>
+                        <h4 class="text-3xl font-bebas tracking-widest mt-2 uppercase">Ultra LSPD EUP</h4>
                     </div>
-                    <div class="text-right">
-                        <p class="text-2xl font-black text-white">$120.00</p>
-                        <button onclick="addToCart(120)" class="text-red-600 text-[10px] font-black tracking-widest uppercase hover:text-white transition mt-2">Add_to_Bag</button>
+                    <div class="flex justify-between items-end">
+                        <span class="text-4xl font-bebas">$85</span>
+                        <button onclick="buy(85)" class="red-btn px-6 py-2 text-xs">ACQUIRE</button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <div id="login-modal" class="fixed inset-0 z-[200] bg-black hidden flex-col items-center justify-center p-10">
-        <div class="w-full max-w-lg">
-            <p class="text-red-600 text-[10px] font-sync mb-10 tracking-[1em] text-center">AUTHENTICATION REQUIRED</p>
-            <div class="space-y-4">
-                <input type="text" id="user" placeholder="SYSTEM_ID" class="w-full bg-transparent border-b border-white/10 p-4 font-sync text-sm outline-none focus:border-red-600 text-white transition-all">
-                <input type="password" id="pass" placeholder="SECURITY_KEY" class="w-full bg-transparent border-b border-white/10 p-4 font-sync text-sm outline-none focus:border-red-600 text-white transition-all">
-                <button onclick="checkAccess()" class="w-full mt-10 py-6 border border-red-600 text-red-600 font-sync text-[10px] tracking-widest hover:bg-red-600 hover:text-white transition">EXECUTE_LOGIN</button>
-                <button onclick="closeLogin()" class="w-full py-4 text-gray-700 text-[10px] font-sync">CLOSE_PORTAL</button>
+    <div id="login-modal" class="fixed inset-0 bg-black z-[1000] hidden flex-col items-center justify-center">
+        <div class="w-full max-w-lg p-10 bg-zinc-950 border border-red-600">
+            <h3 class="font-bebas text-5xl text-red-600 mb-6">TERMINAL_LOGIN</h3>
+            <div class="space-y-6">
+                <div class="border-b border-red-600 pb-2">
+                    <p class="text-[10px] text-red-900 font-sync">ID_IDENTIFIER</p>
+                    <input type="text" id="user" class="bg-transparent w-full outline-none font-bebas text-2xl tracking-widest">
+                </div>
+                <div class="border-b border-red-600 pb-2">
+                    <p class="text-[10px] text-red-900 font-sync">SECURE_PASS</p>
+                    <input type="password" id="pass" class="bg-transparent w-full outline-none font-bebas text-2xl tracking-widest">
+                </div>
+                <button onclick="login()" class="red-btn w-full py-4 text-2xl font-bebas italic">AUTHENTICATE</button>
+                <button onclick="closeLogin()" class="w-full text-zinc-700 text-[10px] font-sync uppercase">Close Terminal</button>
             </div>
         </div>
     </div>
 
-    <div id="admin-dash" class="fixed inset-0 z-[300] bg-[#050505] hidden p-12">
-        <div class="flex h-full gap-12">
-            <div class="w-64 flex flex-col justify-between py-10 border-r border-white/5">
-                <div class="space-y-8 font-sync text-[8px] tracking-[0.4em]">
-                    <p class="text-red-600 opacity-100">DASHBOARD</p>
-                    <p class="opacity-30 hover:opacity-100 cursor-pointer transition">INVENTORY</p>
-                    <p class="opacity-30 hover:opacity-100 cursor-pointer transition">CUSTOMERS</p>
-                    <p class="opacity-30 hover:opacity-100 cursor-pointer transition">ANALYTICS</p>
-                </div>
-                <button onclick="location.reload()" class="text-red-600 font-bold text-xs uppercase">Shutdown_OS</button>
-            </div>
-            <div class="flex-1 overflow-y-auto">
-                <div class="flex justify-between items-end mb-20">
-                    <h2 class="text-5xl font-black italic uppercase">Apex <span class="text-red-600">OS</span></h2>
-                    <p class="text-gray-500 font-sync text-[8px]">Session_ID: 882-AF-90</p>
-                </div>
-                <div class="grid grid-cols-3 gap-4 mb-20">
-                    <div class="admin-glass p-8">
-                        <p class="text-[10px] text-gray-500 uppercase mb-4 tracking-widest">Global Sales</p>
-                        <h4 class="text-3xl font-black">$42,500.80</h4>
-                    </div>
-                    </div>
-                <div class="bg-white/5 p-1 rounded-3xl overflow-hidden">
-                    <div class="bg-black p-8 rounded-[1.4rem]">
-                         <h3 class="text-xs font-sync mb-6 tracking-widest">Active Inventory</h3>
-                         <div class="space-y-4">
-                             <div class="flex justify-between border-b border-white/5 pb-4 opacity-50">
-                                 <span>8K Urban Pack</span><span>$89.00</span><span class="text-green-500">Online</span>
-                             </div>
-                         </div>
-                    </div>
-                </div>
-            </div>
+    <div id="sale-popup">
+        <div class="w-12 h-12 bg-red-600 rounded flex items-center justify-center">
+            <i class="fa-solid fa-user-check"></i>
+        </div>
+        <div>
+            <p class="text-[10px] text-gray-500 font-bold uppercase">Success Sale</p>
+            <p class="text-xs font-bold" id="sale-text">Someone from Germany bought a Ped Pack!</p>
         </div>
     </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init();
 
-        // Custom Cursor Logic
-        const cursor = document.getElementById('cursor');
-        const follower = document.getElementById('cursor-follower');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            setTimeout(() => {
-                follower.style.left = (e.clientX - 15) + 'px';
-                follower.style.top = (e.clientY - 15) + 'px';
-            }, 50);
-        });
-
-        // Cart Logic
-        let count = 0;
-        function addToCart(p) {
-            count++;
-            document.getElementById('cart-val').innerText = count;
-            document.getElementById('cursor-follower').style.background = '#ff003c';
-            setTimeout(() => { document.getElementById('cursor-follower').style.background = 'transparent'; }, 500);
-        }
-
-        // Admin Logic
-        function openLogin() { document.getElementById('login-modal').style.display = 'flex'; }
-        function closeLogin() { document.getElementById('login-modal').style.display = 'none'; }
-        
-        function checkAccess() {
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            if(u === "admin" && p === "1234") {
-                document.getElementById('login-modal').style.display = 'none';
-                document.getElementById('admin-dash').style.display = 'block';
+        // Music Toggle
+        function toggleMusic() {
+            let audio = document.getElementById('bgMusic');
+            let vis = document.getElementById('visualizer');
+            let btn = document.getElementById('musicBtn');
+            if(audio.paused) {
+                audio.play();
+                vis.style.display = 'flex';
+                btn.innerText = 'Audio: ON';
             } else {
-                alert("ACCESS_DENIED: Critical Authentication Failure");
+                audio.pause();
+                vis.style.display = 'none';
+                btn.innerText = 'Audio: OFF';
             }
         }
 
-        function scrollToShop() {
-            document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+        // Cart Logic
+        let total = 0;
+        function buy(price) {
+            total += price;
+            document.getElementById('total-price').innerText = '$' + total.toFixed(2);
+            showPopup("Item added to the high-secure checkout!");
+        }
+
+        // Live Popup Logic
+        const sales = ["User in USA bought Mafia Pack", "User in UK bought EUP Pack", "Someone acquired 8K Ped", "Order #882 confirmed!"];
+        setInterval(() => {
+            const popup = document.getElementById('sale-popup');
+            document.getElementById('sale-text').innerText = sales[Math.floor(Math.random() * sales.length)];
+            popup.style.bottom = "20px";
+            setTimeout(() => { popup.style.bottom = "-100px"; }, 4000);
+        }, 15000);
+
+        function showPopup(txt) {
+            const popup = document.getElementById('sale-popup');
+            document.getElementById('sale-text').innerText = txt;
+            popup.style.bottom = "20px";
+            setTimeout(() => { popup.style.bottom = "-100px"; }, 3000);
+        }
+
+        // Navigation
+        function scrollToStore() { document.getElementById('store').scrollIntoView({ behavior: 'smooth' }); }
+        function openLogin() { document.getElementById('login-modal').style.display = 'flex'; }
+        function closeLogin() { document.getElementById('login-modal').style.display = 'none'; }
+        function login() {
+            if(document.getElementById('user').value === "admin" && document.getElementById('pass').value === "1234") {
+                alert("SYSTEM BREACH SUCCESSFUL. WELCOME OVERLORD.");
+                location.reload();
+            } else { alert("ACCESS DENIED."); }
         }
     </script>
 </body>
