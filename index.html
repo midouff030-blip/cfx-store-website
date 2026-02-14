@@ -3,184 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFX RED | Premium Assets</title>
+    <title>CFX RED | The Ultimate Store</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Inter:wght@300;400;700;900&display=swap');
 
-        :root { --red-primary: #e11d48; --red-glow: rgba(225, 29, 72, 0.5); }
-        body { background-color: #080808; color: white; font-family: 'Inter', sans-serif; }
-        .font-gaming { font-family: 'Orbitron', sans-serif; }
+        :root { --main-red: #ff0000; --dark-red: #8b0000; }
         
-        .red-glass {
-            background: rgba(15, 15, 15, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(225, 29, 72, 0.2);
+        body { background-color: #030303; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .font-sync { font-family: 'Syncopate', sans-serif; }
+
+        /* Animation Glow */
+        .neon-border { border: 1px solid rgba(255, 0, 0, 0.3); transition: 0.5s; }
+        .neon-border:hover { border-color: var(--main-red); box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); }
+
+        .red-gradient-text {
+            background: linear-gradient(to right, #ffffff 30%, #ff0000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .btn-red {
-            background: var(--red-primary);
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px var(--red-glow);
+        /* Video / Hero Overlay */
+        .hero-overlay {
+            background: radial-gradient(circle at center, rgba(255, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.9) 100%);
         }
 
-        .btn-red:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px var(--red-primary);
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
         }
+        .float { animation: float 4s ease-in-out infinite; }
 
-        .product-card:hover {
-            border-color: var(--red-primary);
-            box-shadow: 0 0 20px rgba(225, 29, 72, 0.1);
-        }
-
-        /* Modal Background */
-        .modal-bg {
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 100;
-            align-items: center;
-            justify-content: center;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
     </style>
 </head>
 <body>
 
-    <nav class="fixed w-full z-50 px-6 py-4 flex justify-between items-center red-glass">
-        <div class="flex items-center gap-3">
-            <div class="bg-red-600 px-3 py-1 italic font-black font-gaming">CFX</div>
-            <span class="font-bold text-xl font-gaming uppercase tracking-tighter">Store</span>
+    <div id="admin-bar" class="hidden bg-red-600 text-white text-[10px] py-1 text-center font-bold tracking-[0.3em] uppercase">
+        Admin Mode Active - <span class="cursor-pointer underline" onclick="logout()">Logout</span>
+    </div>
+
+    <nav class="fixed w-full z-[100] px-10 py-6 flex justify-between items-center transition-all duration-500" id="nav">
+        <div class="flex items-center gap-2">
+            <span class="text-3xl font-black text-red-600 tracking-tighter italic">CFX</span>
+            <span class="font-sync text-sm tracking-[0.2em] pt-1">RED</span>
         </div>
 
-        <div class="hidden md:flex gap-8 font-gaming text-[10px] tracking-widest uppercase">
-            <a href="#" class="hover:text-red-500 transition">Catalog</a>
-            <a href="#" class="hover:text-red-500 transition">Customs</a>
-            <a href="javascript:void(0)" onclick="openAdmin()" class="text-red-500 font-bold underline">Admin Panel</a>
+        <div class="hidden lg:flex gap-12 font-sync text-[9px] tracking-[0.3em]">
+            <a href="#shop" class="hover:text-red-600 transition">Store</a>
+            <a href="#" class="hover:text-red-600 transition">Premium Peds</a>
+            <a href="#" class="hover:text-red-600 transition">EUP Packs</a>
+            <a href="javascript:void(0)" onclick="openLogin()" class="opacity-50 hover:opacity-100"><i class="fa-solid fa-lock"></i></a>
         </div>
 
-        <div class="flex items-center gap-6">
-            <div class="relative cursor-pointer" onclick="viewCart()">
-                <i class="fa-solid fa-cart-shopping text-xl"></i>
-                <span id="cart-count" class="absolute -top-3 -right-3 bg-red-600 text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
+        <div class="flex items-center gap-8">
+            <div class="relative cursor-pointer group" onclick="toggleCart()">
+                <i class="fa-solid fa-bag-shopping text-xl group-hover:text-red-600 transition"></i>
+                <span id="cart-badge" class="absolute -top-2 -right-2 bg-red-600 text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">0</span>
             </div>
-            <button class="bg-[#5865F2] px-5 py-2 rounded font-bold text-xs uppercase flex items-center gap-2 hover:opacity-80">
-                <i class="fa-brands fa-discord text-lg"></i> Login
+            <button class="bg-white text-black px-6 py-2 rounded-full font-black text-xs hover:bg-red-600 hover:text-white transition-all duration-300">
+                JOIN DISCORD
             </button>
         </div>
     </nav>
 
-    <header class="h-screen flex flex-col items-center justify-center relative overflow-hidden">
-        <div class="absolute w-[500px] h-[500px] bg-red-600/10 blur-[150px] rounded-full -z-10"></div>
-        
-        <h1 class="text-7xl md:text-9xl font-black font-gaming italic uppercase leading-none text-center">
-            The <span class="text-red-600">Red</span><br>Elite
-        </h1>
-        <p class="mt-6 text-gray-400 text-center max-w-lg tracking-widest uppercase text-xs">
-            Premium Assets for Serious Roleplayers. Best Optimization. Best Support.
-        </p>
-        
-        <div class="mt-12 flex gap-4">
-            <button onclick="scrollToShop()" class="btn-red px-10 py-4 font-gaming font-bold uppercase tracking-widest text-sm">Browse Shop</button>
-            <button class="border border-white/20 px-10 py-4 font-gaming font-bold uppercase tracking-widest text-sm hover:bg-white/5 transition">Support</button>
-        </div>
-    </header>
+    <section class="relative h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+        <div class="hero-overlay absolute inset-0 -z-10"></div>
+        <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1920&q=80" class="absolute inset-0 w-full h-full object-cover -z-20 opacity-30">
 
-    <section id="shop" class="py-20 max-w-7xl mx-auto px-6">
-        <h2 class="text-3xl font-gaming font-black uppercase mb-12 border-l-4 border-red-600 pl-4">Latest Drops</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="product-container">
-            <div class="red-glass p-5 rounded-xl product-card transition-all group">
-                <div class="h-60 bg-neutral-900 rounded-lg mb-4 overflow-hidden relative">
-                    <img src="https://images.unsplash.com/photo-1624280483735-3733230a8459?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                </div>
-                <h3 class="font-gaming font-bold text-lg uppercase">Premium Ped Pack V2</h3>
-                <p class="text-gray-500 text-sm mb-4">50+ Highly optimized character models.</p>
-                <div class="flex justify-between items-center">
-                    <span class="text-2xl font-black text-red-500 font-gaming">$29.00</span>
-                    <button onclick="addToCart(29)" class="btn-red px-4 py-2 rounded text-xs font-bold uppercase">Add to Cart</button>
-                </div>
+        <div data-aos="zoom-out" data-aos-duration="1500">
+            <h2 class="font-sync text-xs tracking-[0.5em] text-red-600 mb-6 uppercase">The Gold Standard of FiveM</h2>
+            <h1 class="text-6xl md:text-9xl font-black italic uppercase leading-none mb-8">
+                RED <span class="red-gradient-text">LEGACY</span>
+            </h1>
+            <p class="text-gray-400 max-w-2xl mx-auto text-sm md:text-lg tracking-wide font-light mb-10">
+                Experience the next generation of Roleplay assets. Hand-crafted, 
+                high-performance models for the elite servers.
+            </p>
+            
+            <div class="flex flex-col md:flex-row gap-6 justify-center">
+                <a href="#shop" class="bg-red-600 hover:bg-white hover:text-black px-12 py-5 rounded-full font-sync text-[10px] font-bold tracking-widest transition-all duration-500 shadow-[0_0_30px_rgba(255,0,0,0.3)]">
+                    BROWSE CATALOG
+                </a>
             </div>
-            </div>
+        </div>
+
+        <div class="absolute bottom-10 animate-bounce opacity-30">
+            <i class="fa-solid fa-chevron-down text-2xl"></i>
+        </div>
     </section>
 
-    <div id="loginModal" class="modal-bg">
-        <div class="bg-[#111] p-10 rounded-2xl border border-red-600/30 w-full max-w-md">
-            <h2 class="text-2xl font-gaming font-bold mb-6 text-center">ADMIN ACCESS</h2>
-            <input id="adminUser" type="text" placeholder="Username" class="w-full bg-black border border-white/10 p-4 rounded mb-4 focus:border-red-600 outline-none">
-            <input id="adminPass" type="password" placeholder="Password" class="w-full bg-black border border-white/10 p-4 rounded mb-6 focus:border-red-600 outline-none">
-            <button onclick="checkLogin()" class="btn-red w-full py-4 font-gaming font-bold">LOGIN</button>
-            <button onclick="closeAdmin()" class="w-full mt-4 text-gray-500 text-sm">Cancel</button>
-        </div>
-    </div>
-
-    <div id="adminDash" class="modal-bg" style="background: #000;">
-        <div class="p-10 w-full max-w-4xl">
-            <div class="flex justify-between items-center mb-10">
-                <h2 class="text-4xl font-gaming font-bold text-red-600">ADMIN DASHBOARD</h2>
-                <button onclick="location.reload()" class="bg-white text-black px-4 py-2 font-bold rounded">LOGOUT</button>
+    <section id="shop" class="py-32 max-w-7xl mx-auto px-6">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
+            <div data-aos="fade-right">
+                <p class="text-red-600 font-sync text-[10px] tracking-widest mb-2">NEW ARRIVALS</p>
+                <h2 class="text-5xl font-black italic uppercase">Latest Drops</h2>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <div class="red-glass p-6">
-                    <h3 class="font-bold mb-4">Quick Stats</h3>
-                    <div class="space-y-2">
-                        <p>Total Sales: <span class="text-green-500">$1,240</span></p>
-                        <p>Total Orders: 45</p>
-                        <p>Active Users: 12</p>
+            <div class="flex gap-4">
+                <button class="w-12 h-12 rounded-full border border-white/10 hover:border-red-600 transition"><i class="fa-solid fa-arrow-left"></i></button>
+                <button class="w-12 h-12 rounded-full border border-white/10 hover:border-red-600 transition"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="glass-card p-4 rounded-3xl neon-border group cursor-pointer" data-aos="fade-up">
+                <div class="relative h-80 rounded-2xl overflow-hidden mb-6">
+                    <img src="https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    <div class="absolute bottom-4 left-4">
+                        <span class="bg-red-600 text-[9px] font-sync px-3 py-1 rounded">HOT</span>
                     </div>
                 </div>
-                <div class="red-glass p-6">
-                    <h3 class="font-bold mb-4">Add New Product</h3>
-                    <input type="text" placeholder="Product Name" class="w-full bg-black mb-2 p-2 rounded border border-white/10">
-                    <input type="text" placeholder="Price" class="w-full bg-black mb-2 p-2 rounded border border-white/10">
-                    <button class="btn-red w-full py-2 text-xs font-bold">PUBLISH</button>
+                <div class="px-2">
+                    <h3 class="font-sync text-sm tracking-tighter mb-2">Executive Mafia Ped</h3>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-black text-white">$35.00</span>
+                        <button onclick="updateCart(1)" class="bg-white text-black text-[10px] font-black px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white transition">ADD TO CART</button>
+                    </div>
                 </div>
+            </div>
+            
+            <div class="glass-card p-4 rounded-3xl neon-border group cursor-pointer" data-aos="fade-up" data-aos-delay="200">
+                <div class="relative h-80 rounded-2xl overflow-hidden mb-6">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                </div>
+                <div class="px-2">
+                    <h3 class="font-sync text-sm tracking-tighter mb-2">Tactical SWAT EUP</h3>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-black text-white">$49.99</span>
+                        <button onclick="updateCart(1)" class="bg-white text-black text-[10px] font-black px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white transition">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+
+             <div class="glass-card p-4 rounded-3xl neon-border group cursor-pointer" data-aos="fade-up" data-aos-delay="400">
+                <div class="relative h-80 rounded-2xl overflow-hidden mb-6">
+                    <img src="https://images.unsplash.com/photo-1626379616459-b2ce1d9decbb?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                </div>
+                <div class="px-2">
+                    <h3 class="font-sync text-sm tracking-tighter mb-2">Street Drifter Pack</h3>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-black text-white">$20.00</span>
+                        <button onclick="updateCart(1)" class="bg-white text-black text-[10px] font-black px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white transition">ADD TO CART</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="login-modal" class="fixed inset-0 bg-black/95 z-[200] hidden items-center justify-center p-6">
+        <div class="glass-card p-10 rounded-3xl w-full max-w-md border-red-600/20">
+            <h3 class="font-sync text-center text-lg mb-8 tracking-widest">SYSTEM LOGIN</h3>
+            <input type="text" id="user" placeholder="USERNAME" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl mb-4 outline-none focus:border-red-600 transition">
+            <input type="password" id="pass" placeholder="PASSWORD" class="w-full bg-white/5 border border-white/10 p-4 rounded-xl mb-8 outline-none focus:border-red-600 transition">
+            <button onclick="attemptLogin()" class="w-full bg-red-600 py-4 rounded-xl font-bold tracking-widest hover:bg-white hover:text-black transition duration-300">AUTHORIZE</button>
+            <button onclick="closeLogin()" class="w-full mt-4 text-xs text-gray-500 uppercase tracking-widest">Abort</button>
+        </div>
+    </div>
+
+    <div id="admin-dashboard" class="fixed inset-0 bg-[#050505] z-[300] hidden p-10 overflow-y-auto">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex justify-between items-center mb-20">
+                <h1 class="font-sync text-2xl tracking-tighter italic">ADMIN <span class="text-red-600">CONTROL</span></h1>
+                <button onclick="logout()" class="text-xs font-sync border border-white/20 px-6 py-2 rounded-full hover:bg-red-600">EXIT_SESSION</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="glass-card p-8 rounded-2xl border-l-4 border-red-600">
+                    <p class="text-gray-500 text-[10px] font-sync mb-2">TOTAL REVENUE</p>
+                    <h4 class="text-4xl font-black">$12,840.00</h4>
+                </div>
+                <div class="glass-card p-8 rounded-2xl border-l-4 border-red-600">
+                    <p class="text-gray-500 text-[10px] font-sync mb-2">ACTIVE ORDERS</p>
+                    <h4 class="text-4xl font-black">28</h4>
+                </div>
+                <div class="glass-card p-8 rounded-2xl border-l-4 border-white">
+                    <p class="text-gray-500 text-[10px] font-sync mb-2">TICKET RESPONSE</p>
+                    <h4 class="text-4xl font-black">12m</h4>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 rounded-3xl">
+                <h3 class="font-sync text-sm mb-6">INVENTORY MANAGEMENT</h3>
+                <table class="w-full text-left">
+                    <tr class="text-gray-500 text-xs border-b border-white/5 uppercase">
+                        <th class="pb-4">Product Name</th>
+                        <th class="pb-4">Price</th>
+                        <th class="pb-4">Status</th>
+                        <th class="pb-4">Action</th>
+                    </tr>
+                    <tr class="border-b border-white/5">
+                        <td class="py-4 font-bold">Mafia Ped V2</td>
+                        <td>$35.00</td>
+                        <td><span class="text-green-500">Live</span></td>
+                        <td><button class="text-red-600 text-xs font-bold uppercase">Delete</button></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        let cart = 0;
+        AOS.init();
+        let cartItems = 0;
 
-        // 1. Cart Logic
-        function addToCart(price) {
-            cart++;
-            document.getElementById('cart-count').innerText = cart;
-            alert('Item added! Your current total is based on ' + cart + ' items.');
-        }
-
-        function viewCart() {
-            if(cart === 0) alert('Cart is empty!');
-            else alert('You have ' + cart + ' items in your cart. Proceeding to checkout?');
-        }
-
-        // 2. Navigation
-        function scrollToShop() {
-            document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // 3. Admin System
-        function openAdmin() {
-            document.getElementById('loginModal').style.display = 'flex';
-        }
-
-        function closeAdmin() {
-            document.getElementById('loginModal').style.display = 'none';
-        }
-
-        function checkLogin() {
-            const u = document.getElementById('adminUser').value;
-            const p = document.getElementById('adminPass').value;
-
-            if(u === 'admin' && p === '1234') {
-                document.getElementById('loginModal').style.display = 'none';
-                document.getElementById('adminDash').style.display = 'flex';
+        // Navbar Scroll
+        window.onscroll = function() {
+            let nav = document.getElementById('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = "rgba(0,0,0,0.95)";
+                nav.style.padding = "15px 40px";
             } else {
-                alert('Ghalat! Jarreb: admin / 1234');
+                nav.style.background = "transparent";
+                nav.style.padding = "24px 40px";
             }
+        };
+
+        // Cart
+        function updateCart(n) {
+            cartItems += n;
+            document.getElementById('cart-badge').innerText = cartItems;
+            // Visual feedback
+            const badge = document.getElementById('cart-badge');
+            badge.classList.add('scale-150', 'bg-white', 'text-black');
+            setTimeout(() => {
+                badge.classList.remove('scale-150', 'bg-white', 'text-black');
+            }, 300);
+        }
+
+        // Admin Logic
+        function openLogin() { document.getElementById('login-modal').style.display = 'flex'; }
+        function closeLogin() { document.getElementById('login-modal').style.display = 'none'; }
+
+        function attemptLogin() {
+            const u = document.getElementById('user').value;
+            const p = document.getElementById('pass').value;
+            if(u === "admin" && p === "1234") {
+                closeLogin();
+                document.getElementById('admin-dashboard').style.display = 'block';
+                document.getElementById('admin-bar').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                alert("ACCESS DENIED");
+            }
+        }
+
+        function logout() {
+            document.getElementById('admin-dashboard').style.display = 'none';
+            document.getElementById('admin-bar').classList.add('hidden');
+            document.body.style.overflow = 'auto';
         }
     </script>
 </body>
