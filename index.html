@@ -1,254 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RED APEX | THE ULTIMATE EXPERIENCE</title>
+    <title>VOID FIVEM | ELITE ASSETS STORE</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Bebas+Neue&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root { --red: #ff0000; --dark-red: #4a0000; }
-        
-        * { cursor: crosshair; }
-        body { background: #000; color: #fff; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: var(--red); box-shadow: 0 0 10px var(--red); }
+        @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;500;700&family=Permanent+Marker&display=swap');
 
-        .font-bebas { font-family: 'Bebas Neue', cursive; }
-        .font-sync { font-family: 'Syncopate', sans-serif; }
-
-        /* Video Background Styling */
-        #bg-video {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; z-index: -2; opacity: 0.4; filter: saturate(0) contrast(1.2);
-        }
-        .vignette {
-            position: fixed; inset: 0; 
-            background: radial-gradient(circle, transparent 20%, black 100%);
-            z-index: -1; pointer-events: none;
+        :root {
+            --primary: #00f2ff;
+            --fivem-red: #ff4655; /* FiveM Red vibe */
+            --bg-dark: #0a0a0b;
         }
 
-        /* Glitch & Animations */
-        .glitch-text {
-            text-shadow: 2px 0 #ff0000, -2px 0 #fff;
-            animation: glitch 2s infinite alternate-reverse;
-        }
-        @keyframes glitch {
-            0% { transform: skew(0deg); }
-            20% { transform: skew(-1deg); }
-            40% { transform: skew(1deg); }
-            100% { transform: skew(0deg); }
+        body {
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            font-family: 'Chakra Petch', sans-serif;
+            overflow-x: hidden;
+            cursor: none !important;
         }
 
-        .red-btn {
-            background: linear-gradient(45deg, var(--dark-red), var(--red));
-            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
-            transition: 0.4s;
-            border: none;
-            color: white;
-            font-weight: 900;
-        }
-        .red-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px var(--red);
-            letter-spacing: 2px;
+        /* GTA V Vibe Overlay */
+        .gta-overlay {
+            background-image: linear-gradient(rgba(10,10,11,0.8), rgba(10,10,11,0.8)), url('https://i.imgur.com/39lXvVp.jpg');
+            background-size: cover;
+            background-attachment: fixed;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px);
-            border-left: 3px solid var(--red);
-            transition: 0.5s;
-        }
-        .glass-card:hover { background: rgba(255, 0, 0, 0.05); transform: perspective(1000px) rotateY(10deg); }
+        .marker-font { font-family: 'Permanent Marker', cursive; }
 
-        /* Live Sale Pop-up */
-        #sale-popup {
-            position: fixed; bottom: -100px; left: 20px;
-            background: rgba(10, 10, 10, 0.95);
-            border: 1px solid var(--red);
-            padding: 15px; border-radius: 10px;
-            display: flex; align-items: center; gap: 15px;
-            transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 1000;
+        /* Scanning Animation for Products */
+        .scan-line {
+            width: 100%; height: 2px; background: var(--primary);
+            position: absolute; top: 0; left: 0;
+            box-shadow: 0 0 15px var(--primary);
+            animation: scan 3s linear infinite;
+            z-index: 10; opacity: 0.5;
         }
 
-        .music-visualizer {
-            display: flex; align-items: flex-end; gap: 2px; height: 15px;
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
         }
-        .bar { width: 3px; background: var(--red); animation: bounce 0.5s infinite alternate; }
-        @keyframes bounce { from { height: 2px; } to { height: 15px; } }
+
+        .optimized-badge {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgb(34, 197, 94);
+            color: #4ade80;
+            padding: 2px 8px;
+            font-size: 10px;
+            border-radius: 4px;
+        }
+
+        #cursor { width: 8px; height: 8px; background: white; position: fixed; border-radius: 50%; pointer-events: none; z-index: 10000; }
+        #cursor-follower { width: 30px; height: 30px; border: 2px solid var(--primary); position: fixed; border-radius: 50%; pointer-events: none; z-index: 9999; }
     </style>
 </head>
-<body>
+<body class="gta-overlay">
 
-    <video autoplay muted loop id="bg-video">
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-top-view-of-a-busy-city-at-night-3420-large.mp4" type="video/mp4">
-    </video>
-    <div class="vignette"></div>
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
 
-    <div class="fixed top-32 right-10 z-[100] flex items-center gap-3 bg-black/50 p-3 rounded-full border border-white/10">
-        <div class="music-visualizer" id="visualizer" style="display: none;">
-            <div class="bar"></div><div class="bar" style="animation-delay: 0.1s"></div><div class="bar" style="animation-delay: 0.2s"></div>
+    <nav class="fixed w-full z-50 px-10 py-5 flex justify-between items-center bg-black/50 backdrop-blur-md border-b border-white/5">
+        <div class="flex items-center space-x-3">
+            <span class="text-3xl font-bold tracking-tighter italic marker-font text-white uppercase">VOID <span class="text-cyan-400 text-2xl">V</span></span>
         </div>
-        <button onclick="toggleMusic()" class="text-[10px] font-bold uppercase tracking-tighter" id="musicBtn">Play Atmosphere</button>
-        <audio id="bgMusic" loop>
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" type="audio/mp3">
-        </audio>
-    </div>
-
-    <nav class="p-10 flex justify-between items-center relative z-50">
-        <div class="flex items-center gap-3 group">
-            <h1 class="text-4xl font-bebas tracking-tighter group-hover:glitch-text transition">RED <span class="text-red-600 italic">SYSTEMS</span></h1>
-        </div>
-        <div class="flex gap-10 font-sync text-[9px] tracking-[0.4em] uppercase">
-            <a href="#store" class="hover:text-red-600 transition">Market</a>
-            <a href="#" class="hover:text-red-600 transition">Showcase</a>
-            <a href="javascript:void(0)" onclick="openLogin()" class="bg-red-600/20 px-4 py-1 border border-red-600 text-red-600">Admin_Access</a>
-        </div>
-        <div class="flex items-center gap-5">
-            <div class="text-right mr-4">
-                <p class="text-[9px] font-bold text-gray-500 uppercase">Cart Total</p>
-                <p id="total-price" class="font-bebas text-xl text-red-600">$0.00</p>
-            </div>
-            <i class="fa-solid fa-square-rss text-red-600 animate-pulse"></i>
+        <div class="hidden md:flex space-x-10 text-xs font-bold tracking-[0.3em] uppercase items-center">
+            <a href="#" class="hover:text-cyan-400 transition">Store</a>
+            <a href="#" class="hover:text-cyan-400 transition">Showcase</a>
+            <a href="#" class="hover:text-cyan-400 transition">Keymaster</a>
+            <a href="#" class="bg-cyan-500 text-black px-6 py-2 rounded-sm hover:bg-white transition">Client Area</a>
         </div>
     </nav>
 
-    <main class="h-[80vh] flex flex-col items-center justify-center text-center px-4">
-        <div data-aos="zoom-in" data-aos-duration="1500">
-            <h2 class="text-red-600 font-sync text-[12px] tracking-[1em] mb-4 uppercase">Proprietary Modification Tools</h2>
-            <h1 class="text-8xl md:text-[12rem] font-bebas leading-[0.8] mb-8">NEXT GEN<br><span class="text-red-600">ASSETS</span></h1>
-            <p class="max-w-xl mx-auto text-gray-400 text-sm tracking-widest uppercase mb-10">Optimized for high-performance roleplay. Zero frame-loss. 8K High-Fidelity models.</p>
-            <button onclick="scrollToStore()" class="red-btn px-20 py-6 text-xl font-bebas italic tracking-widest">ENTER THE ARMORY</button>
+    <section class="min-h-screen flex flex-col justify-center items-center text-center pt-20">
+        <div class="relative">
+            <h4 class="text-cyan-400 font-bold tracking-[0.5em] mb-4 uppercase text-sm">Professional Framework Assets</h4>
+            <h1 class="text-8xl md:text-[140px] font-black marker-font text-white leading-none mb-4">
+                LEVEL <span class="text-cyan-500">UP</span>
+            </h1>
+            <p class="text-gray-400 max-w-2xl text-lg font-light italic">
+                The most optimized <span class="text-white font-bold">MLOs</span>, high-fidelity <span class="text-white font-bold">Clothing</span> & custom <span class="text-white font-bold">Peds</span> in the Cfx.re ecosystem.
+            </p>
         </div>
-    </main>
-
-    <section id="store" class="py-40 px-10 max-w-7xl mx-auto">
-        <h3 class="text-6xl font-bebas mb-20 italic underline decoration-red-600 underline-offset-8">Top-Tier Assets</h3>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
-            <div class="glass-card p-2 flex flex-col md:flex-row gap-6 group" data-aos="fade-right">
-                <div class="w-full md:w-1/2 h-64 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-125 transition duration-1000">
-                </div>
-                <div class="flex-1 p-4 flex flex-col justify-between">
-                    <div>
-                        <span class="text-red-600 text-[10px] font-bold font-sync">#001 - CHARACTER</span>
-                        <h4 class="text-3xl font-bebas tracking-widest mt-2 uppercase">Custom Mafia Leader</h4>
-                    </div>
-                    <div class="flex justify-between items-end">
-                        <span class="text-4xl font-bebas">$120</span>
-                        <button onclick="buy(120)" class="red-btn px-6 py-2 text-xs">ACQUIRE</button>
-                    </div>
-                </div>
+        <div class="mt-12 flex space-x-10 bg-black/40 p-6 rounded-lg border border-white/5 backdrop-blur-sm">
+            <div class="text-left">
+                <span class="block text-[10px] text-gray-500 uppercase font-bold tracking-widest">Global Support</span>
+                <span class="text-green-500 font-bold">● ONLINE</span>
             </div>
-
-            <div class="glass-card p-2 flex flex-col md:flex-row gap-6 group" data-aos="fade-left">
-                <div class="w-full md:w-1/2 h-64 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1624280483735-3733230a8459?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover group-hover:scale-125 transition duration-1000">
-                </div>
-                <div class="flex-1 p-4 flex flex-col justify-between">
-                    <div>
-                        <span class="text-red-600 text-[10px] font-bold font-sync">#002 - PACK</span>
-                        <h4 class="text-3xl font-bebas tracking-widest mt-2 uppercase">Ultra LSPD EUP</h4>
-                    </div>
-                    <div class="flex justify-between items-end">
-                        <span class="text-4xl font-bebas">$85</span>
-                        <button onclick="buy(85)" class="red-btn px-6 py-2 text-xs">ACQUIRE</button>
-                    </div>
-                </div>
+            <div class="text-left">
+                <span class="block text-[10px] text-gray-500 uppercase font-bold tracking-widest">Escrow Delivery</span>
+                <span class="text-cyan-400 font-bold">INSTANT</span>
             </div>
         </div>
     </section>
 
-    <div id="login-modal" class="fixed inset-0 bg-black z-[1000] hidden flex-col items-center justify-center">
-        <div class="w-full max-w-lg p-10 bg-zinc-950 border border-red-600">
-            <h3 class="font-bebas text-5xl text-red-600 mb-6">TERMINAL_LOGIN</h3>
-            <div class="space-y-6">
-                <div class="border-b border-red-600 pb-2">
-                    <p class="text-[10px] text-red-900 font-sync">ID_IDENTIFIER</p>
-                    <input type="text" id="user" class="bg-transparent w-full outline-none font-bebas text-2xl tracking-widest">
+    <section class="py-20 px-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="group relative bg-zinc-900 h-[500px] overflow-hidden border border-white/5">
+                <div class="scan-line"></div>
+                <img src="https://i.imgur.com/Yh3R9G0.jpg" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                <div class="absolute bottom-10 left-10">
+                    <h2 class="marker-font text-4xl text-white">INTERIORS</h2>
+                    <p class="text-cyan-400 text-sm mt-2">Custom MLOs with 0.0ms usage</p>
+                    <button class="mt-6 border border-white/20 px-8 py-3 text-xs font-bold uppercase hover:bg-white hover:text-black transition">Explore Maps</button>
                 </div>
-                <div class="border-b border-red-600 pb-2">
-                    <p class="text-[10px] text-red-900 font-sync">SECURE_PASS</p>
-                    <input type="password" id="pass" class="bg-transparent w-full outline-none font-bebas text-2xl tracking-widest">
+            </div>
+
+            <div class="group relative bg-zinc-900 h-[500px] overflow-hidden border border-white/5">
+                <img src="https://i.imgur.com/vH9v5lQ.jpg" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                <div class="absolute bottom-10 left-10">
+                    <h2 class="marker-font text-4xl text-white">EUP & CLOTHING</h2>
+                    <p class="text-cyan-400 text-sm mt-2">4K Optimized Textures</p>
+                    <button class="mt-6 border border-white/20 px-8 py-3 text-xs font-bold uppercase hover:bg-white hover:text-black transition">View Wardrobe</button>
                 </div>
-                <button onclick="login()" class="red-btn w-full py-4 text-2xl font-bebas italic">AUTHENTICATE</button>
-                <button onclick="closeLogin()" class="w-full text-zinc-700 text-[10px] font-sync uppercase">Close Terminal</button>
+            </div>
+
+            <div class="group relative bg-zinc-900 h-[500px] overflow-hidden border border-white/5">
+                <img src="https://i.imgur.com/pYIe3wH.jpg" class="w-full h-full object-cover opacity-60 group-hover:scale-105 transition duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
+                <div class="absolute bottom-10 left-10">
+                    <h2 class="marker-font text-4xl text-white">ENTITIES</h2>
+                    <p class="text-cyan-400 text-sm mt-2">Custom Peds & Prop Packs</p>
+                    <button class="mt-6 border border-white/20 px-8 py-3 text-xs font-bold uppercase hover:bg-white hover:text-black transition">View Models</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="bg-cyan-500 py-12">
+        <div class="container mx-auto px-10 flex flex-wrap justify-around items-center">
+            <div class="flex items-center space-x-4">
+                <i class="fa-solid fa-bolt text-3xl text-black"></i>
+                <span class="text-black font-black uppercase tracking-tighter">Optimized for OneSync Infinity</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <i class="fa-solid fa-lock text-3xl text-black"></i>
+                <span class="text-black font-black uppercase tracking-tighter">CFX.RE Escrow Protected</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <i class="fa-solid fa-headset text-3xl text-black"></i>
+                <span class="text-black font-black uppercase tracking-tighter">Dev Support Included</span>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div id="sale-popup">
-        <div class="w-12 h-12 bg-red-600 rounded flex items-center justify-center">
-            <i class="fa-solid fa-user-check"></i>
+    <footer class="py-20 px-10 border-t border-white/5 bg-black/80 backdrop-blur-xl">
+        <div class="text-center mb-10">
+            <span class="marker-font text-5xl">VOID V</span>
+            <p class="text-gray-500 mt-4 italic">Providing the building blocks for the future of Roleplay.</p>
         </div>
-        <div>
-            <p class="text-[10px] text-gray-500 font-bold uppercase">Success Sale</p>
-            <p class="text-xs font-bold" id="sale-text">Someone from Germany bought a Ped Pack!</p>
+        <div class="flex justify-center space-x-10 text-gray-500 text-xs font-bold tracking-widest uppercase mb-10">
+            <a href="#" class="hover:text-cyan-400 transition">Refund Policy</a>
+            <a href="#" class="hover:text-cyan-400 transition">Keymaster Access</a>
+            <a href="#" class="hover:text-cyan-400 transition">Terms of Service</a>
         </div>
-    </div>
+        <div class="text-center text-[10px] text-gray-600 tracking-[0.3em] uppercase">
+            © 2026 VOID INTERACTIVE. All assets are licensed under CFX.RE Escrow. Not affiliated with Rockstar Games.
+        </div>
+    </footer>
 
     <script>
-        AOS.init();
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            gsap.to(follower, { x: e.clientX - 15, y: e.clientY - 15, duration: 0.3 });
+        });
 
-        // Music Toggle
-        function toggleMusic() {
-            let audio = document.getElementById('bgMusic');
-            let vis = document.getElementById('visualizer');
-            let btn = document.getElementById('musicBtn');
-            if(audio.paused) {
-                audio.play();
-                vis.style.display = 'flex';
-                btn.innerText = 'Audio: ON';
-            } else {
-                audio.pause();
-                vis.style.display = 'none';
-                btn.innerText = 'Audio: OFF';
-            }
-        }
-
-        // Cart Logic
-        let total = 0;
-        function buy(price) {
-            total += price;
-            document.getElementById('total-price').innerText = '$' + total.toFixed(2);
-            showPopup("Item added to the high-secure checkout!");
-        }
-
-        // Live Popup Logic
-        const sales = ["User in USA bought Mafia Pack", "User in UK bought EUP Pack", "Someone acquired 8K Ped", "Order #882 confirmed!"];
-        setInterval(() => {
-            const popup = document.getElementById('sale-popup');
-            document.getElementById('sale-text').innerText = sales[Math.floor(Math.random() * sales.length)];
-            popup.style.bottom = "20px";
-            setTimeout(() => { popup.style.bottom = "-100px"; }, 4000);
-        }, 15000);
-
-        function showPopup(txt) {
-            const popup = document.getElementById('sale-popup');
-            document.getElementById('sale-text').innerText = txt;
-            popup.style.bottom = "20px";
-            setTimeout(() => { popup.style.bottom = "-100px"; }, 3000);
-        }
-
-        // Navigation
-        function scrollToStore() { document.getElementById('store').scrollIntoView({ behavior: 'smooth' }); }
-        function openLogin() { document.getElementById('login-modal').style.display = 'flex'; }
-        function closeLogin() { document.getElementById('login-modal').style.display = 'none'; }
-        function login() {
-            if(document.getElementById('user').value === "admin" && document.getElementById('pass').value === "1234") {
-                alert("SYSTEM BREACH SUCCESSFUL. WELCOME OVERLORD.");
-                location.reload();
-            } else { alert("ACCESS DENIED."); }
-        }
+        // Animation for revealing elements on scroll
+        gsap.from(".group", {
+            scrollTrigger: ".group",
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.3
+        });
     </script>
 </body>
 </html>
