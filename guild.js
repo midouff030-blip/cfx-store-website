@@ -1,6 +1,5 @@
-const { getSession, dFetch, botFetch, canManage, getConfig, saveConfig, mergeDefaults, json } = require("./_lib");
+const { getSession, dFetch, botFetch, canManage, getConfig, saveConfig, mergeDefaults } = require("./_lib");
 
-// Verifie que l'utilisateur connecte peut gerer cette guilde
 async function assertManage(session, guildId) {
   const userGuilds = await dFetch("/users/@me/guilds", session.access_token, "Bearer");
   const g = userGuilds.find(x => x.id === guildId);
@@ -8,24 +7,25 @@ async function assertManage(session, guildId) {
   return g;
 }
 
-exports.handler = async (event) => {
-  const s = getSession(event);
-  if (!s) return json(401, { error: "non connecte" });
-  const guildId = event.queryStringParameters?.id;
-  if (!guildId) return json(400, { error: "id manquant" });
+module.exports = async (req, res) => {
+  const s = getSession(req);
+  if (!s) return res.status(401).json({ error: "non connecte" });
+  const guildId = req.query?.id;
+  if (!guildId) return res.status(400).json({ error: "id manquant" });
 
   let g;
-  try { g = await assertManage(s, guildId); } catch (e) { return json(500, { error: e.message }); }
-  if (!g) return json(403, { error: "Tu n'es pas administrateur de ce serveur." });
+  try { g = await assertManage(s, guildId); } catch (e) { return res.status(500).json({ error: e.message }); }
+  if (!g) return res.status(403).json({ error: "Tu n'es pas administrateur de ce serveur." });
 
   // ---- POST : sauvegarder ----
-  if (event.httpMethod === "POST") {
-    let patch = {};
-    try { patch = JSON.parse(event.body || "{}"); } catch { return json(400, { error: "json invalide" }); }
+  if (req.method === "POST") {
+    let patch = req.body;
+    if (typeof patch === "string") { try { patch = JSON.parse(patch || "{}"); } catch { return res.status(400).json({ error: "json invalide" }); } }
+    patch = patch || {};
     const cur = await getConfig(guildId);
     const next = mergeDefaults({ ...cur, ...patch });
-    try { await saveConfig(guildId, next); } catch (e) { return json(500, { error: "sauvegarde: " + e.message }); }
-    return json(200, { ok: true });
+    try { await saveConfig(guildId, next); } catch (e) { return res.status(500).json({ error: "sauvegarde: " + e.message }); }
+    return res.status(200).json({ ok: true });
   }
 
   // ---- GET : config + salons + roles ----
@@ -34,7 +34,7 @@ exports.handler = async (event) => {
     let channels = [], roles = [];
     try {
       const chs = await botFetch(`/guilds/${guildId}/channels`);
-      channels = chs.filter(c => c.type === 0 || c.type === 5) // text + announcement
+      channels = chs.filter(c => c.type === 0 || c.type === 5)
         .sort((a, b) => a.position - b.position)
         .map(c => ({ id: c.id, name: c.name }));
     } catch { /* bot pas dans la guilde */ }
@@ -44,8 +44,8 @@ exports.handler = async (event) => {
         .sort((a, b) => b.position - a.position)
         .map(r => ({ id: r.id, name: r.name }));
     } catch { }
-    return json(200, { name: g.name, config, channels, roles });
+    res.status(200).json({ name: g.name, config, channels, roles });
   } catch (e) {
-    return json(500, { error: e.message });
+    res.status(500).json({ error: e.message });
   }
 };

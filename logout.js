@@ -1,2 +1,5 @@
-const { clearCookie, SITE_URL, redirect } = require("./_lib");
-exports.handler = async () => redirect((SITE_URL || "") + "/dashboard.html", clearCookie());
+const { clearCookie, SITE_URL } = require("./_lib");
+module.exports = async (req, res) => {
+  clearCookie(res);
+  res.redirect(302, (SITE_URL || "") + "/dashboard.html");
+};

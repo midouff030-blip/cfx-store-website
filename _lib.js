@@ -40,24 +40,28 @@ function verify(token) {
   if (!token || !token.includes(".")) return null;
   const [body, sig] = token.split(".");
   const expect = crypto.createHmac("sha256", SESSION_SECRET || "dev").update(body).digest("base64url");
-  if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expect))) return null;
+  try {
+    if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expect))) return null;
+  } catch { return null; }
   try {
     const data = JSON.parse(Buffer.from(body, "base64url").toString());
     if (data.exp && Date.now() > data.exp) return null;
     return data;
   } catch { return null; }
 }
-function getSession(event) {
-  const cookie = event.headers.cookie || event.headers.Cookie || "";
+function getSession(req) {
+  const cookie = req.headers.cookie || "";
   const m = cookie.match(/velox_session=([^;]+)/);
   return m ? verify(decodeURIComponent(m[1])) : null;
 }
-function setCookie(token) {
-  return `velox_session=${encodeURIComponent(token)}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=604800`;
+function setCookie(res, token) {
+  res.setHeader("Set-Cookie", `velox_session=${encodeURIComponent(token)}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=604800`);
 }
-function clearCookie() { return "velox_session=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0"; }
+function clearCookie(res) {
+  res.setHeader("Set-Cookie", "velox_session=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0");
+}
 
-const redirectUri = () => `${SITE_URL}/.netlify/functions/auth-callback`;
+const redirectUri = () => `${SITE_URL}/api/auth-callback`;
 
 // ---- Discord helpers ----
 async function dFetch(path, token, type = "Bearer") {
@@ -91,14 +95,9 @@ async function saveConfig(guildId, config) {
   });
 }
 
-const json = (code, obj, extraHeaders = {}) => ({
-  statusCode: code, headers: { "content-type": "application/json", ...extraHeaders }, body: JSON.stringify(obj)
-});
-const redirect = (url, cookie) => ({ statusCode: 302, headers: { Location: url, ...(cookie ? { "Set-Cookie": cookie } : {}) }, body: "" });
-
 module.exports = {
   CLIENT_ID, CLIENT_SECRET, DISCORD_TOKEN, API, PERMS, SITE_URL,
   DEFAULT_CONFIG, mergeDefaults,
   sign, verify, getSession, setCookie, clearCookie, redirectUri,
-  dFetch, botFetch, canManage, getConfig, saveConfig, json, redirect
+  dFetch, botFetch, canManage, getConfig, saveConfig
 };

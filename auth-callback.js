@@ -1,8 +1,8 @@
-const { CLIENT_ID, CLIENT_SECRET, redirectUri, sign, setCookie, SITE_URL, redirect, json, API } = require("./_lib");
+const { CLIENT_ID, CLIENT_SECRET, redirectUri, sign, setCookie, SITE_URL, API } = require("./_lib");
 
-exports.handler = async (event) => {
-  const code = event.queryStringParameters?.code;
-  if (!code) return json(400, { error: "code manquant" });
+module.exports = async (req, res) => {
+  const code = req.query?.code;
+  if (!code) return res.status(400).json({ error: "code manquant" });
   try {
     // 1) echange code -> token
     const tokRes = await fetch(API + "/oauth2/token", {
@@ -13,7 +13,7 @@ exports.handler = async (event) => {
         grant_type: "authorization_code", code, redirect_uri: redirectUri()
       })
     });
-    if (!tokRes.ok) return json(400, { error: "echec OAuth" });
+    if (!tokRes.ok) return res.status(400).json({ error: "echec OAuth" });
     const tok = await tokRes.json();
 
     // 2) recupere l'utilisateur
@@ -25,8 +25,9 @@ exports.handler = async (event) => {
       id: user.id, username: user.global_name || user.username, avatar: user.avatar,
       access_token: tok.access_token, exp: Date.now() + 7 * 24 * 60 * 60 * 1000
     });
-    return redirect((SITE_URL || "") + "/dashboard.html", setCookie(session));
+    setCookie(res, session);
+    res.redirect(302, (SITE_URL || "") + "/dashboard.html");
   } catch (e) {
-    return json(500, { error: e.message });
+    res.status(500).json({ error: e.message });
   }
 };

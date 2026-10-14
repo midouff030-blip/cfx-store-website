@@ -10,7 +10,7 @@ function loading() { app.innerHTML = '<div class="center"><div class="spinner"><
 function iconURL(g) { return g.icon ? `https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png?size=96` : null; }
 
 async function api(path, opts) {
-  const r = await fetch("/.netlify/functions/" + path, { credentials: "same-origin", ...opts });
+  const r = await fetch("/api/" + path, { credentials: "same-origin", ...opts });
   if (r.status === 401) { ME = null; return { unauth: true }; }
   return r.json().catch(() => ({}));
 }
@@ -20,14 +20,14 @@ function loginView() {
   app.innerHTML = `<div class="center"><div>
     <h1 style="font-size:30px;margin-bottom:10px">Dashboard VELOX Security</h1>
     <p style="color:var(--mut);margin-bottom:24px">Connecte-toi avec Discord pour gerer tes serveurs.</p>
-    <a class="btn btn-primary" href="/.netlify/functions/auth-login">Se connecter avec Discord</a>
+    <a class="btn btn-primary" href="/api/auth-login">Se connecter avec Discord</a>
   </div></div>`;
 }
 
 function renderUser() {
   const av = ME.avatar ? `https://cdn.discordapp.com/avatars/${ME.id}/${ME.avatar}.png?size=48` : "https://cdn.discordapp.com/embed/avatars/0.png";
   navUser.innerHTML = `<span class="user-chip"><img src="${av}"> ${esc(ME.username)}</span>
-    <a class="btn btn-ghost" href="/.netlify/functions/logout">Deconnexion</a>`;
+    <a class="btn btn-ghost" href="/api/logout">Deconnexion</a>`;
 }
 
 async function serversView() {
@@ -42,7 +42,7 @@ async function serversView() {
     const action = g.hasBot
       ? `<div class="meta" style="color:var(--ok)">Configurer →</div>`
       : `<div class="meta">+ Ajouter le bot</div>`;
-    const href = g.hasBot ? `#/guild/${g.id}` : `/.netlify/functions/invite?guild=${g.id}`;
+    const href = g.hasBot ? `#/guild/${g.id}` : `/api/invite?guild=${g.id}`;
     return `<a class="srv" href="${href}">${img}<div style="overflow:hidden"><div class="nm">${esc(g.name)}</div>${action}</div></a>`;
   }).join("");
   app.innerHTML = `<div class="dash-head"><div><h1 style="font-size:26px">Tes serveurs</h1>
