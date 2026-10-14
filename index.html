@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VELOX Security — Le bouclier de ton serveur Discord</title>
+<meta name="description" content="VELOX Security surveille ton serveur Discord en temps reel : anti-raid, anti-spam, anti-phishing, anti-nuke, verification. Gratuit, configurable en 1 clic.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav"><div class="wrap">
+  <a class="logo" href="/"><span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 3v6c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V5l8-3z" fill="url(#g1)"/><path d="M8.5 12l2.5 2.5 4.5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="g1" x1="4" y1="2" x2="20" y2="22"><stop stop-color="#ff3b47"/><stop offset="1" stop-color="#b65cff"/></linearGradient></defs></svg></span>VELOX</a>
+  <div class="nav-links">
+    <a href="#features">Protections</a>
+    <a href="#why">Pourquoi</a>
+    <a href="#faq">FAQ</a>
+    <a href="/dashboard.html" class="btn btn-ghost">Dashboard</a>
+    <a href="/.netlify/functions/invite" class="btn btn-primary">Ajouter le bot</a>
+  </div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div>
+    <span class="pill"><span class="live"></span> Surveillance en temps reel</span>
+    <h1>Le bouclier qui veille sur ton <em>serveur</em> pendant que tu dors.</h1>
+    <p class="lead">VELOX Security detecte les raids, le spam, les liens pieges et les attaques, et les neutralise en moins d'une seconde — sans que tu aies rien a faire.</p>
+    <div class="cta">
+      <a href="/.netlify/functions/invite" class="btn btn-primary">Ajouter a Discord</a>
+      <a href="/dashboard.html" class="btn btn-ghost">Ouvrir le dashboard</a>
+    </div>
+    <div class="counter">
+      <span class="n" id="count">0</span>
+      <span class="l">menaces bloquees par VELOX ce mois-ci</span>
+    </div>
+  </div>
+  <div class="radar-wrap">
+    <div>
+      <div class="radar" id="radar">
+        <div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div><div class="ring r4"></div>
+        <div class="cross"></div><div class="cross2"></div>
+        <div class="sweep"></div>
+        <div class="core"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 3v6c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V5l8-3z" fill="#fff"/></svg></div>
+      </div>
+      <div class="radar-cap" style="text-align:center">● SCAN ACTIF — 0 menace en cours</div>
+    </div>
+  </div>
+</div></header>
+
+<section id="features"><div class="wrap">
+  <div class="head c"><h2>Une console de securite complete</h2><p>Chaque module tourne en continu. Tu actives et regles tout depuis le dashboard.</p></div>
+  <div class="console">
+    <div class="top"><span class="d on"></span><span class="d on"></span><span class="d on"></span><span class="t">velox-security — modules actifs</span></div>
+    <div class="cgrid">
+      <div class="cell"><span class="stat"><b></b>actif</span><div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4-3 7-7 9-4-2-7-5-7-9V6l7-3z" stroke="#ff6a5c" stroke-width="1.6"/></svg></div><h3>Anti-raid</h3><p>Trop d'arrivees d'un coup ? Lockdown automatique et expulsion des comptes tout neufs.</p></div>
+      <div class="cell"><span class="stat"><b></b>actif</span><div class="ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#ff6a5c" stroke-width="1.6"/><path d="M6 6l12 12" stroke="#ff6a5c" stroke-width="1.6"/></svg></div><h3>Anti-spam</h3><p>Flood de messages ou de mentions bloque instantanement, avec nettoyage automatique.</p></div>
+      <div class="cell"><span class="stat"><b></b>actif</span><div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16v10H4z" stroke="#36e6ff" stroke-width="1.6"/><path d="M4 7l8 6 8-6" stroke="#36e6ff" stroke-width="1.6"/></svg></div><h3>Anti-phishing</h3><p>Supprime les liens scam (fake Nitro, fake Steam) via une liste de 36 000+ domaines a jour.</p></div>
+      <div class="cell"><span class="stat"><b></b>actif</span><div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-5" stroke="#2fe6a0" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="#2fe6a0" stroke-width="1.4"/></svg></div><h3>Verification</h3><p>Un bouton Verify donne acces au serveur et bloque net les bots et les raids.</p></div>
+      <div class="cell"><span class="stat"><b></b>actif</span><div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3 7 7 .5-5.5 4.5 2 7L12 17l-6.5 4 2-7L2 9.5 9 9z" stroke="#b65cff" stroke-width="1.4"/></svg></div><h3>Anti-nuke</h3><p>Bans ou suppressions en masse ? On retire les roles du coupable et on l'isole aussitot.</p></div>
+      <div class="cell"><span class="stat"><b></b>actif</span><div class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M5 4h14v16l-7-3-7 3z" stroke="#ff6a5c" stroke-width="1.6"/></svg></div><h3>Logs + Moderation</h3><p>Ban, kick, mute, warn, historique, et tous les evenements dans un salon de logs.</p></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <div class="head c"><h2>Protege en trois etapes</h2><p>Moins de deux minutes, du debut a la fin.</p></div>
+  <div class="flow">
+    <div class="st"><div class="k">1</div><h3>Ajoute le bot</h3><p>Clique sur "Ajouter a Discord" et choisis le serveur a proteger.</p></div>
+    <div class="st"><div class="k">2</div><h3>Connecte-toi</h3><p>Ouvre le dashboard et identifie-toi avec Discord.</p></div>
+    <div class="st"><div class="k">3</div><h3>Active tes modules</h3><p>Choisis le salon de logs, le role Verify, et allume ce que tu veux.</p></div>
+  </div>
+</div></section>
+
+<section id="why"><div class="wrap">
+  <div class="head c"><h2>Pourquoi VELOX plutot qu'un autre</h2></div>
+  <div style="overflow-x:auto">
+  <table class="cmp">
+    <thead><tr><th>Protection</th><th class="me">VELOX</th><th>Bots gratuits classiques</th></tr></thead>
+    <tbody>
+    <tr><td>Anti-phishing (36 000+ domaines)</td><td class="y">Inclus</td><td class="n">Rare</td></tr>
+    <tr><td>Anti-nuke par audit log</td><td class="y">Inclus</td><td class="n">Payant</td></tr>
+    <tr><td>Lockdown anti-raid automatique</td><td class="y">Inclus</td><td class="n">Limite</td></tr>
+    <tr><td>Dashboard web complet</td><td class="y">Inclus</td><td class="n">Payant</td></tr>
+    <tr><td>Prix</td><td class="y">Gratuit</td><td class="n">Freemium</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <div class="head c"><h2>Questions frequentes</h2></div>
+  <div class="faq">
+    <details class="qa"><summary>C'est vraiment gratuit ?</summary><div class="a">Oui. Toutes les protections de base sont gratuites : tu ajoutes le bot, tu configures, et c'est protege.</div></details>
+    <details class="qa"><summary>C'est long a mettre en place ?</summary><div class="a">Non. Ajoute le bot, connecte-toi au dashboard, active tes modules. Moins de deux minutes.</div></details>
+    <details class="qa"><summary>Le bot peut-il casser mon serveur ?</summary><div class="a">Non. VELOX n'agit que contre les menaces. L'anti-nuke protege justement tes salons et tes roles.</div></details>
+    <details class="qa"><summary>Mes donnees sont-elles conservees ?</summary><div class="a">On ne garde que la configuration de ton serveur. Aucun message n'est stocke.</div></details>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="band">
+    <h2>Mets ton serveur a l'abri ce soir.</h2>
+    <p>Gratuit. En ligne en moins de deux minutes.</p>
+    <a href="/.netlify/functions/invite" class="btn btn-primary">Ajouter VELOX Security</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="fcols">
+    <div>
+      <a class="logo" href="/" style="margin-bottom:12px"><span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 3v6c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V5l8-3z" fill="url(#g2)"/><defs><linearGradient id="g2" x1="4" y1="2" x2="20" y2="22"><stop stop-color="#ff3b47"/><stop offset="1" stop-color="#b65cff"/></linearGradient></defs></svg></span>VELOX</a>
+      <p style="color:var(--mut);font-size:14px;max-width:320px">Le bouclier nouvelle generation pour les serveurs Discord.</p>
+    </div>
+    <div><h4>Produit</h4><a href="#features">Protections</a><a href="#why">Comparatif</a><a href="/dashboard.html">Dashboard</a></div>
+    <div><h4>Commencer</h4><a href="/.netlify/functions/invite">Ajouter le bot</a><a href="#faq">FAQ</a></div>
+  </div>
+  <div class="foot-bottom"><span>© <span id="yr"></span> VELOX Security</span><span>Concu par HaMa</span></div>
+</div></footer>
+
+<script>
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+// compteur
+(function(){const el=document.getElementById('count');const target=48213;let s=null;
+  function step(t){if(!s)s=t;const p=Math.min((t-s)/1600,1);el.textContent=Math.floor((1-Math.pow(1-p,3))*target).toLocaleString('fr-FR');if(p<1)requestAnimationFrame(step);}
+  const io=new IntersectionObserver(e=>{if(e[0].isIntersecting){requestAnimationFrame(step);io.disconnect();}});io.observe(el);})();
+
+// radar blips : une menace apparait -> bloquee
+(function(){const radar=document.getElementById('radar');if(!radar)return;const cap=document.querySelector('.radar-cap');
+  function spawn(){const a=Math.random()*Math.PI*2,r=20+Math.random()*28;
+    const x=50+Math.cos(a)*r,y=50+Math.sin(a)*r;
+    const b=document.createElement('div');b.className='blip threat';b.style.left=x+'%';b.style.top=y+'%';radar.appendChild(b);
+    if(cap)cap.textContent='● MENACE DETECTEE — neutralisation…';
+    setTimeout(()=>{b.className='blip blocked';if(cap)cap.textContent='● MENACE BLOQUEE';},700);
+    setTimeout(()=>{b.remove();if(cap)cap.textContent='● SCAN ACTIF — 0 menace en cours';},1700);}
+  setInterval(spawn,2600);setTimeout(spawn,900);})();
+</script>
+</body>
+</html>
